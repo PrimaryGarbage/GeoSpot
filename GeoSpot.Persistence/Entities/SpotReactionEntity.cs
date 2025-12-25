@@ -1,6 +1,7 @@
 namespace GeoSpot.Persistence.Entities;
 
-internal class SpotReactionEntity : BaseAuditEntity
+[ExcludeFromCodeCoverage]
+internal class SpotReactionEntity : IAuditEntity
 {
     public const string TableName = "spot_reactions";
     
@@ -9,6 +10,10 @@ internal class SpotReactionEntity : BaseAuditEntity
     public Guid CreatorId { get; set; }
     
     public Guid ReactionTypeId { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime UpdatedAt { get; set; }
     
     public SpotEntity? Spot { get; set; }
     public UserEntity? Creator { get; set; }

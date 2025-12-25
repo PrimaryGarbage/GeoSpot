@@ -1,6 +1,7 @@
 namespace GeoSpot.Persistence.Entities;
 
-internal class VerificationCodeEntity : BaseAuditEntity
+[ExcludeFromCodeCoverage]
+internal class VerificationCodeEntity : IAuditEntity
 {
     public const string TableName = "verification_codes";
     
@@ -9,6 +10,10 @@ internal class VerificationCodeEntity : BaseAuditEntity
     public required string PhoneNumber { get; set; }
     
     public required string VerificationCode { get; set; }
+    
+    public DateTime CreatedAt { get; set; }
+    
+    public DateTime UpdatedAt { get; set; }
     
     public int Attempts { get; set; }
 }

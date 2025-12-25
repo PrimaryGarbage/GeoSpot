@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace GeoSpot.Persistence;
 
+[ExcludeFromCodeCoverage]
 public static class DependencyInjection
 {
     public static IServiceCollection AddGeospotDbContext(this IServiceCollection services, IConfiguration configuration)
@@ -17,6 +18,7 @@ public static class DependencyInjection
         options.UseNpgsql(connectionString,
             o =>
             {
+                o.UseNetTopologySuite(geographyAsDefault: true);
                 o.MapEnum<AccountType>();
                 o.MapEnum<Gender>();
                 o.MapEnum<SpotType>();

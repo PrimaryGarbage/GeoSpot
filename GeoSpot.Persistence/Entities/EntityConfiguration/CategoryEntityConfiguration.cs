@@ -18,5 +18,7 @@ internal class CategoryEntityConfiguration : IEntityTypeConfiguration<CategoryEn
             .UsingEntity<UserCategoryEntity>()
             .ToTable(UserCategoryEntity.TableName)
             .HasKey(x => new { x.UserId, x.CategoryId });
+        
+        // TODO: Seed default categories
     }
 }

@@ -2,7 +2,8 @@ namespace GeoSpot.Persistence.Entities;
 
 internal enum Platform { Ios, Android }
 
-internal class DeviceTokenEntity : BaseAuditEntity
+[ExcludeFromCodeCoverage]
+internal class DeviceTokenEntity : IAuditEntity
 {
     public const string TableName = "device_tokens";
     
@@ -15,6 +16,10 @@ internal class DeviceTokenEntity : BaseAuditEntity
     public Platform Platform { get; set; }
     
     public bool IsActive { get; set; }
+    
+    public DateTime CreatedAt { get; set; }
+    
+    public DateTime UpdatedAt { get; set; }
     
     public UserEntity? User { get; set; }
 }

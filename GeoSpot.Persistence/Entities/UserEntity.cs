@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace GeoSpot.Persistence.Entities;
 
 internal enum AccountType { User, Business };
@@ -7,7 +5,7 @@ internal enum AccountType { User, Business };
 public enum Gender { NotSpecified, Male, Female, Other};
 
 [ExcludeFromCodeCoverage]
-internal class UserEntity : BaseAuditEntity
+internal class UserEntity : IAuditEntity
 {
     public const string TableName = "users";
     
@@ -40,6 +38,10 @@ internal class UserEntity : BaseAuditEntity
     public int BirthYear { get; set; }
 
     public Gender Gender { get; set; }
+    
+    public DateTime CreatedAt { get; set; }
+    
+    public DateTime UpdatedAt { get; set; }
     
     public IEnumerable<CategoryEntity>? Categories { get; set; }
     public IEnumerable<UserSpotViewEntity>? UserSpotViews { get; set; }

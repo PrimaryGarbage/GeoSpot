@@ -1,6 +1,7 @@
 namespace GeoSpot.Persistence.Entities;
 
-internal class BusinessProfileEntity : BaseAuditEntity
+[ExcludeFromCodeCoverage]
+internal class BusinessProfileEntity : IAuditEntity
 {
     public const string TableName = "business_profiles";
     
@@ -33,6 +34,10 @@ internal class BusinessProfileEntity : BaseAuditEntity
     public bool IsVerified { get; set; }
     
     public int NotificationBalance { get; set; }
+    
+    public DateTime CreatedAt { get; set; }
+    
+    public DateTime UpdatedAt { get; set; }
     
     
     public UserEntity? Creator { get; set; }

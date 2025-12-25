@@ -1,6 +1,7 @@
 namespace GeoSpot.Persistence.Entities;
 
-internal class SpotCommentEntity : BaseAuditEntity
+[ExcludeFromCodeCoverage]
+internal class SpotCommentEntity : IAuditEntity
 {
     public const string TableName = "spot_comments";
     
@@ -11,6 +12,10 @@ internal class SpotCommentEntity : BaseAuditEntity
     public Guid CreatorId { get; set; }
     
     public required string Text { get; set; }
+    
+    public DateTime CreatedAt { get; set; }
+    
+    public DateTime UpdatedAt { get; set; }
     
     public SpotEntity? Spot { get; set; }
     public UserEntity? Creator { get; set; }

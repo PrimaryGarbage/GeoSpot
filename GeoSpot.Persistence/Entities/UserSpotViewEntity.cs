@@ -1,6 +1,7 @@
 namespace GeoSpot.Persistence.Entities;
 
-internal class UserSpotViewEntity : BaseAuditEntity
+[ExcludeFromCodeCoverage]
+internal class UserSpotViewEntity : IAuditEntity
 {
     public const string TableName = "user_spot_views";
     
@@ -11,6 +12,10 @@ internal class UserSpotViewEntity : BaseAuditEntity
     public bool Viewed { get; set; }
     
     public DateTime ViewedAt { get; set; }
+    
+    public DateTime CreatedAt { get; set; }
+    
+    public DateTime UpdatedAt { get; set; }
     
     public UserEntity? User { get; set; }
     public SpotEntity? Spot { get; set; }

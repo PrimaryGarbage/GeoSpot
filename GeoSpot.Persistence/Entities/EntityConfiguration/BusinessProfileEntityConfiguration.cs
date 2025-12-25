@@ -16,6 +16,7 @@ internal class BusinessProfileEntityConfiguration : IEntityTypeConfiguration<Bus
         builder.Property(x => x.Latitude).HasPrecision(10, 8);
         builder.Property(x => x.Longitude).HasPrecision(11, 8);
         builder.Property(x => x.PhoneNumber).HasMaxLength(50);
+        builder.Property(x => x.Email).HasMaxLength(256);
         builder.Property(x => x.WebsiteUrl).HasMaxLength(500);
         
         builder.HasOne(x => x.Creator)

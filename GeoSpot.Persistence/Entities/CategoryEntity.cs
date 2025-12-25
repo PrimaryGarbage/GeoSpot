@@ -1,6 +1,7 @@
 namespace GeoSpot.Persistence.Entities;
 
 // TODO: Seed DB with starting categories on initial migration
+[ExcludeFromCodeCoverage]
 internal class CategoryEntity
 {
     public const string TableName = "categories";
