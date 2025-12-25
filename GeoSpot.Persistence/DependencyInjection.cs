@@ -3,6 +3,7 @@ using GeoSpot.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using static GeoSpot.Common.Constants.ConfigurationConstants;
 
 namespace GeoSpot.Persistence;
 
@@ -11,7 +12,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddGeospotDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        string connectionString = configuration.GetConnectionString("SqlDatabase")
+        string connectionString = configuration.GetConnectionString(SqlDatabaseConnectionStringName)
             ?? throw new InitializationException("Failed to find database connection string");
     
         services.AddDbContext<GeoSpotDbContext>(options => 
@@ -19,10 +20,11 @@ public static class DependencyInjection
             o =>
             {
                 o.UseNetTopologySuite(geographyAsDefault: true);
-                o.MapEnum<AccountType>();
-                o.MapEnum<Gender>();
-                o.MapEnum<SpotType>();
-                o.MapEnum<Platform>();
+                o.MigrationsHistoryTable("__EFMigrationHistory", GeoSpotDbContext.DefaultSchema);
+                o.MapEnum<AccountType>(schemaName: GeoSpotDbContext.DefaultSchema);
+                o.MapEnum<Gender>(schemaName: GeoSpotDbContext.DefaultSchema);
+                o.MapEnum<SpotType>(schemaName: GeoSpotDbContext.DefaultSchema);
+                o.MapEnum<Platform>(schemaName: GeoSpotDbContext.DefaultSchema);
             })
             .UseSnakeCaseNamingConvention()
         );
@@ -34,6 +36,6 @@ public static class DependencyInjection
     {
         var scope = serviceProvider.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<GeoSpotDbContext>();
-        db.Database.MigrateAsync();
+        db.Database.Migrate();
     }
 }

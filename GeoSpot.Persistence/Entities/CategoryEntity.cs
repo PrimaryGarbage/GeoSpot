@@ -1,6 +1,7 @@
 namespace GeoSpot.Persistence.Entities;
 
 // TODO: Seed DB with starting categories on initial migration
+// TODO: Add additional table with category name translations for i18n
 [ExcludeFromCodeCoverage]
 internal class CategoryEntity
 {

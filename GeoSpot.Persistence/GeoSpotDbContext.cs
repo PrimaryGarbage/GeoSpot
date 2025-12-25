@@ -6,13 +6,15 @@ namespace GeoSpot.Persistence;
 [ExcludeFromCodeCoverage]
 internal class GeoSpotDbContext : DbContext
 {
-    private const string DefaultSchema = "geospot";
+    public const string DefaultSchema = "geospot";
     
     public DbSet<UserEntity> Users { get; set; }
     public DbSet<BusinessProfileEntity> BusinessProfiles { get; set; }
     public DbSet<CategoryEntity> Categories { get; set; }
     public DbSet<DeviceTokenEntity> DeviceTokens { get; set; }
     public DbSet<SpotEntity> Spots { get; set; }
+    
+    public GeoSpotDbContext(DbContextOptions<GeoSpotDbContext> options): base(options) {}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -20,9 +22,9 @@ internal class GeoSpotDbContext : DbContext
         
         modelBuilder.HasDefaultSchema(DefaultSchema);
         
-        modelBuilder.HasPostgresEnum<AccountType>();
-        modelBuilder.HasPostgresEnum<Gender>();
-        modelBuilder.HasPostgresEnum<SpotType>();
+        modelBuilder.HasPostgresEnum<AccountType>(DefaultSchema);
+        modelBuilder.HasPostgresEnum<Gender>(DefaultSchema);
+        modelBuilder.HasPostgresEnum<SpotType>(DefaultSchema);
         
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(GeoSpotDbContext).Assembly);
     }
