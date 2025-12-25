@@ -1,8 +1,10 @@
 namespace GeoSpot.Persistence.Entities;
 
-public class BusinessProfileEntity : BaseAuditExtendedEntity
+internal class BusinessProfileEntity : BaseAuditEntity
 {
-    public Guid Id { get; set; }
+    public const string TableName = "business_profiles";
+    
+    public Guid BusinessProfileId { get; set; }
     
     public Guid UserId { get; set; }
     
@@ -33,6 +35,7 @@ public class BusinessProfileEntity : BaseAuditExtendedEntity
     public int NotificationBalance { get; set; }
     
     
-    public UserEntity? User { get; set; }
+    public UserEntity? Creator { get; set; }
     public CategoryEntity? Category { get; set; }
+    public IEnumerable<SpotEntity>? Spots { get; set; }
 }

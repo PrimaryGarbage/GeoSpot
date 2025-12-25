@@ -1,7 +1,9 @@
 namespace GeoSpot.Persistence.Entities;
 
-public class SpotCategoryEntity
+internal class SpotCategoryEntity
 {
+    public const string TableName = "spot_categories";
+    
     public Guid SpotId { get; set; }
     
     public Guid CategoryId { get; set; }

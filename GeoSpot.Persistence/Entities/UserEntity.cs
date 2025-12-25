@@ -1,12 +1,17 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace GeoSpot.Persistence.Entities;
 
-public enum AccountType { User, Business };
+internal enum AccountType { User, Business };
 
 public enum Gender { NotSpecified, Male, Female, Other};
 
-public class UserEntity : BaseAuditExtendedEntity
+[ExcludeFromCodeCoverage]
+internal class UserEntity : BaseAuditEntity
 {
-    public Guid Id { get; set; }
+    public const string TableName = "users";
+    
+    public Guid UserId { get; set; }
 
     public required string PhoneNumber { get; set; }
 
@@ -36,5 +41,11 @@ public class UserEntity : BaseAuditExtendedEntity
 
     public Gender Gender { get; set; }
     
-    public ICollection<CategoryEntity>? Categories { get; set; }
+    public IEnumerable<CategoryEntity>? Categories { get; set; }
+    public IEnumerable<UserSpotViewEntity>? UserSpotViews { get; set; }
+    public IEnumerable<BusinessProfileEntity>? BusinessProfiles { get; set; }
+    public IEnumerable<SpotEntity>? CreatedSpots { get; set; }
+    public IEnumerable<SpotCommentEntity>? Comments { get; set; }
+    public IEnumerable<SpotReactionEntity>? Reactions { get; set; }
+    public IEnumerable<DeviceTokenEntity>? DeviceTokens { get; set; }
 }

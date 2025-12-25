@@ -1,14 +1,16 @@
 namespace GeoSpot.Persistence.Entities;
 
-public enum SpotType { Promo, Event, News, Meetup }
+internal enum SpotType { Promo, Event, News, Meetup }
 
-public class SpotEntity : BaseAuditExtendedEntity
+internal class SpotEntity : BaseAuditEntity
 {
-    public Guid Id { get; set; }
+    public const string TableName = "spots";
+    
+    public Guid SpotId { get; set; }
     
     public Guid CreatorId { get; set; }
     
-    public Guid BusinessProfileId { get; set; }
+    public Guid? BusinessProfileId { get; set; }
     
     public required string Title { get; set; }
     
@@ -34,7 +36,7 @@ public class SpotEntity : BaseAuditExtendedEntity
     
     public UserEntity? Creator { get; set; }
     public BusinessProfileEntity? BusinessProfile { get; set; }
-    public ICollection<CategoryEntity>? Categories { get; set; }
-    public ICollection<SpotCommentEntity>? Comments { get; set; }
-    public ICollection<SpotReactionEntity>? Reactions { get; set; }
+    public IEnumerable<CategoryEntity>? Categories { get; set; }
+    public IEnumerable<SpotCommentEntity>? Comments { get; set; }
+    public IEnumerable<SpotReactionEntity>? Reactions { get; set; }
 }

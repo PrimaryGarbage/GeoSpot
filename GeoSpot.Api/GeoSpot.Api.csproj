@@ -11,4 +11,8 @@
         <PackageReference Include="NSwag.AspNetCore" Version="14.6.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\GeoSpot.Persistence\GeoSpot.Persistence.csproj" />
+    </ItemGroup>
+
 </Project>

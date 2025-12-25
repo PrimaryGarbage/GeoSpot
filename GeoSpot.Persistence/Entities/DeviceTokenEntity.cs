@@ -1,10 +1,12 @@
 namespace GeoSpot.Persistence.Entities;
 
-public enum Platform { Ios, Android }
+internal enum Platform { Ios, Android }
 
-public class DeviceTokenEntity : BaseAuditExtendedEntity
+internal class DeviceTokenEntity : BaseAuditEntity
 {
-    public Guid Id { get; set; }
+    public const string TableName = "device_tokens";
+    
+    public Guid DeviceTokenId { get; set; }
     
     public Guid UserId { get; set; }
     
@@ -13,4 +15,6 @@ public class DeviceTokenEntity : BaseAuditExtendedEntity
     public Platform Platform { get; set; }
     
     public bool IsActive { get; set; }
+    
+    public UserEntity? User { get; set; }
 }

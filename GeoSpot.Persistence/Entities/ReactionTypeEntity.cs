@@ -1,8 +1,10 @@
 namespace GeoSpot.Persistence.Entities;
 
-public class ReactionTypeEntity
+internal class ReactionTypeEntity
 {
-    public Guid Id { get; set; }
+    public const string TableName = "reaction_types";
+    
+    public Guid ReactionTypeId { get; set; }
     
     public required string Name { get; set; }
     

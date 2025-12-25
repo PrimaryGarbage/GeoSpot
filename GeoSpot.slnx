@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="GeoSpot.Api/GeoSpot.Api.csproj" />
   <Project Path="GeoSpot.Application/GeoSpot.Application.csproj" />
+  <Project Path="GeoSpot.Common/GeoSpot.Common.csproj" />
   <Project Path="GeoSpot.Persistence/GeoSpot.Persistence.csproj" />
 </Solution>

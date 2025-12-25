@@ -1,6 +1,9 @@
+using GeoSpot.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// builder.Services.AddGeospotDbContext(builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();

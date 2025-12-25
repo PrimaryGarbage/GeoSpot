@@ -1,8 +1,10 @@
 namespace GeoSpot.Persistence.Entities;
 
-public class VerificationCodeEntity : BaseAuditExtendedEntity
+internal class VerificationCodeEntity : BaseAuditEntity
 {
-    public Guid Id { get; set; }
+    public const string TableName = "verification_codes";
+    
+    public Guid VerificationCodeId { get; set; }
     
     public required string PhoneNumber { get; set; }
     

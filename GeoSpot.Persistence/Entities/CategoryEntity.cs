@@ -1,9 +1,11 @@
 namespace GeoSpot.Persistence.Entities;
 
 // TODO: Seed DB with starting categories on initial migration
-public class CategoryEntity
+internal class CategoryEntity
 {
-    public Guid Id { get; set; }
+    public const string TableName = "categories";
+    
+    public Guid CategoryId { get; set; }
     
     public required string Name { get; set; }
     
@@ -13,4 +15,6 @@ public class CategoryEntity
     public required string Color { get; set; }
     
     public int SortOrder { get; set; }
+    
+    public IEnumerable<UserEntity>? Users { get; set; }
 }

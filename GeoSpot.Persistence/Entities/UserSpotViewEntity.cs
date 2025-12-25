@@ -1,8 +1,8 @@
 namespace GeoSpot.Persistence.Entities;
 
-public class UserSpotViewEntity : BaseAuditEntity
+internal class UserSpotViewEntity : BaseAuditEntity
 {
-    public Guid Id { get; set; }
+    public const string TableName = "user_spot_views";
     
     public Guid UserId { get; set; }
     
