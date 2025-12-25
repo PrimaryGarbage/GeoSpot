@@ -11,7 +11,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddGeospotDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        string connectionString = configuration.GetConnectionString("DefaultConnection")
+        string connectionString = configuration.GetConnectionString("SqlDatabase")
             ?? throw new InitializationException("Failed to find database connection string");
     
         services.AddDbContext<GeoSpotDbContext>(options => 
@@ -28,5 +28,12 @@ public static class DependencyInjection
         );
             
         return services;
+    }
+    
+    public static void PrepareDatabase(this IServiceProvider serviceProvider)
+    {
+        var scope = serviceProvider.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<GeoSpotDbContext>();
+        db.Database.MigrateAsync();
     }
 }
