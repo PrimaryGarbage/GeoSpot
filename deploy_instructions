@@ -1,0 +1,6 @@
+ - Install .NET 10 SDK
+ - Clone the solution
+ - Install PostgreSQL
+ - Install PostGIS
+ - Add ConnectionStrings_SqlDatabase environment variable
+ - Run
