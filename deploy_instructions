@@ -2,5 +2,6 @@
  - Clone the solution
  - Install PostgreSQL
  - Install PostGIS
- - Add ConnectionStrings_SqlDatabase environment variable
+ - Add ConnectionStrings__SqlDatabase environment variable
+ - Add Jwt__Key environment variable (You can generate a key by using "openssl rand -base64 32" command)
  - Run

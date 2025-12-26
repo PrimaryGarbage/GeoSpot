@@ -7,15 +7,21 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
+        <PackageReference Include="MediatR" Version="14.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.1">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.1" />
         <PackageReference Include="NSwag.AspNetCore" Version="14.6.3" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\GeoSpot.Application\GeoSpot.Application.csproj" />
+      <ProjectReference Include="..\GeoSpot.Contracts\GeoSpot.Contracts.csproj" />
       <ProjectReference Include="..\GeoSpot.Persistence\GeoSpot.Persistence.csproj" />
     </ItemGroup>
 
