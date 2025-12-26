@@ -1,14 +1,10 @@
 using GeoSpot.Common.Enums;
-using NetTopologySuite.Geometries;
 
-namespace GeoSpot.Persistence.Entities;
-
+namespace GeoSpot.Persistence.Repositories.Models.Spot;
 
 [ExcludeFromCodeCoverage]
-internal class SpotEntity : IAuditEntity, IPositionedEntity
+public class SpotModel
 {
-    public const string TableName = "spots";
-    
     public Guid SpotId { get; set; }
     
     public Guid CreatorId { get; set; }
@@ -27,8 +23,6 @@ internal class SpotEntity : IAuditEntity, IPositionedEntity
     
     public double Longitude { get; set; }
     
-    public Point Position { get; set; } = Point.Empty;
-    
     public int Radius { get; set; }
     
     public string? Address { get; set; }
@@ -38,14 +32,4 @@ internal class SpotEntity : IAuditEntity, IPositionedEntity
     public DateTime EndsAt { get; set; }
     
     public int ViewsCount { get; set; }
-    
-    public DateTime CreatedAt { get; set; }
-    
-    public DateTime UpdatedAt { get; set; }
-    
-    public UserEntity? Creator { get; set; }
-    public BusinessProfileEntity? BusinessProfile { get; set; }
-    public IEnumerable<CategoryEntity>? Categories { get; set; }
-    public IEnumerable<SpotCommentEntity>? Comments { get; set; }
-    public IEnumerable<SpotReactionEntity>? Reactions { get; set; }
 }

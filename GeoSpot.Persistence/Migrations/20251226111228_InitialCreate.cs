@@ -1,5 +1,5 @@
 ﻿using System;
-using GeoSpot.Persistence.Entities;
+using GeoSpot.Common.Enums;
 using Microsoft.EntityFrameworkCore.Migrations;
 using NetTopologySuite.Geometries;
 
@@ -64,6 +64,7 @@ namespace GeoSpot.Persistence.Migrations
                     phone_number = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     password_hash = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    password_salt = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
                     account_type = table.Column<AccountType>(type: "geospot.account_type", nullable: false),
                     is_verified = table.Column<bool>(type: "boolean", nullable: false),
                     detection_radius = table.Column<int>(type: "integer", nullable: false, defaultValue: 500),

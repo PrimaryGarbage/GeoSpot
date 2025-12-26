@@ -1,8 +1,8 @@
 using GeoSpot.Common.Exceptions;
-using GeoSpot.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using GeoSpot.Common.Enums;
 using static GeoSpot.Common.Constants.ConfigurationConstants;
 
 namespace GeoSpot.Persistence;

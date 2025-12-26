@@ -1,5 +1,6 @@
 using GeoSpot.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
+using GeoSpot.Common.Enums;
 
 namespace GeoSpot.Persistence;
 
@@ -36,10 +37,11 @@ internal class GeoSpotDbContext : DbContext
             
         foreach (var entry in entries)
         {
-            var entity = (IAuditEntity)entry.Entity;
-            if (entry.State == EntityState.Added) entity.CreatedAt = DateTime.UtcNow;
-            
-            entity.UpdatedAt = DateTime.UtcNow;
+            if (entry.Entity is IAuditEntity auditEntity)
+                UpdateTimestamps(auditEntity, entry.State == EntityState.Added);
+
+            if (entry.Entity is IPositionedEntity positionedEntity)
+                UpdatePosition(positionedEntity);
         }
 
         return base.SaveChanges();

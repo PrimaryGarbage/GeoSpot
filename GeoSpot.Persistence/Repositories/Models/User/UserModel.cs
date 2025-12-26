@@ -1,12 +1,10 @@
 using GeoSpot.Common.Enums;
 
-namespace GeoSpot.Persistence.Entities;
+namespace GeoSpot.Persistence.Repositories.Models.User;
 
 [ExcludeFromCodeCoverage]
-internal class UserEntity : IAuditEntity
+public class UserModel
 {
-    public const string TableName = "users";
-    
     public Guid UserId { get; set; }
 
     public required string PhoneNumber { get; set; }
@@ -14,8 +12,6 @@ internal class UserEntity : IAuditEntity
     public string? Email { get; set; }
 
     public string? PasswordHash { get; set; }
-    
-    public string? PasswordSalt { get; set; }
     
     public AccountType AccountType { get; set; }
     
@@ -38,16 +34,4 @@ internal class UserEntity : IAuditEntity
     public int BirthYear { get; set; }
 
     public Gender Gender { get; set; }
-    
-    public DateTime CreatedAt { get; set; }
-    
-    public DateTime UpdatedAt { get; set; }
-    
-    public IEnumerable<CategoryEntity>? Categories { get; set; }
-    public IEnumerable<UserSpotViewEntity>? UserSpotViews { get; set; }
-    public IEnumerable<BusinessProfileEntity>? BusinessProfiles { get; set; }
-    public IEnumerable<SpotEntity>? CreatedSpots { get; set; }
-    public IEnumerable<SpotCommentEntity>? Comments { get; set; }
-    public IEnumerable<SpotReactionEntity>? Reactions { get; set; }
-    public IEnumerable<DeviceTokenEntity>? DeviceTokens { get; set; }
 }

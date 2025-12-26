@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Repositories\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="EFCore.NamingConventions" Version="10.0.0-rc.2" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.1" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.1" />
@@ -24,6 +20,10 @@
 
     <ItemGroup>
       <ProjectReference Include="..\GeoSpot.Common\GeoSpot.Common.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Repositories\Models\Mappers\" />
     </ItemGroup>
 
 </Project>

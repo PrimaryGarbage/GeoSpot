@@ -1,13 +1,10 @@
 using GeoSpot.Common.Enums;
 
-namespace GeoSpot.Persistence.Entities;
-
+namespace GeoSpot.Persistence.Repositories.Models.DeviceToken;
 
 [ExcludeFromCodeCoverage]
-internal class DeviceTokenEntity : IAuditEntity
+public class DeviceTokenModel
 {
-    public const string TableName = "device_tokens";
-    
     public Guid DeviceTokenId { get; set; }
     
     public Guid UserId { get; set; }
@@ -21,6 +18,4 @@ internal class DeviceTokenEntity : IAuditEntity
     public DateTime CreatedAt { get; set; }
     
     public DateTime UpdatedAt { get; set; }
-    
-    public UserEntity? User { get; set; }
 }

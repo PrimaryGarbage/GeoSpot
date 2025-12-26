@@ -1,11 +1,8 @@
-namespace GeoSpot.Persistence.Entities;
+namespace GeoSpot.Persistence.Repositories.Models.Category;
 
-// TODO: Add additional table with category name translations for i18n
 [ExcludeFromCodeCoverage]
-internal class CategoryEntity
+public class CategoryModel
 {
-    public const string TableName = "categories";
-    
     public Guid CategoryId { get; set; }
     
     public required string Name { get; set; }
@@ -16,6 +13,4 @@ internal class CategoryEntity
     public required string Color { get; set; }
     
     public int SortOrder { get; set; }
-    
-    public IEnumerable<UserEntity>? Users { get; set; }
 }
