@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace GeoSpot.Contracts.Auth;
 
 [ExcludeFromCodeCoverage]
