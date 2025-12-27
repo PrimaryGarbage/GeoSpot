@@ -1,10 +1,10 @@
 namespace GeoSpot.Persistence.Repositories;
 
-internal class BaseGeoSpotRepository
+internal abstract class BaseGeoSpotRepository
 {
     protected GeoSpotDbContext DbContext { get; init; }
     
-    public BaseGeoSpotRepository(GeoSpotDbContext dbContext)
+    protected BaseGeoSpotRepository(GeoSpotDbContext dbContext)
     {
         DbContext = dbContext;
     }

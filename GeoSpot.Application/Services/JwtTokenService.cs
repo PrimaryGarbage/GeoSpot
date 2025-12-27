@@ -12,7 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace GeoSpot.Application.Services;
 
 [ExcludeFromCodeCoverage]
-public sealed class JwtTokenService : IJwtTokenService
+internal sealed class JwtTokenService : IJwtTokenService
 {
     private readonly JwtConfigurationSection _jwtConfiguration;
 
@@ -20,6 +20,10 @@ public sealed class JwtTokenService : IJwtTokenService
     {
         _jwtConfiguration = jwtConfiguration.Value;
     }
+    
+    public int AccessTokenLifespanMinutes => _jwtConfiguration.AccessTokenLifespanMinutes;
+    
+    public int RefreshTokenLifespanMinutes => _jwtConfiguration.RefreshTokenLifespanMinutes;
     
     public string GenerateAccessToken(UserModel userModel)
     {
@@ -33,7 +37,7 @@ public sealed class JwtTokenService : IJwtTokenService
         SigningCredentials credentials = new(key, SecurityAlgorithms.HmacSha256);
         
         JwtSecurityToken token = new(issuer: _jwtConfiguration.Issuer, audience: _jwtConfiguration.Audience,
-            claims: claims, expires: DateTime.UtcNow.AddMicroseconds(_jwtConfiguration.AccessTokenLifespanMinutes),
+            claims: claims, expires: DateTime.UtcNow.AddMinutes(_jwtConfiguration.AccessTokenLifespanMinutes),
             signingCredentials: credentials);
         
         return new JwtSecurityTokenHandler().WriteToken(token);

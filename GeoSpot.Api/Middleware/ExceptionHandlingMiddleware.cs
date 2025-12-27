@@ -1,4 +1,5 @@
 using FluentValidation;
+using GeoSpot.Common.Exceptions;
 
 namespace GeoSpot.Api.Middleware;
 
@@ -18,6 +19,20 @@ public class ExceptionHandlingMiddleware
         try
         {
             await _next(context);
+        }
+        catch (BadRequestException ex)
+        {
+            _logger.LogError(ex, "Application encountered generic BadRequest error.");
+
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            await context.Response.WriteAsync(ex.Message);
+        }
+        catch(NotFoundException ex)
+        {
+            _logger.LogError(ex, "Application encountered NotFound error.");
+                
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
+            await context.Response.WriteAsync(ex.Message);
         }
         catch(ValidationException ex)
         {

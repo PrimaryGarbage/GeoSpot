@@ -4,9 +4,9 @@ namespace GeoSpot.Persistence.Repositories.Interfaces;
 
 public interface ICategoryRepository
 {
-    Task<IEnumerable<CategoryModel>> GetAllCategoriesAsync(CancellationToken ct);
+    Task<IEnumerable<CategoryModel>> GetAllCategoriesAsync(CancellationToken ct = default);
     
-    Task<IEnumerable<CategoryModel>> GetUserCategoriesAsync(Guid userId, CancellationToken ct);
+    Task<IEnumerable<CategoryModel>> GetUserCategoriesAsync(Guid userId, CancellationToken ct = default);
     
-    Task UpdateUserCategoriesAsync(Guid userId, IEnumerable<Guid> categoryIds, CancellationToken ct);
+    Task UpdateUserCategoriesAsync(Guid userId, IEnumerable<Guid> categoryIds, CancellationToken ct = default);
 }

@@ -10,6 +10,8 @@ public static class DependencyInjection
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<IJwtTokenService, JwtTokenService>();
+        services.AddScoped<ISmsService, SmsService>();
+        services.AddScoped<ICacheService, InMemoryCacheService>();
         
         return services;
     }

@@ -5,11 +5,13 @@ namespace GeoSpot.Persistence.Repositories.Interfaces;
 
 public interface IUserRepository
 {
-    Task<UserModel> CreateUserAsync(CreateUserModel createModel, CancellationToken ct);
+    Task<UserModel> CreateUserAsync(CreateUserModel createModel, CancellationToken ct = default);
     
-    Task<UserModel> GetUserAsync(Guid userId, CancellationToken ct);
+    Task<UserModel?> GetUserAsync(Guid userId, CancellationToken ct = default);
     
-    Task<UserModel> UpdateUserAsync(UpdateUserModel updateModel, CancellationToken ct);
+    Task<UserModel?> GetUserByPhoneNumberAsync(string phoneNumber, CancellationToken ct = default);
     
-    Task UpdateUserLocationAsync(double latitude, double longitude, CancellationToken ct);
+    Task<UserModel?> UpdateUserAsync(UpdateUserModel updateModel, CancellationToken ct = default);
+    
+    Task<UserModel?> UpdateUserLocationAsync(double latitude, double longitude, CancellationToken ct = default);
 }

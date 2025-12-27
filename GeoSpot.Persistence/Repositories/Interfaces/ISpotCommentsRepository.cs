@@ -4,9 +4,9 @@ namespace GeoSpot.Persistence.Repositories.Interfaces;
 
 public interface ISpotCommentsRepository
 {
-    Task<IEnumerable<SpotCommentModel>> GetSpotCommentsAsync(Guid spotId, CancellationToken ct);
+    Task<IEnumerable<SpotCommentModel>> GetSpotCommentsAsync(Guid spotId, CancellationToken ct = default);
     
-    Task<SpotCommentModel> CreateSpotCommentAsync(CreateSpotCommentModel createModel, CancellationToken ct);
+    Task<SpotCommentModel> CreateSpotCommentAsync(CreateSpotCommentModel createModel, CancellationToken ct = default);
     
-    Task DeleteSpotCommentAsync(Guid spotCommentId, CancellationToken ct);
+    Task DeleteSpotCommentAsync(Guid spotCommentId, CancellationToken ct = default);
 }

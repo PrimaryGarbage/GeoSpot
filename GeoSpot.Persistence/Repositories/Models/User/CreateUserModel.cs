@@ -5,6 +5,17 @@ namespace GeoSpot.Persistence.Repositories.Models.User;
 [ExcludeFromCodeCoverage]
 public class CreateUserModel
 {
+    public static CreateUserModel FromPhoneNumber(string phoneNumber)
+    {
+        return new CreateUserModel
+        {
+            PhoneNumber = phoneNumber,
+            AccountType = AccountType.User,
+            DisplayName = phoneNumber,
+            Gender = Gender.NotSpecified
+        };
+    }
+    
     public required string PhoneNumber { get; set; }
 
     public string? Email { get; set; }

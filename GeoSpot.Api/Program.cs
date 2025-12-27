@@ -5,14 +5,14 @@ using GeoSpot.Persistence;
 using FluentValidation;
 using GeoSpot.Api.Middleware;
 using GeoSpot.Api.PipelineBehaviors;
-using GeoSpot.Application.Validators;
+using GeoSpot.Application.Validators.Auth;
 using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.BindConfigurationSections(builder.Configuration);
 
-builder.Services.AddGeospotDbContext(builder.Configuration);
+builder.Services.AddGeoSpotPersistenceModule(builder.Configuration);
 
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
@@ -24,6 +24,8 @@ builder.Services.AddApplicationServices();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<IJwtTokenService>());
 builder.Services.AddValidatorsFromAssemblyContaining<SendVerificationCodeRequestValidator>();
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+
+builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 

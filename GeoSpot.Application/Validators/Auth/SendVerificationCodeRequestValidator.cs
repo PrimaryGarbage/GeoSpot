@@ -1,14 +1,14 @@
 using FluentValidation;
 using GeoSpot.Application.Handlers.Auth;
 
-namespace GeoSpot.Application.Validators;
+namespace GeoSpot.Application.Validators.Auth;
 
 [ExcludeFromCodeCoverage]
 public class SendVerificationCodeRequestValidator : AbstractValidator<SendVerificationCodeRequest>
 {
     public SendVerificationCodeRequestValidator()
     {
-        RuleFor(x => x.Dto.PhoneNumber)
+        RuleFor(x => x.RequestDto.PhoneNumber)
             .NotEmpty()
             .MaximumLength(20);
     }

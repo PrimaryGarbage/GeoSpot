@@ -14,6 +14,8 @@ internal class GeoSpotDbContext : DbContext
     public DbSet<CategoryEntity> Categories { get; set; }
     public DbSet<DeviceTokenEntity> DeviceTokens { get; set; }
     public DbSet<SpotEntity> Spots { get; set; }
+    public DbSet<VerificationCodeEntity> VerificationCodes { get; set; }
+    public DbSet<RefreshTokenEntity> RefreshTokens { get; set; }
     
     public GeoSpotDbContext(DbContextOptions<GeoSpotDbContext> options): base(options) {}
 

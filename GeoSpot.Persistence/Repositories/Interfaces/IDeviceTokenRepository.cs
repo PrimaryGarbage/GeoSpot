@@ -4,7 +4,7 @@ namespace GeoSpot.Persistence.Repositories.Interfaces;
 
 public interface IDeviceTokenRepository
 {
-    Task<DeviceTokenModel> CreateDeviceTokenAsync(CreateDeviceTokenModel createModel, CancellationToken ct);
+    Task<DeviceTokenModel> CreateDeviceTokenAsync(CreateDeviceTokenModel createModel, CancellationToken ct = default);
     
-    Task DeleteDeviceTokenAsync(string token, CancellationToken ct);
+    Task DeleteDeviceTokenAsync(string token, CancellationToken ct = default);
 }

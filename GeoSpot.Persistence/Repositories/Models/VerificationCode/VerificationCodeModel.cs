@@ -10,4 +10,6 @@ public class VerificationCodeModel
     public required string VerificationCode { get; set; }
     
     public int Attempts { get; set; }
+    
+    public DateTime CreatedAt { get; set; }
 }

@@ -4,6 +4,10 @@ namespace GeoSpot.Application.Services.Interfaces;
 
 public interface IJwtTokenService
 {
+    public int AccessTokenLifespanMinutes { get; }
+
+    public int RefreshTokenLifespanMinutes { get; }
+    
     string GenerateAccessToken(UserModel user);
     
     string GenerateRefreshToken();

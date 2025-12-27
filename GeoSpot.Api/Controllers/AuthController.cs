@@ -17,10 +17,19 @@ public class AuthController : ControllerBase
         _mediator = mediator;
     }
     
-    public async Task<IActionResult> SendVerificationCodeAsync(SendVerificationCodeDto dto, CancellationToken ct)
+    [HttpPost("send-code")]
+    public async Task<IActionResult> SendVerificationCodeAsync(SendVerificationCodeRequestDto requestDto, CancellationToken ct)
     {
-        await _mediator.Send(new SendVerificationCodeRequest(dto), ct);
+        await _mediator.Send(new SendVerificationCodeRequest(requestDto), ct);
         
         return Created();
+    }
+
+    [HttpPost("verify-code")]
+    public async Task<IActionResult> VerifyVerificationCodeAsync(VerifyVerificationCodeRequestDto requestDto, CancellationToken ct)
+    {
+        VerifyVerificationCodeResponseDto response = await _mediator.Send(new VerifyVerificationCodeRequest(requestDto), ct);
+
+        return Ok(response);
     }
 }

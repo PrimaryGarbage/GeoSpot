@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using GeoSpot.Common.Enums;
+using GeoSpot.Persistence.Repositories;
+using GeoSpot.Persistence.Repositories.Interfaces;
 using static GeoSpot.Common.Constants.ConfigurationConstants;
 
 namespace GeoSpot.Persistence;
@@ -10,7 +12,7 @@ namespace GeoSpot.Persistence;
 [ExcludeFromCodeCoverage]
 public static class DependencyInjection
 {
-    public static IServiceCollection AddGeospotDbContext(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddGeoSpotPersistenceModule(this IServiceCollection services, IConfiguration configuration)
     {
         string connectionString = configuration.GetConnectionString(SqlDatabaseConnectionStringName)
             ?? throw new InitializationException("Failed to find database connection string");
@@ -28,6 +30,10 @@ public static class DependencyInjection
             })
             .UseSnakeCaseNamingConvention()
         );
+        
+        services.AddScoped<IVerificationCodeRepository, VerificationCodeRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             
         return services;
     }

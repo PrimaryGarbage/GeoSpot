@@ -4,4 +4,5 @@
   <Project Path="GeoSpot.Common/GeoSpot.Common.csproj" />
   <Project Path="GeoSpot.Contracts/GeoSpot.Contracts.csproj" />
   <Project Path="GeoSpot.Persistence/GeoSpot.Persistence.csproj" />
+  <Project Path="GeoSpot.Tests.Unit/GeoSpot.Tests.Unit.csproj" />
 </Solution>
