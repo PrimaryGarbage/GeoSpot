@@ -1,3 +1,4 @@
+using FluentAssertions;
 using GeoSpot.Application.Handlers.Auth;
 using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Common;
@@ -8,7 +9,6 @@ using GeoSpot.Persistence.Repositories.Interfaces;
 using GeoSpot.Persistence.Repositories.Models.VerificationCode;
 using Microsoft.Extensions.Options;
 using NSubstitute;
-using NSubstitute.ExceptionExtensions;
 
 namespace GeoSpot.Tests.Unit.Application.Handlers.Auth;
 
@@ -72,10 +72,10 @@ public class SendVerificationCodeHandlerTests
                 new() { CreatedAt = DateTime.UtcNow, PhoneNumber = validPhoneNumber, VerificationCode = verificationCode}));
         
         // Act
-        var action = () => _handler.Handle(request, ct);
+        var action = async () => await _handler.Handle(request, ct);
 
         // Assert
-        await Assert.ThrowsAsync<BadRequestException>(action);
+        await action.Should().ThrowAsync<BadRequestException>();
     }
 
     [Fact]

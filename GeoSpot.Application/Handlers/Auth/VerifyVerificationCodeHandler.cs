@@ -43,6 +43,8 @@ public class VerifyVerificationCodeHandler : IRequestHandler<VerifyVerificationC
         string accessToken = _jwtTokenService.GenerateAccessToken(existingUser);
         string refreshToken = _jwtTokenService.GenerateRefreshToken();
         
+        await _refreshTokenRepository.DeleteAllUserRefreshTokensAsync(existingUser.UserId, ct);
+        
         await _refreshTokenRepository.CreateRefreshTokenAsync(new CreateRefreshTokenModel
         {
             UserId = existingUser.UserId,

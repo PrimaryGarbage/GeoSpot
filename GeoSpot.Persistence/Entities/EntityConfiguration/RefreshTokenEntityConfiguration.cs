@@ -7,6 +7,7 @@ namespace GeoSpot.Persistence.Entities.EntityConfiguration;
 internal class RefreshTokenEntityConfiguration : IEntityTypeConfiguration<RefreshTokenEntity>
 {
     private const string TokenHashIndexName = "idx_refresh_token_token_hash";
+    private const string UserIdIndexName = "idx_refresh_token_user_id";
 
     public void Configure(EntityTypeBuilder<RefreshTokenEntity> builder)
     {
@@ -19,5 +20,6 @@ internal class RefreshTokenEntityConfiguration : IEntityTypeConfiguration<Refres
             .HasForeignKey(x => x.UserId);
         
         builder.HasIndex(x => x.TokenHash).HasDatabaseName(TokenHashIndexName);
+        builder.HasIndex(x => x.UserId).HasDatabaseName(UserIdIndexName);
     }
 }

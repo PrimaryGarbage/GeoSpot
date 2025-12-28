@@ -2,6 +2,7 @@ using GeoSpot.Persistence.Entities;
 using GeoSpot.Persistence.Repositories.Interfaces;
 using GeoSpot.Persistence.Repositories.Mappers;
 using GeoSpot.Persistence.Repositories.Models.RefreshToken;
+using Microsoft.EntityFrameworkCore;
 
 namespace GeoSpot.Persistence.Repositories;
 
@@ -39,5 +40,16 @@ internal class RefreshTokenRepository : BaseGeoSpotRepository, IRefreshTokenRepo
     public Task RevokeRefreshTokenAsync(string tokenHash, CancellationToken ct = default)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task DeleteAllUserRefreshTokensAsync(Guid userId, CancellationToken ct = default)
+    {
+        var tokens = await DbContext.RefreshTokens.Where(x => x.UserId == userId).ToListAsync(ct);
+        if(tokens.Count == 0) return;
+        
+        foreach(RefreshTokenEntity token in tokens)
+            DbContext.Entry(token).State = EntityState.Deleted;
+        
+        await DbContext.SaveChangesAsync(ct);
     }
 }

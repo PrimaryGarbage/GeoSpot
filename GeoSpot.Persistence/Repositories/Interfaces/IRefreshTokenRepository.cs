@@ -13,4 +13,6 @@ public interface IRefreshTokenRepository
     Task DeleteRefreshTokenAsync(string tokenHash, CancellationToken ct = default);
     
     Task RevokeRefreshTokenAsync(string tokenHash, CancellationToken ct = default);
+    
+    Task DeleteAllUserRefreshTokensAsync(Guid userId, CancellationToken ct = default);
 }
