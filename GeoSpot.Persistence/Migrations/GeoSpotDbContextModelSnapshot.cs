@@ -305,6 +305,51 @@ namespace GeoSpot.Persistence.Migrations
                     b.ToTable("reaction_types", "geospot");
                 });
 
+            modelBuilder.Entity("GeoSpot.Persistence.Entities.RefreshTokenEntity", b =>
+                {
+                    b.Property<Guid>("RefreshTokenId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("refresh_token_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("expires_at");
+
+                    b.Property<bool>("Revoked")
+                        .HasColumnType("boolean")
+                        .HasColumnName("revoked");
+
+                    b.Property<string>("TokenHash")
+                        .IsRequired()
+                        .HasMaxLength(44)
+                        .HasColumnType("character varying(44)")
+                        .HasColumnName("token_hash");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("RefreshTokenId")
+                        .HasName("pk_refresh_tokens");
+
+                    b.HasIndex("TokenHash")
+                        .HasDatabaseName("idx_refresh_token_token_hash");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("idx_refresh_token_user_id");
+
+                    b.ToTable("refresh_tokens", "geospot");
+                });
+
             modelBuilder.Entity("GeoSpot.Persistence.Entities.SpotCategoryEntity", b =>
                 {
                     b.Property<Guid>("SpotId")
@@ -726,6 +771,18 @@ namespace GeoSpot.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_device_tokens_users_user_id");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("GeoSpot.Persistence.Entities.RefreshTokenEntity", b =>
+                {
+                    b.HasOne("GeoSpot.Persistence.Entities.UserEntity", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_refresh_tokens_users_user_id");
 
                     b.Navigation("User");
                 });

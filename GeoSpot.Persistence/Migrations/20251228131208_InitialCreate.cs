@@ -169,6 +169,31 @@ namespace GeoSpot.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "refresh_tokens",
+                schema: "geospot",
+                columns: table => new
+                {
+                    refresh_token_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    token_hash = table.Column<string>(type: "character varying(44)", maxLength: 44, nullable: false),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    revoked = table.Column<bool>(type: "boolean", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    expires_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_refresh_tokens", x => x.refresh_token_id);
+                    table.ForeignKey(
+                        name: "fk_refresh_tokens_users_user_id",
+                        column: x => x.user_id,
+                        principalSchema: "geospot",
+                        principalTable: "users",
+                        principalColumn: "user_id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "user_categories",
                 schema: "geospot",
                 columns: table => new
@@ -415,6 +440,18 @@ namespace GeoSpot.Persistence.Migrations
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
+                name: "idx_refresh_token_token_hash",
+                schema: "geospot",
+                table: "refresh_tokens",
+                column: "token_hash");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_refresh_token_user_id",
+                schema: "geospot",
+                table: "refresh_tokens",
+                column: "user_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_spot_categories_categories_category_id",
                 schema: "geospot",
                 table: "spot_categories",
@@ -500,6 +537,10 @@ namespace GeoSpot.Persistence.Migrations
         {
             migrationBuilder.DropTable(
                 name: "device_tokens",
+                schema: "geospot");
+
+            migrationBuilder.DropTable(
+                name: "refresh_tokens",
                 schema: "geospot");
 
             migrationBuilder.DropTable(

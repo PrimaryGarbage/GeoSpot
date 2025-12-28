@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using GeoSpot.Common.Enums;
 using GeoSpot.Persistence.Repositories;
 using GeoSpot.Persistence.Repositories.Interfaces;
+using Microsoft.Extensions.Hosting;
 using static GeoSpot.Common.Constants.ConfigurationConstants;
 
 namespace GeoSpot.Persistence;
@@ -18,8 +19,7 @@ public static class DependencyInjection
             ?? throw new InitializationException("Failed to find database connection string");
     
         services.AddDbContext<GeoSpotDbContext>(options => 
-        options.UseNpgsql(connectionString,
-            o =>
+            options.UseNpgsql(connectionString, o =>
             {
                 o.UseNetTopologySuite(geographyAsDefault: true);
                 o.MigrationsHistoryTable("__EFMigrationHistory", GeoSpotDbContext.DefaultSchema);
@@ -38,9 +38,9 @@ public static class DependencyInjection
         return services;
     }
     
-    public static void PrepareDatabase(this IServiceProvider serviceProvider)
+    public static void PrepareDatabase(this IHost application)
     {
-        var scope = serviceProvider.CreateScope();
+        var scope = application.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<GeoSpotDbContext>();
         db.Database.Migrate();
     }

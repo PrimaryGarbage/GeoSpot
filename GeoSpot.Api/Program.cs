@@ -45,7 +45,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Services.PrepareDatabase();
+app.PrepareDatabase();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 

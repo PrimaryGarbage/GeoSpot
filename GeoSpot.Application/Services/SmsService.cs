@@ -6,6 +6,6 @@ internal class SmsService : ISmsService
 {
     public async Task SendSmsAsync(string phoneNumber, string message, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        // throw new NotImplementedException();
     }
 }
