@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GeoSpot.Tests.Integration.ApiTests;
+namespace GeoSpot.Tests.Integration.ApiTests.Auth;
 
 [ExcludeFromCodeCoverage]
-public class GeoSpotWebApplicationFactory : WebApplicationFactory<Program>
+public class AuthWebApplicationFactory : WebApplicationFactory<Program>
 {
     private readonly string _connectionString;
 
-    public GeoSpotWebApplicationFactory(string connectionString)
+    public AuthWebApplicationFactory(string connectionString)
     {
         _connectionString = connectionString;
     }
