@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using GeoSpot.Common.Constants;
 using GeoSpot.Persistence;
 using Microsoft.AspNetCore.Hosting;
@@ -9,13 +8,18 @@ using Microsoft.Extensions.DependencyInjection;
 namespace GeoSpot.Tests.Integration.ApiTests.Auth;
 
 [ExcludeFromCodeCoverage]
-public class AuthWebApplicationFactory : WebApplicationFactory<Program>
+public class AuthWebApplicationFactory : WebApplicationFactory<Program>, IGeoSpotWebApplicationFactory
 {
     private readonly string _connectionString;
 
-    public AuthWebApplicationFactory(string connectionString)
+    private AuthWebApplicationFactory(string connectionString)
     {
         _connectionString = connectionString;
+    }
+    
+    public static IGeoSpotWebApplicationFactory Create(string connectionString)
+    {
+        return new AuthWebApplicationFactory(connectionString);
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -29,8 +33,6 @@ public class AuthWebApplicationFactory : WebApplicationFactory<Program>
             using var scope = serviceProvider.CreateScope();
             GeoSpotDbContext dbContext = scope.ServiceProvider.GetRequiredService<GeoSpotDbContext>();
             dbContext.Database.Migrate();
-            
-            // Seed test data using dbContext here
         });
     }
 }

@@ -2,18 +2,18 @@ using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
 using GeoSpot.Contracts.Auth;
-using static GeoSpot.Tests.Integration.ApiTests.GeoSpotUriConstants;
+using static GeoSpot.Tests.Integration.ApiTests.Constants.GeoSpotUriConstants;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Auth;
 
-public class SendVerificationCodeTests : IClassFixture<PostgresFixture>
+[Collection("AuthTest")]
+public class SendVerificationCodeTests : IClassFixture<PostgresFixture<AuthWebApplicationFactory>>
 {
     private readonly HttpClient _client;
     
-    public SendVerificationCodeTests(PostgresFixture fixture)
+    public SendVerificationCodeTests(PostgresFixture<AuthWebApplicationFactory> fixture)
     {
-        AuthWebApplicationFactory factory = new(fixture.ConnectionString);
-        _client = factory.CreateClient();
+        _client = fixture.HttpClient;
     }
     
     [Fact]

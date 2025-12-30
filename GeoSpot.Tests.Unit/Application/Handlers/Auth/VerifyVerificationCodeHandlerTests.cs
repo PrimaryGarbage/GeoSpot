@@ -53,7 +53,7 @@ public class VerifyVerificationCodeHandlerTests
                    PhoneNumber = phoneNumber
                 }));
         
-        _userRepositoryMock.GetUserAsync(Arg.Any<Guid>(), ct)
+        _userRepositoryMock.GetUserByPhoneNumberAsync(phoneNumber, ct)
             .Returns(Task.FromResult<UserModel?>(null));
         _userRepositoryMock.CreateUserAsync(Arg.Any<CreateUserModel>(), ct)
             .Returns(Task.FromResult(new UserModel { UserId = createdUserId, PhoneNumber = phoneNumber, DisplayName = phoneNumber}));
@@ -104,7 +104,6 @@ public class VerifyVerificationCodeHandlerTests
         // Arrange
         const string verificationCode = "test_verification_code";
         const string phoneNumber = "test_phone_number";
-        Guid createdUserId = Guid.NewGuid();
         VerifyVerificationCodeRequestDto request = new(Guid.NewGuid(), "invalid_verification_code");
         CancellationToken ct = CancellationToken.None;
         
@@ -146,7 +145,7 @@ public class VerifyVerificationCodeHandlerTests
                    PhoneNumber = phoneNumber
                 }));
         
-        _userRepositoryMock.GetUserAsync(Arg.Any<Guid>(), ct)
+        _userRepositoryMock.GetUserByPhoneNumberAsync(phoneNumber, ct)
             .Returns(Task.FromResult<UserModel?>(
                 new UserModel { UserId = existingUserId, PhoneNumber = phoneNumber, DisplayName = phoneNumber}));
         

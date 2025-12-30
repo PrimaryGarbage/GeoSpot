@@ -1,6 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
-
-namespace GeoSpot.Tests.Integration.ApiTests;
+namespace GeoSpot.Tests.Integration.ApiTests.Constants;
 
 [ExcludeFromCodeCoverage]
 internal static class GeoSpotUriConstants
