@@ -4,10 +4,12 @@ using GeoSpot.Contracts.Auth;
 using GeoSpot.Persistence.Repositories.Interfaces;
 using NSubstitute;
 using FluentAssertions;
+using GeoSpot.Common.ConfigurationSections;
 using GeoSpot.Common.Exceptions;
 using GeoSpot.Persistence.Repositories.Models.RefreshToken;
 using GeoSpot.Persistence.Repositories.Models.User;
 using GeoSpot.Persistence.Repositories.Models.VerificationCode;
+using Microsoft.Extensions.Options;
 
 namespace GeoSpot.Tests.Unit.Application.Handlers.Auth;
 
@@ -18,6 +20,7 @@ public class VerifyVerificationCodeHandlerTests
     private readonly IUserRepository _userRepositoryMock;
     private readonly IJwtTokenService _jwtTokenServiceMock;
     private readonly IRefreshTokenRepository _refreshTokenRepositoryMock;
+    private readonly VerificationCodeConfigurationSection _configuration;
 
     public VerifyVerificationCodeHandlerTests()
     {
@@ -25,9 +28,17 @@ public class VerifyVerificationCodeHandlerTests
         _userRepositoryMock = Substitute.For<IUserRepository>();
         _jwtTokenServiceMock = Substitute.For<IJwtTokenService>();
         _refreshTokenRepositoryMock = Substitute.For<IRefreshTokenRepository>();
+        _configuration = new VerificationCodeConfigurationSection
+        {
+            LifespanSeconds = 300,
+            NumberOfDigits = 6
+        };
+        
+        var optionsMock = Substitute.For<IOptions<VerificationCodeConfigurationSection>>();
+        optionsMock.Value.Returns(_configuration);
         
         _handler = new VerifyVerificationCodeHandler(_verificationCodeRepositoryMock, _userRepositoryMock, _jwtTokenServiceMock, 
-            _refreshTokenRepositoryMock);
+            _refreshTokenRepositoryMock, optionsMock);
     }
     
     [Fact]
@@ -79,6 +90,31 @@ public class VerifyVerificationCodeHandlerTests
         result.AccessTokenExpiresInMinutes.Should().Be(accessTokenLifespan);
         result.RefreshToken.Should().Be(refreshToken);
         result.RefreshTokenExpiresInMinutes.Should().Be(refreshTokenLifespan);
+    }
+    
+    [Fact]
+    public async Task Handle_WhenCodeIsExpired_ThrowsBadRequestException()
+    {
+        // Arrange
+        const string phoneNumber = "test_phone_number";
+        VerifyVerificationCodeRequestDto request = new(Guid.NewGuid(), "test_verification_code");
+        CancellationToken ct = CancellationToken.None;
+        
+        _verificationCodeRepositoryMock.GetVerificationCodeAsync(request.VerificationCodeId, ct)
+            .Returns(Task.FromResult<VerificationCodeModel?>(
+                new VerificationCodeModel
+                {
+                   VerificationCodeId = request.VerificationCodeId, 
+                   VerificationCode = request.VerificationCode,
+                   PhoneNumber = phoneNumber,
+                   CreatedAt = DateTime.UtcNow.AddSeconds(-(_configuration.LifespanSeconds + 1))
+                }));
+        
+        // Act
+        var action = async () => await _handler.Handle(new VerifyVerificationCodeRequest(request), ct);
+        
+        // Assert
+        await action.Should().ThrowAsync<BadRequestException>();
     }
 
     [Fact]

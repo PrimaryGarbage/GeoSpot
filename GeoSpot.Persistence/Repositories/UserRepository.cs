@@ -11,9 +11,14 @@ internal class UserRepository : BaseGeoSpotRepository, IUserRepository
     public UserRepository(GeoSpotDbContext dbContext) : base(dbContext)
     {}
     
-    public Task<UserModel> CreateUserAsync(CreateUserModel createModel, CancellationToken ct = default)
+    public async Task<UserModel> CreateUserAsync(CreateUserModel createModel, CancellationToken ct = default)
     {
-        throw new NotImplementedException();
+        UserEntity entity = createModel.MapToEntity();
+        DbContext.Add(entity);
+        
+        await DbContext.SaveChangesAsync(ct);
+        
+        return entity.MapToModel();
     }
 
     public Task<UserModel?> GetUserAsync(Guid userId, CancellationToken ct = default)

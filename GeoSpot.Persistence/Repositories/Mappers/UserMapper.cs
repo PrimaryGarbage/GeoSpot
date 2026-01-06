@@ -32,4 +32,22 @@ internal static class UserMapper
     {
         return input?.MapToModel();
     }
+    
+    public static UserEntity MapToEntity(this CreateUserModel input)
+    {
+        return new UserEntity
+        {
+            AccountType = input.AccountType,
+            AvatarUrl = input.AvatarUrl,
+            BirthYear = input.BirthYear,
+            DetectionRadius = input.DetectionRadius,
+            DisplayName = input.DisplayName,
+            Email = input.Email,
+            Gender = input.Gender,
+            PhoneNumber = input.PhoneNumber,
+            IsPremium = input.IsPremium,
+            IsVerified = input.IsVerified,
+            PasswordHash = input.PasswordHash
+        };
+    }
 }

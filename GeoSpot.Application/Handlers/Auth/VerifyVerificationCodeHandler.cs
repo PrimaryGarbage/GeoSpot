@@ -1,4 +1,5 @@
 using GeoSpot.Application.Services.Interfaces;
+using GeoSpot.Common.ConfigurationSections;
 using GeoSpot.Common.Exceptions;
 using GeoSpot.Contracts.Auth;
 using GeoSpot.Persistence.Repositories.Interfaces;
@@ -6,6 +7,7 @@ using GeoSpot.Persistence.Repositories.Models.RefreshToken;
 using GeoSpot.Persistence.Repositories.Models.User;
 using GeoSpot.Persistence.Repositories.Models.VerificationCode;
 using MediatR;
+using Microsoft.Extensions.Options;
 
 namespace GeoSpot.Application.Handlers.Auth;
 
@@ -19,14 +21,16 @@ public class VerifyVerificationCodeHandler : IRequestHandler<VerifyVerificationC
     private readonly IUserRepository _userRepository;
     private readonly IJwtTokenService _jwtTokenService;
     private readonly IRefreshTokenRepository _refreshTokenRepository;
+    private readonly VerificationCodeConfigurationSection _configuration;
 
     public VerifyVerificationCodeHandler(IVerificationCodeRepository verificationCodeRepository, IUserRepository userRepository, 
-        IJwtTokenService jwtTokenService, IRefreshTokenRepository refreshTokenRepository)
+        IJwtTokenService jwtTokenService, IRefreshTokenRepository refreshTokenRepository, IOptions<VerificationCodeConfigurationSection> options)
     {
         _verificationCodeRepository = verificationCodeRepository;
         _userRepository = userRepository;
         _jwtTokenService = jwtTokenService;
         _refreshTokenRepository = refreshTokenRepository;
+        _configuration = options.Value;
     }
 
     public async Task<VerifyVerificationCodeResponseDto> Handle(VerifyVerificationCodeRequest request, CancellationToken ct)
@@ -36,6 +40,9 @@ public class VerifyVerificationCodeHandler : IRequestHandler<VerifyVerificationC
         
         if(request.RequestDto.VerificationCode != existingCode.VerificationCode)
             throw new BadRequestException("Provided verification code is invalid");
+        
+        if (DateTime.UtcNow - existingCode.CreatedAt > TimeSpan.FromSeconds(_configuration.LifespanSeconds))
+            throw new BadRequestException("Provided verification code is expired");
         
         UserModel existingUser = await _userRepository.GetUserByPhoneNumberAsync(existingCode.PhoneNumber, ct)
             ?? await _userRepository.CreateUserAsync(CreateUserModel.FromPhoneNumber(existingCode.PhoneNumber) , ct);

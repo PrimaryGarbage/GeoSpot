@@ -2,19 +2,16 @@ using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
 using GeoSpot.Contracts.Auth;
+using GeoSpot.Tests.Integration.ApiTests.Constants;
 using static GeoSpot.Tests.Integration.ApiTests.Constants.GeoSpotUriConstants;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Auth;
 
-[Collection("AuthTest")]
-public class SendVerificationCodeTests : IClassFixture<PostgresFixture<AuthWebApplicationFactory>>
+[Collection(CollectionConstants.ApiIntegrationCollectionName)]
+public class SendVerificationCodeTests : ApiIntegrationTestsBase, IClassFixture<ApiIntegrationFixture>
 {
-    private readonly HttpClient _client;
-    
-    public SendVerificationCodeTests(PostgresFixture<AuthWebApplicationFactory> fixture)
-    {
-        _client = fixture.HttpClient;
-    }
+    public SendVerificationCodeTests(ApiIntegrationFixture fixture) : base(fixture.HttpClient, fixture.DbContext)
+    {}
     
     [Fact]
     public async Task SendVerificationCode_WhenRequestIsValid_Returns201()
@@ -22,7 +19,7 @@ public class SendVerificationCodeTests : IClassFixture<PostgresFixture<AuthWebAp
         const string phoneNumber = "+123456789";
         SendVerificationCodeRequestDto dto = new(phoneNumber);
         
-        HttpResponseMessage responseMessage = await _client.PostAsJsonAsync(AuthUri.SendVerificationCode, dto);
+        HttpResponseMessage responseMessage = await Client.PostAsJsonAsync(AuthUri.SendVerificationCode, dto);
         
         responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
     }
@@ -33,7 +30,7 @@ public class SendVerificationCodeTests : IClassFixture<PostgresFixture<AuthWebAp
         const string phoneNumber = "";
         SendVerificationCodeRequestDto dto = new(phoneNumber);
 
-        HttpResponseMessage responseMessage = await _client.PostAsJsonAsync(AuthUri.SendVerificationCode, dto);
+        HttpResponseMessage responseMessage = await Client.PostAsJsonAsync(AuthUri.SendVerificationCode, dto);
 
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
