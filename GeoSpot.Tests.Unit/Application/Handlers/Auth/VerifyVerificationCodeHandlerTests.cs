@@ -61,7 +61,8 @@ public class VerifyVerificationCodeHandlerTests
                 {
                    VerificationCodeId = request.VerificationCodeId, 
                    VerificationCode = request.VerificationCode,
-                   PhoneNumber = phoneNumber
+                   PhoneNumber = phoneNumber,
+                   CreatedAt = DateTime.UtcNow
                 }));
         
         _userRepositoryMock.GetUserByPhoneNumberAsync(phoneNumber, ct)
@@ -149,7 +150,8 @@ public class VerifyVerificationCodeHandlerTests
                 {
                    VerificationCodeId = request.VerificationCodeId, 
                    VerificationCode = verificationCode,
-                   PhoneNumber = phoneNumber
+                   PhoneNumber = phoneNumber,
+                   CreatedAt = DateTime.UtcNow
                 }));
         // Act
         var action = async () => await _handler.Handle(new VerifyVerificationCodeRequest(request), ct);
@@ -178,7 +180,8 @@ public class VerifyVerificationCodeHandlerTests
                 {
                    VerificationCodeId = request.VerificationCodeId, 
                    VerificationCode = request.VerificationCode,
-                   PhoneNumber = phoneNumber
+                   PhoneNumber = phoneNumber,
+                   CreatedAt = DateTime.UtcNow
                 }));
         
         _userRepositoryMock.GetUserByPhoneNumberAsync(phoneNumber, ct)

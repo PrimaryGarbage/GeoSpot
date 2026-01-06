@@ -20,7 +20,6 @@ internal static class VerificationCodeMapper
         return new VerificationCodeModel
         {
             VerificationCodeId = input.VerificationCodeId,
-            Attempts = input.Attempts,
             PhoneNumber = input.PhoneNumber,
             VerificationCode = input.VerificationCode,
             CreatedAt = input.CreatedAt
