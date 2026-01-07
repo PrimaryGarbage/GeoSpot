@@ -1,14 +1,14 @@
 using FluentValidation;
 using FluentValidation.Results;
-using MediatR;
 
-namespace GeoSpot.Api.PipelineBehaviors;
+namespace GeoSpot.Application.Dispatcher.HandlerBehaviors;
 
-public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
+[ExcludeFromCodeCoverage]
+internal class ValidationHandlerBehavior<TRequest, TResponse> : IHandlerBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
     
-    public ValidationPipelineBehavior(IEnumerable<IValidator<TRequest>> validators)
+    public ValidationHandlerBehavior(IEnumerable<IValidator<TRequest>> validators)
     {
         _validators = validators;
     }

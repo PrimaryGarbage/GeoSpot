@@ -1,3 +1,4 @@
+using GeoSpot.Application.Dispatcher;
 using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Common.ConfigurationSections;
 using GeoSpot.Common.Exceptions;
@@ -6,7 +7,6 @@ using GeoSpot.Persistence.Repositories.Interfaces;
 using GeoSpot.Persistence.Repositories.Models.RefreshToken;
 using GeoSpot.Persistence.Repositories.Models.User;
 using GeoSpot.Persistence.Repositories.Models.VerificationCode;
-using MediatR;
 using Microsoft.Extensions.Options;
 
 namespace GeoSpot.Application.Handlers.Auth;

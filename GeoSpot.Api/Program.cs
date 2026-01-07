@@ -1,12 +1,10 @@
 using GeoSpot.Api.Initialization;
 using GeoSpot.Application;
-using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Persistence;
 using FluentValidation;
 using GeoSpot.Api.Middleware;
-using GeoSpot.Api.PipelineBehaviors;
+using GeoSpot.Application.Dispatcher;
 using GeoSpot.Application.Validators.Auth;
-using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,9 +19,10 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddApplicationServices();
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<IJwtTokenService>());
 builder.Services.AddValidatorsFromAssemblyContaining<SendVerificationCodeRequestValidator>();
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+
+builder.Services.RegisterHandlers();
+
 
 builder.Services.AddMemoryCache();
 

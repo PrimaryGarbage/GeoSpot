@@ -20,9 +20,16 @@ public class ExceptionHandlingMiddleware
         {
             await _next(context);
         }
+        catch (InternalProblemException ex)
+        {
+            _logger.LogError(ex, "Application encountered InternalProblem error.");
+
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            await context.Response.WriteAsync("Application encountered internal error.");
+        }
         catch (BadRequestException ex)
         {
-            _logger.LogError(ex, "Application encountered generic BadRequest error.");
+            _logger.LogError(ex, "Application encountered BadRequest error.");
 
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
             await context.Response.WriteAsync(ex.Message);
