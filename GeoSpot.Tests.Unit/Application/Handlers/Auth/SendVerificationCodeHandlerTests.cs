@@ -1,5 +1,5 @@
 using FluentAssertions;
-using GeoSpot.Application.Handlers.Auth;
+using GeoSpot.Application.Dispatcher.Handlers.Auth;
 using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Common;
 using GeoSpot.Common.ConfigurationSections;
@@ -26,10 +26,12 @@ public class SendVerificationCodeHandlerTests
         _smsServiceMock = Substitute.For<ISmsService>();
         _cacheServiceMock = Substitute.For<ICacheService>();
         _optionsMock = Substitute.For<IOptions<VerificationCodeConfigurationSection>>();
+        IVerificationCodeGenerator verificationCodeGeneratorMock = Substitute.For<IVerificationCodeGenerator>();
         
         _optionsMock.Value.Returns(new VerificationCodeConfigurationSection { LifespanSeconds = 10, NumberOfDigits = 6 });
             
-        _handler = new SendVerificationCodeHandler(_verificationCodeRepositoryMock, _smsServiceMock, _cacheServiceMock, _optionsMock);
+        _handler = new SendVerificationCodeHandler(_verificationCodeRepositoryMock, _smsServiceMock, _cacheServiceMock, 
+            _optionsMock, verificationCodeGeneratorMock);
     }
 
     [Fact]

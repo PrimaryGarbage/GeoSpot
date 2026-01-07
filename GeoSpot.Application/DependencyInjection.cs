@@ -12,6 +12,7 @@ public static class DependencyInjection
         services.AddScoped<IJwtTokenService, JwtTokenService>();
         services.AddScoped<ISmsService, SmsService>();
         services.AddScoped<ICacheService, InMemoryCacheService>();
+        services.AddScoped<IVerificationCodeGenerator, MockVerificationCodeGenerator>();
         
         return services;
     }

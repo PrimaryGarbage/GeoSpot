@@ -1,5 +1,3 @@
-using System.Security.Cryptography;
-using GeoSpot.Application.Dispatcher;
 using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Common;
 using GeoSpot.Common.ConfigurationSections;
@@ -9,7 +7,7 @@ using GeoSpot.Persistence.Repositories.Interfaces;
 using GeoSpot.Persistence.Repositories.Models.VerificationCode;
 using Microsoft.Extensions.Options;
 
-namespace GeoSpot.Application.Handlers.Auth;
+namespace GeoSpot.Application.Dispatcher.Handlers.Auth;
 
 public record SendVerificationCodeRequest(SendVerificationCodeRequestDto RequestDto) : IRequest<Empty>;
 
@@ -19,13 +17,15 @@ public class SendVerificationCodeHandler : IRequestHandler<SendVerificationCodeR
     private readonly ISmsService _smsService;
     private readonly ICacheService _cacheService;
     private readonly VerificationCodeConfigurationSection _configuration;
+    private readonly IVerificationCodeGenerator _verificationCodeGenerator;
 
     public SendVerificationCodeHandler(IVerificationCodeRepository verificationCodeRepository, ISmsService smsService, 
-        ICacheService cacheService, IOptions<VerificationCodeConfigurationSection> configuration)
+        ICacheService cacheService, IOptions<VerificationCodeConfigurationSection> configuration, IVerificationCodeGenerator verificationCodeGenerator)
     {
         _verificationCodeRepository = verificationCodeRepository;
         _smsService = smsService;
         _cacheService = cacheService;
+        _verificationCodeGenerator = verificationCodeGenerator;
         _configuration = configuration.Value;
     }
 
@@ -40,11 +40,7 @@ public class SendVerificationCodeHandler : IRequestHandler<SendVerificationCodeR
         if(existingCode is not null && DateTime.UtcNow - existingCode.CreatedAt < codeGenerationCooldown)
             throw new BadRequestException($"Previous verification code request was made in less than {_configuration.LifespanSeconds} seconds");
         
-        int[] digits = new int[_configuration.NumberOfDigits];
-        for (int i = 0; i < digits.Length; ++i)
-            digits[i] = RandomNumberGenerator.GetInt32(0, 10);
-        
-        string code = string.Join(null, digits);
+        string code = _verificationCodeGenerator.GenerateCode(_configuration.NumberOfDigits);
         
         CreateVerificationCodeModel createModel = new()
         {

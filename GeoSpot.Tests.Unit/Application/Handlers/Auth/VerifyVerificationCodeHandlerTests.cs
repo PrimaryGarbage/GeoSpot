@@ -1,9 +1,9 @@
-using GeoSpot.Application.Handlers.Auth;
 using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Contracts.Auth;
 using GeoSpot.Persistence.Repositories.Interfaces;
 using NSubstitute;
 using FluentAssertions;
+using GeoSpot.Application.Dispatcher.Handlers.Auth;
 using GeoSpot.Common.ConfigurationSections;
 using GeoSpot.Common.Exceptions;
 using GeoSpot.Persistence.Repositories.Models.RefreshToken;

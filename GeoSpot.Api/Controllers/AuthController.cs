@@ -1,5 +1,5 @@
 using GeoSpot.Application.Dispatcher;
-using GeoSpot.Application.Handlers.Auth;
+using GeoSpot.Application.Dispatcher.Handlers.Auth;
 using GeoSpot.Contracts.Auth;
 using Microsoft.AspNetCore.Mvc;
 
