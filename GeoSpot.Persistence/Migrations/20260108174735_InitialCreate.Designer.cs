@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GeoSpot.Persistence.Migrations
 {
     [DbContext(typeof(GeoSpotDbContext))]
-    [Migration("20260106111236_InitialCreate")]
+    [Migration("20260108174735_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -737,6 +737,9 @@ namespace GeoSpot.Persistence.Migrations
 
                     b.HasKey("VerificationCodeId")
                         .HasName("pk_verification_codes");
+
+                    b.HasIndex("VerificationCode")
+                        .HasDatabaseName("ix_verification_codes_verification_code");
 
                     b.ToTable("verification_codes", "geospot");
                 });

@@ -1,4 +1,4 @@
-namespace GeoSpot.Tests.Integration.ApiTests.Constants;
+namespace GeoSpot.Tests.Integration.Constants;
 
 [ExcludeFromCodeCoverage]
 internal static class GeoSpotUriConstants

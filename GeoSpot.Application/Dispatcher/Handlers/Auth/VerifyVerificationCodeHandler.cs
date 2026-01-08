@@ -11,10 +11,10 @@ using Microsoft.Extensions.Options;
 namespace GeoSpot.Application.Dispatcher.Handlers.Auth;
 
 [ExcludeFromCodeCoverage]
-public record VerifyVerificationCodeRequest(VerifyVerificationCodeRequestDto RequestDto) : IRequest<VerifyVerificationCodeResponseDto>;
+public record VerifyVerificationCodeRequest(string VerificationCode) : IRequest<AccessTokenDto>;
 
 
-public class VerifyVerificationCodeHandler : IRequestHandler<VerifyVerificationCodeRequest, VerifyVerificationCodeResponseDto>
+public class VerifyVerificationCodeHandler : IRequestHandler<VerifyVerificationCodeRequest, AccessTokenDto>
 {
     private readonly IVerificationCodeRepository _verificationCodeRepository;
     private readonly IUserRepository _userRepository;
@@ -32,13 +32,10 @@ public class VerifyVerificationCodeHandler : IRequestHandler<VerifyVerificationC
         _configuration = options.Value;
     }
 
-    public async Task<VerifyVerificationCodeResponseDto> Handle(VerifyVerificationCodeRequest request, CancellationToken ct)
+    public async Task<AccessTokenDto> Handle(VerifyVerificationCodeRequest request, CancellationToken ct)
     {
-        VerificationCodeModel existingCode = await _verificationCodeRepository.GetVerificationCodeAsync(request.RequestDto.VerificationCodeId, ct)
-            ?? throw new NotFoundException($"Failed to find verification code with the given ID. ID = {request.RequestDto.VerificationCodeId}");
-        
-        if(request.RequestDto.VerificationCode != existingCode.VerificationCode)
-            throw new BadRequestException("Provided verification code is invalid");
+        VerificationCodeModel existingCode = await _verificationCodeRepository.GetVerificationCodeAsync(request.VerificationCode, ct)
+            ?? throw new NotFoundException("Failed to find given verification code");
         
         if (DateTime.UtcNow - existingCode.CreatedAt > TimeSpan.FromSeconds(_configuration.LifespanSeconds))
             throw new BadRequestException("Provided verification code is expired");
@@ -60,7 +57,7 @@ public class VerifyVerificationCodeHandler : IRequestHandler<VerifyVerificationC
         
         await _verificationCodeRepository.DeleteVerificationCodeAsync(existingCode.VerificationCodeId, ct);
         
-        return new VerifyVerificationCodeResponseDto
+        return new AccessTokenDto
         {
             AccessToken = accessToken,
             AccessTokenExpiresInMinutes = _jwtTokenService.AccessTokenLifespanMinutes,

@@ -30,6 +30,14 @@ internal class VerificationCodeRepository : BaseGeoSpotRepository, IVerification
         return entity.MapToModelOrNull();
     }
 
+    public async Task<VerificationCodeModel?> GetVerificationCodeAsync(string verificationCode, CancellationToken ct = default)
+    {
+        VerificationCodeEntity? entity = 
+            await DbContext.VerificationCodes.FirstOrDefaultAsync(x => x.VerificationCode == verificationCode, ct);
+
+        return entity.MapToModelOrNull();
+    }
+
     public async Task DeleteVerificationCodeAsync(Guid verificationCodeId, CancellationToken ct = default)
     {
         VerificationCodeEntity? code = await DbContext.VerificationCodes.FindAsync([verificationCodeId], ct);

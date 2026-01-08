@@ -1,3 +1,3 @@
 namespace GeoSpot.Contracts.Auth;
 
-public record VerifyVerificationCodeRequestDto(Guid VerificationCodeId, string VerificationCode);
+public record VerifyVerificationCodeRequestDto(string VerificationCode);

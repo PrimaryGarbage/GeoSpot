@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 using FluentAssertions;
 using GeoSpot.Contracts.Auth;
 using GeoSpot.Persistence.Entities;
-using GeoSpot.Tests.Integration.ApiTests.Constants;
+using GeoSpot.Tests.Integration.Constants;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Auth;
 
@@ -18,8 +18,7 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
     {
         // Arrange
         const string invalidVerificationCode = "test_invalid_verification_code";
-        Guid invalidVerificationCodeId = Guid.NewGuid();
-        VerifyVerificationCodeRequestDto requestDto = new(invalidVerificationCodeId, invalidVerificationCode);
+        VerifyVerificationCodeRequestDto requestDto = new(invalidVerificationCode);
         CancellationToken ct = CancellationToken.None;
         
         // Act
@@ -29,24 +28,6 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
     
-
-    [Fact]
-    public async Task VerifyVerificationCode_WhenCodeIdIsInvalid_ReturnsBadRequest()
-    {
-        // Arrange
-        const string invalidVerificationCode = "123456";
-        Guid invalidVerificationCodeId = Guid.NewGuid();
-        VerifyVerificationCodeRequestDto requestDto = new(invalidVerificationCodeId, invalidVerificationCode);
-        CancellationToken ct = CancellationToken.None;
-
-        // Act
-        HttpResponseMessage responseMessage =
-            await Client.PostAsJsonAsync(GeoSpotUriConstants.AuthUri.VerifyVerificationCode, requestDto, ct);
-
-        // Assert
-        responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
-    }
-
     [Fact]
     public async Task VerifyVerificationCode_WhenCodeIsExpired_ReturnsBadRequest()
     {
@@ -67,8 +48,7 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
         await DbContext.SaveChangesAsync(ct);
         AddToCleanup(ctx => ctx.VerificationCodes.Remove(existingCodeEntity));
 
-        VerifyVerificationCodeRequestDto requestDto = new(existingCodeEntity.VerificationCodeId,
-            existingVerificationCode);
+        VerifyVerificationCodeRequestDto requestDto = new(existingVerificationCode);
 
         // Act
         HttpResponseMessage responseMessage =
@@ -81,7 +61,7 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
     }
 
     [Fact]
-    public async Task VerifyVerificationCode_WhenCodeIdIsValidButCodeIsInvalid_ReturnsBadRequest()
+    public async Task VerifyVerificationCode_WhenCodeIsInvalid_ReturnsBadRequest()
     {
         // Arrange
         const string phoneNumber = "+123456789";
@@ -99,14 +79,14 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
         await DbContext.SaveChangesAsync(ct);
         AddToCleanup(ctx => ctx.VerificationCodes.Remove(existingCodeEntity));
         
-        VerifyVerificationCodeRequestDto requestDto = new(existingCodeEntity.VerificationCodeId, invalidVerificationCode);
+        VerifyVerificationCodeRequestDto requestDto = new(invalidVerificationCode);
 
         // Act
         HttpResponseMessage responseMessage =
             await Client.PostAsJsonAsync(GeoSpotUriConstants.AuthUri.VerifyVerificationCode, requestDto, ct);
 
         // Assert
-        responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
         
         await Cleanup();
     }
@@ -128,13 +108,13 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
         DbContext.VerificationCodes.Add(existingCodeEntity);   // Cleanup isn't required because code is deleted by handler  
         await DbContext.SaveChangesAsync(ct);   
         
-        VerifyVerificationCodeRequestDto requestDto = new(existingCodeEntity.VerificationCodeId, existingVerificationCode);
+        VerifyVerificationCodeRequestDto requestDto = new(existingVerificationCode);
 
         // Act
         HttpResponseMessage responseMessage =
             await Client.PostAsJsonAsync(GeoSpotUriConstants.AuthUri.VerifyVerificationCode, requestDto, ct);
-        VerifyVerificationCodeResponseDto? response = 
-            await responseMessage.Content.ReadFromJsonAsync<VerifyVerificationCodeResponseDto>(ct);
+        AccessTokenDto? response = 
+            await responseMessage.Content.ReadFromJsonAsync<AccessTokenDto>(ct);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -171,13 +151,13 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
         await DbContext.SaveChangesAsync(ct);
         AddToCleanup(ctx => ctx.Users.Remove(existingUser));
         
-        VerifyVerificationCodeRequestDto requestDto = new(existingCodeEntity.VerificationCodeId, existingVerificationCode);
+        VerifyVerificationCodeRequestDto requestDto = new(existingVerificationCode);
 
         // Act
         HttpResponseMessage responseMessage =
             await Client.PostAsJsonAsync(GeoSpotUriConstants.AuthUri.VerifyVerificationCode, requestDto, ct);
-        VerifyVerificationCodeResponseDto? response =
-            await responseMessage.Content.ReadFromJsonAsync<VerifyVerificationCodeResponseDto>(ct);
+        AccessTokenDto? response =
+            await responseMessage.Content.ReadFromJsonAsync<AccessTokenDto>(ct);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);

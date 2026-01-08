@@ -9,10 +9,11 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        services.AddScoped<IJwtTokenService, JwtTokenService>();
-        services.AddScoped<ISmsService, SmsService>();
-        services.AddScoped<ICacheService, InMemoryCacheService>();
-        services.AddScoped<IVerificationCodeGenerator, MockVerificationCodeGenerator>();
+        services.AddTransient<IJwtTokenService, JwtTokenService>();
+        services.AddTransient<ISmsService, SmsService>();
+        services.AddTransient<ICacheService, InMemoryCacheService>();
+        services.AddTransient<IVerificationCodeGenerator, MockVerificationCodeGenerator>();
+        services.AddScoped<IUserClaimsAccessor, UserClaimsAccessor>();
         
         return services;
     }

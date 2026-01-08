@@ -28,9 +28,10 @@ internal sealed class JwtTokenService : IJwtTokenService
     public string GenerateAccessToken(UserModel userModel)
     {
         List<Claim> claims = [
-            new Claim(ClaimTypes.NameIdentifier, userModel.UserId.ToString()),
-            new Claim(ClaimTypes.MobilePhone, userModel.PhoneNumber),
-            new Claim(ClaimTypes.Role, AuthorizationConstants.UserRoleName)
+            new Claim(ClaimsConstants.UserId, userModel.UserId.ToString()),
+            new Claim(ClaimsConstants.PhoneNumber, userModel.PhoneNumber),
+            new Claim(ClaimsConstants.Role, AuthorizationConstants.UserRoleName),
+            new Claim(ClaimsConstants.Email, userModel.Email ?? string.Empty),
         ];
         
         SymmetricSecurityKey key = new(Encoding.UTF8.GetBytes(_jwtConfiguration.Key));

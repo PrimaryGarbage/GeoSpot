@@ -51,16 +51,17 @@ public class VerifyVerificationCodeHandlerTests
         const string accessToken = "test_access_token";
         const string refreshToken = "test_refresh_token";
         const string hashedRefreshToken = "test_hashed_refresh_token";
+        const string verificationCode = "test_verification_code";
         Guid createdUserId = Guid.NewGuid();
-        VerifyVerificationCodeRequestDto request = new(Guid.NewGuid(), "test_verification_code");
+        Guid verificationCodeId = Guid.NewGuid();
         CancellationToken ct = CancellationToken.None;
         
-        _verificationCodeRepositoryMock.GetVerificationCodeAsync(request.VerificationCodeId, ct)
+        _verificationCodeRepositoryMock.GetVerificationCodeAsync(verificationCode, ct)
             .Returns(Task.FromResult<VerificationCodeModel?>(
                 new VerificationCodeModel
                 {
-                   VerificationCodeId = request.VerificationCodeId, 
-                   VerificationCode = request.VerificationCode,
+                   VerificationCodeId = verificationCodeId, 
+                   VerificationCode = verificationCode,
                    PhoneNumber = phoneNumber,
                    CreatedAt = DateTime.UtcNow
                 }));
@@ -77,7 +78,7 @@ public class VerifyVerificationCodeHandlerTests
         _jwtTokenServiceMock.HashToken(refreshToken).Returns(hashedRefreshToken);
         
         // Act
-        VerifyVerificationCodeResponseDto result = await _handler.Handle(new VerifyVerificationCodeRequest(request), ct);
+        AccessTokenDto result = await _handler.Handle(new VerifyVerificationCodeRequest(verificationCode), ct);
         
         // Assert
         await _refreshTokenRepositoryMock.Received().DeleteAllUserRefreshTokensAsync(createdUserId, ct);
@@ -85,7 +86,7 @@ public class VerifyVerificationCodeHandlerTests
         await _refreshTokenRepositoryMock.Received().CreateRefreshTokenAsync(Arg.Is<CreateRefreshTokenModel>(
             x => x.UserId == createdUserId && x.TokenHash == hashedRefreshToken), ct);
         
-        await _verificationCodeRepositoryMock.Received().DeleteVerificationCodeAsync(request.VerificationCodeId, ct);
+        await _verificationCodeRepositoryMock.Received().DeleteVerificationCodeAsync(verificationCodeId, ct);
         
         result.AccessToken.Should().Be(accessToken);
         result.AccessTokenExpiresInMinutes.Should().Be(accessTokenLifespan);
@@ -98,21 +99,22 @@ public class VerifyVerificationCodeHandlerTests
     {
         // Arrange
         const string phoneNumber = "test_phone_number";
-        VerifyVerificationCodeRequestDto request = new(Guid.NewGuid(), "test_verification_code");
+        const string verificationCode = "test_verification_code";
+        Guid verificationCodeId = Guid.NewGuid();
         CancellationToken ct = CancellationToken.None;
         
-        _verificationCodeRepositoryMock.GetVerificationCodeAsync(request.VerificationCodeId, ct)
+        _verificationCodeRepositoryMock.GetVerificationCodeAsync(verificationCode, ct)
             .Returns(Task.FromResult<VerificationCodeModel?>(
                 new VerificationCodeModel
                 {
-                   VerificationCodeId = request.VerificationCodeId, 
-                   VerificationCode = request.VerificationCode,
+                   VerificationCodeId = verificationCodeId, 
+                   VerificationCode = verificationCode,
                    PhoneNumber = phoneNumber,
                    CreatedAt = DateTime.UtcNow.AddSeconds(-(_configuration.LifespanSeconds + 1))
                 }));
         
         // Act
-        var action = async () => await _handler.Handle(new VerifyVerificationCodeRequest(request), ct);
+        var action = async () => await _handler.Handle(new VerifyVerificationCodeRequest(verificationCode), ct);
         
         // Assert
         await action.Should().ThrowAsync<BadRequestException>();
@@ -122,14 +124,15 @@ public class VerifyVerificationCodeHandlerTests
     public async Task Handle_WhenCodeIdIsInvalid_ThrowsNotFoundException()
     {
         // Arrange
-        VerifyVerificationCodeRequestDto request = new(Guid.NewGuid(), "test_verification_code");
+        const string verificationCode = "test_verification_code";
+        Guid verificationCodeId = Guid.NewGuid();
         CancellationToken ct = CancellationToken.None;
         
-        _verificationCodeRepositoryMock.GetVerificationCodeAsync(request.VerificationCodeId, ct)
+        _verificationCodeRepositoryMock.GetVerificationCodeAsync(verificationCodeId, ct)
             .Returns(Task.FromResult<VerificationCodeModel?>(null));
         
         // Act
-        var action = async () => await _handler.Handle(new VerifyVerificationCodeRequest(request), ct);
+        var action = async () => await _handler.Handle(new VerifyVerificationCodeRequest(verificationCode), ct);
         
         // Assert
         await action.Should().ThrowAsync<NotFoundException>();
@@ -139,25 +142,25 @@ public class VerifyVerificationCodeHandlerTests
     public async Task Handle_WhenCodeDoesntMatch_ThrowsBadRequestException()
     {
         // Arrange
-        const string verificationCode = "test_verification_code";
         const string phoneNumber = "test_phone_number";
-        VerifyVerificationCodeRequestDto request = new(Guid.NewGuid(), "invalid_verification_code");
+        const string verificationCode = "test_verification_code";
+        Guid verificationCodeId = Guid.NewGuid();
         CancellationToken ct = CancellationToken.None;
         
-        _verificationCodeRepositoryMock.GetVerificationCodeAsync(request.VerificationCodeId, ct)
+        _verificationCodeRepositoryMock.GetVerificationCodeAsync(verificationCodeId, ct)
             .Returns(Task.FromResult<VerificationCodeModel?>(
                 new VerificationCodeModel
                 {
-                   VerificationCodeId = request.VerificationCodeId, 
+                   VerificationCodeId = verificationCodeId, 
                    VerificationCode = verificationCode,
                    PhoneNumber = phoneNumber,
                    CreatedAt = DateTime.UtcNow
                 }));
         // Act
-        var action = async () => await _handler.Handle(new VerifyVerificationCodeRequest(request), ct);
+        var action = async () => await _handler.Handle(new VerifyVerificationCodeRequest(verificationCode), ct);
         
         // Assert
-        await action.Should().ThrowAsync<BadRequestException>();
+        await action.Should().ThrowAsync<NotFoundException>();
     }
 
     [Fact]
@@ -171,15 +174,16 @@ public class VerifyVerificationCodeHandlerTests
         const string refreshToken = "test_refresh_token";
         const string hashedRefreshToken = "test_hashed_refresh_token";
         Guid existingUserId = Guid.NewGuid();
-        VerifyVerificationCodeRequestDto request = new(Guid.NewGuid(), "test_verification_code");
+        const string verificationCode = "test_verification_code";
+        Guid verificationCodeId = Guid.NewGuid();
         CancellationToken ct = CancellationToken.None;
         
-        _verificationCodeRepositoryMock.GetVerificationCodeAsync(request.VerificationCodeId, ct)
+        _verificationCodeRepositoryMock.GetVerificationCodeAsync(verificationCode, ct)
             .Returns(Task.FromResult<VerificationCodeModel?>(
                 new VerificationCodeModel
                 {
-                   VerificationCodeId = request.VerificationCodeId, 
-                   VerificationCode = request.VerificationCode,
+                   VerificationCodeId = verificationCodeId, 
+                   VerificationCode = verificationCode,
                    PhoneNumber = phoneNumber,
                    CreatedAt = DateTime.UtcNow
                 }));
@@ -195,7 +199,7 @@ public class VerifyVerificationCodeHandlerTests
         _jwtTokenServiceMock.HashToken(refreshToken).Returns(hashedRefreshToken);
         
         // Act
-        VerifyVerificationCodeResponseDto result = await _handler.Handle(new VerifyVerificationCodeRequest(request), ct);
+        AccessTokenDto result = await _handler.Handle(new VerifyVerificationCodeRequest(verificationCode), ct);
         
         // Assert
         await _refreshTokenRepositoryMock.Received().DeleteAllUserRefreshTokensAsync(existingUserId, ct);
@@ -203,7 +207,7 @@ public class VerifyVerificationCodeHandlerTests
         await _refreshTokenRepositoryMock.Received().CreateRefreshTokenAsync(Arg.Is<CreateRefreshTokenModel>(
             x => x.UserId == existingUserId && x.TokenHash == hashedRefreshToken), ct);
         
-        await _verificationCodeRepositoryMock.Received().DeleteVerificationCodeAsync(request.VerificationCodeId, ct);
+        await _verificationCodeRepositoryMock.Received().DeleteVerificationCodeAsync(verificationCodeId, ct);
         
         result.AccessToken.Should().Be(accessToken);
         result.AccessTokenExpiresInMinutes.Should().Be(accessTokenLifespan);

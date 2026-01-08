@@ -2,7 +2,7 @@ using GeoSpot.Application.Services.Interfaces;
 
 namespace GeoSpot.Application.Services;
 
-public class MockVerificationCodeGenerator : IVerificationCodeGenerator
+internal class MockVerificationCodeGenerator : IVerificationCodeGenerator
 {
     private const char Digit = '0';
     

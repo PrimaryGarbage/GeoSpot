@@ -2,8 +2,8 @@ using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
 using GeoSpot.Contracts.Auth;
-using GeoSpot.Tests.Integration.ApiTests.Constants;
-using static GeoSpot.Tests.Integration.ApiTests.Constants.GeoSpotUriConstants;
+using GeoSpot.Tests.Integration.Constants;
+using static GeoSpot.Tests.Integration.Constants.GeoSpotUriConstants;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Auth;
 

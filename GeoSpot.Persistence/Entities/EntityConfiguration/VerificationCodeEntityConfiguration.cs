@@ -11,5 +11,7 @@ internal class VerificationCodeEntityConfiguration : IEntityTypeConfiguration<Ve
         builder.HasKey(x => x.VerificationCodeId);
         builder.Property(x => x.PhoneNumber).HasMaxLength(20);
         builder.Property(x => x.VerificationCode).HasMaxLength(6);
+        
+        builder.HasIndex(x => x.VerificationCode);
     }
 }

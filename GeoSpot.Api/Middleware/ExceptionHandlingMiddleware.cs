@@ -3,6 +3,7 @@ using GeoSpot.Common.Exceptions;
 
 namespace GeoSpot.Api.Middleware;
 
+[ExcludeFromCodeCoverage]
 public class ExceptionHandlingMiddleware
 {
     private readonly RequestDelegate _next;

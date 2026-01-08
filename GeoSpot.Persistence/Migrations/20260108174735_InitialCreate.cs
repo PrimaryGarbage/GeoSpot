@@ -529,6 +529,12 @@ namespace GeoSpot.Persistence.Migrations
                 table: "users",
                 column: "phone_number",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_verification_codes_verification_code",
+                schema: "geospot",
+                table: "verification_codes",
+                column: "verification_code");
         }
 
         /// <inheritdoc />

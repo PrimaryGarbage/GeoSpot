@@ -735,6 +735,9 @@ namespace GeoSpot.Persistence.Migrations
                     b.HasKey("VerificationCodeId")
                         .HasName("pk_verification_codes");
 
+                    b.HasIndex("VerificationCode")
+                        .HasDatabaseName("ix_verification_codes_verification_code");
+
                     b.ToTable("verification_codes", "geospot");
                 });
 

@@ -1,16 +1,17 @@
 using FluentValidation;
 using GeoSpot.Application.Dispatcher.Handlers.Auth;
+using GeoSpot.Common.ConfigurationSections;
+using Microsoft.Extensions.Options;
 
 namespace GeoSpot.Application.Validators.Auth;
 
 [ExcludeFromCodeCoverage]
 public class VerifyVerificationCodeRequestValidator : AbstractValidator<VerifyVerificationCodeRequest>
 {
-    public VerifyVerificationCodeRequestValidator()
+    public VerifyVerificationCodeRequestValidator(IOptions<VerificationCodeConfigurationSection> configuration)
     {
-        RuleFor(x => x.RequestDto.VerificationCodeId).NotEmpty();
-        RuleFor(x => x.RequestDto.VerificationCode)
+        RuleFor(x => x.VerificationCode)
             .NotEmpty()
-            .Length(6);
+            .Length(configuration.Value.NumberOfDigits);
     }
 }

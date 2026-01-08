@@ -1,5 +1,4 @@
 using GeoSpot.Common.ConfigurationSections;
-using IConfigurationSection = GeoSpot.Common.ConfigurationSections.IConfigurationSection;
 
 namespace GeoSpot.Api.Initialization;
 

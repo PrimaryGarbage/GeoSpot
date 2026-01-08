@@ -48,4 +48,6 @@ app.PrepareDatabase();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
+app.UseMiddleware<JwtClaimsExtractionMiddleware>();
+
 app.Run();
