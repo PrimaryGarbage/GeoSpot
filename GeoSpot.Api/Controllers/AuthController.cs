@@ -35,7 +35,6 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("refresh")]
-    [Authorize]
     public async Task<IActionResult> RefreshAccessToken([FromBody] RefreshAccessTokenRequestDto requestDto, CancellationToken ct)
     {
         AccessTokenDto response = 
