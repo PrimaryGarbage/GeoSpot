@@ -8,7 +8,7 @@ namespace GeoSpot.Persistence.Repositories;
 
 internal class UserRepository : BaseGeoSpotRepository, IUserRepository
 {
-    public UserRepository(GeoSpotDbContext dbContext) : base(dbContext)
+    public UserRepository(GeoSpotDbContext dbContext, IUnitOfWork unitOfWork) : base(dbContext, unitOfWork)
     {}
     
     public async Task<UserModel> CreateUserAsync(CreateUserModel createModel, CancellationToken ct = default)
@@ -16,7 +16,7 @@ internal class UserRepository : BaseGeoSpotRepository, IUserRepository
         UserEntity entity = createModel.MapToEntity();
         DbContext.Add(entity);
         
-        await DbContext.SaveChangesAsync(ct);
+        await SaveChangesAsync(ct);
         
         return entity.MapToModel();
     }
@@ -28,7 +28,7 @@ internal class UserRepository : BaseGeoSpotRepository, IUserRepository
 
     public async Task<UserModel?> GetUserByPhoneNumberAsync(string phoneNumber, CancellationToken ct = default)
     {
-        UserEntity? entity = await DbContext.Users.FirstOrDefaultAsync(x => x.PhoneNumber == phoneNumber, ct);
+        UserEntity? entity = await DbContext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.PhoneNumber == phoneNumber, ct);
         
         return entity.MapToModelOrNull();
     }

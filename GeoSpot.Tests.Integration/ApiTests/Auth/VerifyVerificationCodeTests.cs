@@ -4,6 +4,7 @@ using FluentAssertions;
 using GeoSpot.Contracts.Auth;
 using GeoSpot.Persistence.Entities;
 using GeoSpot.Tests.Integration.Constants;
+using Xunit.Abstractions;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Auth;
 
@@ -17,8 +18,9 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
     public async Task VerifyVerificationCode_WhenCodeLengthIsInvalid_ReturnsBadRequest()
     {
         // Arrange
+        const string phoneNumber = "+123456789";
         const string invalidVerificationCode = "test_invalid_verification_code";
-        VerifyVerificationCodeRequestDto requestDto = new(invalidVerificationCode);
+        VerifyVerificationCodeRequestDto requestDto = new(phoneNumber, invalidVerificationCode);
         CancellationToken ct = CancellationToken.None;
         
         // Act
@@ -48,7 +50,7 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
         await DbContext.SaveChangesAsync(ct);
         AddToCleanup(ctx => ctx.VerificationCodes.Remove(existingCodeEntity));
 
-        VerifyVerificationCodeRequestDto requestDto = new(existingVerificationCode);
+        VerifyVerificationCodeRequestDto requestDto = new(phoneNumber, existingVerificationCode);
 
         // Act
         HttpResponseMessage responseMessage =
@@ -79,7 +81,7 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
         await DbContext.SaveChangesAsync(ct);
         AddToCleanup(ctx => ctx.VerificationCodes.Remove(existingCodeEntity));
         
-        VerifyVerificationCodeRequestDto requestDto = new(invalidVerificationCode);
+        VerifyVerificationCodeRequestDto requestDto = new(phoneNumber, invalidVerificationCode);
 
         // Act
         HttpResponseMessage responseMessage =
@@ -95,8 +97,8 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
     public async Task VerifyVerificationCode_WhenCodeExistsAndUserDoesNotExist_ReturnsAccessAndRefreshTokens()
     {
         // Arrange
-        const string phoneNumber = "+123456789";
-        const string existingVerificationCode = "456789";
+        const string phoneNumber = "+123456788";
+        const string existingVerificationCode = "456788";
         CancellationToken ct = CancellationToken.None;
 
         VerificationCodeEntity existingCodeEntity = new()
@@ -108,16 +110,16 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
         DbContext.VerificationCodes.Add(existingCodeEntity);   // Cleanup isn't required because code is deleted by handler  
         await DbContext.SaveChangesAsync(ct);   
         
-        VerifyVerificationCodeRequestDto requestDto = new(existingVerificationCode);
+        VerifyVerificationCodeRequestDto requestDto = new(phoneNumber, existingVerificationCode);
 
         // Act
         HttpResponseMessage responseMessage =
             await Client.PostAsJsonAsync(GeoSpotUriConstants.AuthUri.VerifyVerificationCode, requestDto, ct);
+        responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         AccessTokenDto? response = 
             await responseMessage.Content.ReadFromJsonAsync<AccessTokenDto>(ct);
 
         // Assert
-        responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         response.Should().NotBeNull();
         response.AccessToken.Should().NotBeEmpty();
         response.AccessTokenExpiresInMinutes.Should().BeGreaterThan(0);
@@ -151,7 +153,7 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
         await DbContext.SaveChangesAsync(ct);
         AddToCleanup(ctx => ctx.Users.Remove(existingUser));
         
-        VerifyVerificationCodeRequestDto requestDto = new(existingVerificationCode);
+        VerifyVerificationCodeRequestDto requestDto = new(phoneNumber, existingVerificationCode);
 
         // Act
         HttpResponseMessage responseMessage =

@@ -13,12 +13,12 @@ internal sealed class InMemoryCacheService : ICacheService
         _memoryCache = memoryCache;
     }
 
-    public async Task<T?> GetAsync<T>(string key)
+    public Task<T?> GetAsync<T>(string key, CancellationToken ct = default)
     {
-        return await Task.FromResult(_memoryCache.Get<T>(key));
+        return Task.FromResult(_memoryCache.Get<T>(key));
     }
 
-    public async Task<T?> GetOrSetAsync<T>(string key, T value, TimeSpan ttl)
+    public async Task<T?> GetOrSetAsync<T>(string key, T value, TimeSpan ttl, CancellationToken ct = default)
     {
         return await _memoryCache.GetOrCreateAsync(key, entry =>
         {
@@ -27,8 +27,14 @@ internal sealed class InMemoryCacheService : ICacheService
         });
     }
 
-    public async Task SetAsync<T>(string key, T value, TimeSpan ttl)
+    public Task SetAsync<T>(string key, T value, TimeSpan ttl, CancellationToken ct = default)
     {
-        await Task.FromResult(_memoryCache.Set(key, value, ttl));
+        return Task.FromResult(_memoryCache.Set(key, value, ttl));
+    }
+
+    public Task RemoveAsync(string key, CancellationToken ct = default)
+    {
+        _memoryCache.Remove(key);
+        return Task.CompletedTask;
     }
 }

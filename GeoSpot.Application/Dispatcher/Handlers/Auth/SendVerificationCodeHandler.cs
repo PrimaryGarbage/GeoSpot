@@ -32,12 +32,12 @@ public class SendVerificationCodeHandler : IRequestHandler<SendVerificationCodeR
     public async Task<Empty> Handle(SendVerificationCodeRequest request, CancellationToken ct)
     {
         const string smsMessageTemplate = "GeoSpot service. You verification code is: {0}";
-        TimeSpan codeGenerationCooldown = TimeSpan.FromSeconds(_configuration.LifespanSeconds);
-        
+        TimeSpan codeLifespan = TimeSpan.FromSeconds(_configuration.LifespanSeconds);
+
         VerificationCodeModel? existingCode = await _cacheService.GetAsync<VerificationCodeModel>(
-            CacheKeys.VerificationCodeModel(request.RequestDto.PhoneNumber));
+            CacheKeys.VerificationCodeModel(request.RequestDto.PhoneNumber) ,ct);
         
-        if(existingCode is not null && DateTime.UtcNow - existingCode.CreatedAt < codeGenerationCooldown)
+        if(existingCode is not null && DateTime.UtcNow - existingCode.CreatedAt < codeLifespan)
             throw new BadRequestException($"Previous verification code request was made in less than {_configuration.LifespanSeconds} seconds");
         
         string code = _verificationCodeGenerator.GenerateCode(_configuration.NumberOfDigits);
@@ -50,7 +50,7 @@ public class SendVerificationCodeHandler : IRequestHandler<SendVerificationCodeR
         
         VerificationCodeModel createdCode = await _verificationCodeRepository.CreateVerificationCodeAsync(createModel, ct);
         
-        await _cacheService.SetAsync(CacheKeys.VerificationCodeModel(request.RequestDto.PhoneNumber), createdCode, codeGenerationCooldown);
+        await _cacheService.SetAsync(CacheKeys.VerificationCodeModel(request.RequestDto.PhoneNumber), createdCode, codeLifespan, ct);
         
         await _smsService.SendSmsAsync(request.RequestDto.PhoneNumber, string.Format(smsMessageTemplate, code), ct);
         

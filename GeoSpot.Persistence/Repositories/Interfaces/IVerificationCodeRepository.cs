@@ -8,7 +8,9 @@ public interface IVerificationCodeRepository
     
     Task<VerificationCodeModel?> GetVerificationCodeAsync(Guid verificationCodeId, CancellationToken ct = default);
     
-    Task<VerificationCodeModel?> GetVerificationCodeAsync(string verificationCode, CancellationToken ct = default);
+    Task<VerificationCodeModel?> GetVerificationCodeAsync(string phoneNumber, string verificationCode, CancellationToken ct = default);
     
     Task DeleteVerificationCodeAsync(Guid verificationCodeId, CancellationToken ct = default);
+    
+    Task DeleteAllUserVerificationCodesAsync(string phoneNumber, CancellationToken ct = default);
 }

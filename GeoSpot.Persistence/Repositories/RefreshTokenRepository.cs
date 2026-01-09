@@ -11,19 +11,22 @@ namespace GeoSpot.Persistence.Repositories;
 [ExcludeFromCodeCoverage]
 internal class RefreshTokenRepository : BaseGeoSpotRepository, IRefreshTokenRepository
 {
-    public RefreshTokenRepository(GeoSpotDbContext dbContext) : base(dbContext)
+    public RefreshTokenRepository(GeoSpotDbContext dbContext, IUnitOfWork unitOfWork) : base(dbContext, unitOfWork)
     {}
     
     public async Task<RefreshTokenModel?> GetRefreshTokenAsync(string tokenHash, CancellationToken ct = default)
     {
-        RefreshTokenEntity? entity = await DbContext.RefreshTokens.FirstOrDefaultAsync(x => x.TokenHash == tokenHash, ct);
+        RefreshTokenEntity? entity = await DbContext.RefreshTokens.AsNoTracking()
+            .FirstOrDefaultAsync(x => x.TokenHash == tokenHash, ct);
         
         return entity.MapToModelOrNull();
     }
 
     public async Task<(RefreshTokenModel?, UserModel?)> GetRefreshTokenWithUserAsync(string tokenHash, CancellationToken ct = default)
     {
-        RefreshTokenEntity? entity = await DbContext.RefreshTokens.Include(x => x.User)
+        RefreshTokenEntity? entity = await DbContext.RefreshTokens
+            .AsNoTracking()
+            .Include(x => x.User)
             .FirstOrDefaultAsync(x => x.TokenHash == tokenHash, ct);
         
         return (entity.MapToModelOrNull(), entity?.User.MapToModelOrNull());
@@ -34,7 +37,7 @@ internal class RefreshTokenRepository : BaseGeoSpotRepository, IRefreshTokenRepo
         RefreshTokenEntity entity = createModel.MapToEntity();
         DbContext.RefreshTokens.Add(entity);
         
-        await DbContext.SaveChangesAsync(ct);
+        await SaveChangesAsync(ct);
         
         return entity.MapToModel();
     }
@@ -46,7 +49,7 @@ internal class RefreshTokenRepository : BaseGeoSpotRepository, IRefreshTokenRepo
         
         DbContext.Entry(entity).State = EntityState.Deleted;
         
-        await DbContext.SaveChangesAsync(ct);
+        await SaveChangesAsync(ct);
     }
 
     public async Task RevokeRefreshTokenAsync(string tokenHash, CancellationToken ct = default)
@@ -56,7 +59,7 @@ internal class RefreshTokenRepository : BaseGeoSpotRepository, IRefreshTokenRepo
         
         entity.Revoked = true;
         
-        await DbContext.SaveChangesAsync(ct);
+        await SaveChangesAsync(ct);
     }
 
     public async Task DeleteAllUserRefreshTokensAsync(Guid userId, CancellationToken ct = default)
@@ -64,9 +67,8 @@ internal class RefreshTokenRepository : BaseGeoSpotRepository, IRefreshTokenRepo
         var tokens = await DbContext.RefreshTokens.Where(x => x.UserId == userId).ToListAsync(ct);
         if (tokens.Count == 0) return;
         
-        foreach(RefreshTokenEntity token in tokens)
-            DbContext.Entry(token).State = EntityState.Deleted;
+        DbContext.RemoveRange(tokens);
         
-        await DbContext.SaveChangesAsync(ct);
+        await SaveChangesAsync(ct);
     }
 }

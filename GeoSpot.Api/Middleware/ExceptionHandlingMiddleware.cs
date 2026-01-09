@@ -26,21 +26,21 @@ public class ExceptionHandlingMiddleware
             _logger.LogError(ex, "Application encountered InternalProblem error.");
 
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            await context.Response.WriteAsync("Application encountered internal error.");
+            await context.Response.WriteAsJsonAsync("Application encountered internal error.");
         }
         catch (BadRequestException ex)
         {
             _logger.LogError(ex, "Application encountered BadRequest error.");
 
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
-            await context.Response.WriteAsync(ex.Message);
+            await context.Response.WriteAsJsonAsync(ex.Message);
         }
         catch(NotFoundException ex)
         {
             _logger.LogError(ex, "Application encountered NotFound error.");
                 
             context.Response.StatusCode = StatusCodes.Status404NotFound;
-            await context.Response.WriteAsync(ex.Message);
+            await context.Response.WriteAsJsonAsync(ex.Message);
         }
         catch(ValidationException ex)
         {
@@ -61,7 +61,7 @@ public class ExceptionHandlingMiddleware
             _logger.LogError(ex, "Application encountered unexpected error.");
             
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            await context.Response.WriteAsync("Application encountered unexpected error.");
+            await context.Response.WriteAsJsonAsync("Application encountered unexpected error.");
         }
     }
 }

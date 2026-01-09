@@ -29,7 +29,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> VerifyVerificationCodeAsync([FromBody] VerifyVerificationCodeRequestDto requestDto, CancellationToken ct)
     {
         AccessTokenDto response = 
-            await _dispatcher.Dispatch<VerifyVerificationCodeRequest, AccessTokenDto>(new VerifyVerificationCodeRequest(requestDto.VerificationCode), ct);
+            await _dispatcher.Dispatch<VerifyVerificationCodeRequest, AccessTokenDto>(new VerifyVerificationCodeRequest(requestDto), ct);
 
         return Ok(response);
     }

@@ -10,7 +10,8 @@ public class VerifyVerificationCodeRequestValidator : AbstractValidator<VerifyVe
 {
     public VerifyVerificationCodeRequestValidator(IOptions<VerificationCodeConfigurationSection> configuration)
     {
-        RuleFor(x => x.VerificationCode)
+        RuleFor(x => x.Dto.PhoneNumber).NotEmpty();
+        RuleFor(x => x.Dto.VerificationCode)
             .NotEmpty()
             .Length(configuration.Value.NumberOfDigits);
     }

@@ -14,14 +14,14 @@ public class RefreshAccessTokenHandler : IRequestHandler<RefreshAccessTokenReque
 {
     private readonly IRefreshTokenRepository _refreshTokenRepository;
     private readonly IJwtTokenService _jwtTokenService;
-    private readonly IUserRepository _userRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     public RefreshAccessTokenHandler(IRefreshTokenRepository refreshTokenRepository, IJwtTokenService jwtTokenService, 
-        IUserRepository userRepository)
+        IUnitOfWork unitOfWork)
     {
         _refreshTokenRepository = refreshTokenRepository;
         _jwtTokenService = jwtTokenService;
-        _userRepository = userRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<AccessTokenDto> Handle(RefreshAccessTokenRequest request, CancellationToken ct = default)
@@ -37,6 +37,8 @@ public class RefreshAccessTokenHandler : IRequestHandler<RefreshAccessTokenReque
         string accessToken = _jwtTokenService.GenerateAccessToken(user);
         string refreshToken = _jwtTokenService.GenerateRefreshToken();
         
+        _unitOfWork.Start();
+        
         await _refreshTokenRepository.DeleteAllUserRefreshTokensAsync(user.UserId, ct);
         
         await _refreshTokenRepository.CreateRefreshTokenAsync(new CreateRefreshTokenModel
@@ -45,6 +47,8 @@ public class RefreshAccessTokenHandler : IRequestHandler<RefreshAccessTokenReque
             TokenHash = _jwtTokenService.HashToken(refreshToken),
             ExpiresAt = DateTime.UtcNow.AddMinutes(_jwtTokenService.RefreshTokenLifespanMinutes)
         }, ct);
+        
+        await _unitOfWork.CommitAsync(ct);
         
         return new AccessTokenDto
         {

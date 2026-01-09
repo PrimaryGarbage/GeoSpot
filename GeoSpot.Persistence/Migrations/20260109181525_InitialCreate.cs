@@ -531,10 +531,10 @@ namespace GeoSpot.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "ix_verification_codes_verification_code",
+                name: "ix_verification_codes_phone_number",
                 schema: "geospot",
                 table: "verification_codes",
-                column: "verification_code");
+                column: "phone_number");
         }
 
         /// <inheritdoc />

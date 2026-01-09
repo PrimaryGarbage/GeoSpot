@@ -34,6 +34,8 @@ public static class DependencyInjection
         services.AddScoped<IVerificationCodeRepository, VerificationCodeRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+        
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
             
         return services;
     }
