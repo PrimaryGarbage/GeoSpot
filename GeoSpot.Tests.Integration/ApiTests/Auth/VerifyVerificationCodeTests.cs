@@ -4,7 +4,6 @@ using FluentAssertions;
 using GeoSpot.Contracts.Auth;
 using GeoSpot.Persistence.Entities;
 using GeoSpot.Tests.Integration.Constants;
-using Xunit.Abstractions;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Auth;
 
@@ -48,7 +47,6 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
         await DbContext.SaveChangesAsync(ct);
         existingCodeEntity.CreatedAt = DateTime.UtcNow.AddHours(-3);
         await DbContext.SaveChangesAsync(ct);
-        AddToCleanup(ctx => ctx.VerificationCodes.Remove(existingCodeEntity));
 
         VerifyVerificationCodeRequestDto requestDto = new(phoneNumber, existingVerificationCode);
 
@@ -58,12 +56,10 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
-        await Cleanup();
     }
 
     [Fact]
-    public async Task VerifyVerificationCode_WhenCodeIsInvalid_ReturnsBadRequest()
+    public async Task VerifyVerificationCode_WhenCodeIsInvalid_ReturnsNotFound()
     {
         // Arrange
         const string phoneNumber = "+123456789";
@@ -79,7 +75,6 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
         
         DbContext.VerificationCodes.Add(existingCodeEntity);
         await DbContext.SaveChangesAsync(ct);
-        AddToCleanup(ctx => ctx.VerificationCodes.Remove(existingCodeEntity));
         
         VerifyVerificationCodeRequestDto requestDto = new(phoneNumber, invalidVerificationCode);
 
@@ -89,8 +84,6 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        
-        await Cleanup();
     }
 
     [Fact]
@@ -151,7 +144,6 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
         DbContext.VerificationCodes.Add(existingCodeEntity);   // Cleanup isn't required because code is deleted by handler  
         DbContext.Users.Add(existingUser);
         await DbContext.SaveChangesAsync(ct);
-        AddToCleanup(ctx => ctx.Users.Remove(existingUser));
         
         VerifyVerificationCodeRequestDto requestDto = new(phoneNumber, existingVerificationCode);
 
@@ -168,7 +160,5 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
         response.AccessTokenExpiresInMinutes.Should().BeGreaterThan(0);
         response.RefreshToken.Should().NotBeEmpty();
         response.RefreshTokenExpiresInMinutes.Should().BeGreaterThan(0);
-        
-        await Cleanup();
     }
 }
