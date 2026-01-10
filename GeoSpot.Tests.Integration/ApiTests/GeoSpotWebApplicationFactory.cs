@@ -11,7 +11,7 @@ namespace GeoSpot.Tests.Integration.ApiTests;
 internal class GeoSpotWebApplicationFactory : WebApplicationFactory<Program>
 {
     private readonly string _connectionString;
-
+    
     public GeoSpotWebApplicationFactory(string connectionString)
     {
         _connectionString = connectionString;

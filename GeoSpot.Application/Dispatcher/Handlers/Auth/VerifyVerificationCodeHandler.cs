@@ -1,4 +1,5 @@
 using GeoSpot.Application.Services.Interfaces;
+using GeoSpot.Application.Services.Mappers.User;
 using GeoSpot.Common;
 using GeoSpot.Common.ConfigurationSections;
 using GeoSpot.Common.Exceptions;
@@ -12,10 +13,10 @@ using Microsoft.Extensions.Options;
 namespace GeoSpot.Application.Dispatcher.Handlers.Auth;
 
 [ExcludeFromCodeCoverage]
-public record VerifyVerificationCodeRequest(VerifyVerificationCodeRequestDto Dto) : IRequest<AccessTokenDto>;
+public record VerifyVerificationCodeRequest(VerifyVerificationCodeRequestDto Dto) : IRequest<VerifyVerificationCodeResponseDto>;
 
 
-public class VerifyVerificationCodeHandler : IRequestHandler<VerifyVerificationCodeRequest, AccessTokenDto>
+public class VerifyVerificationCodeHandler : IRequestHandler<VerifyVerificationCodeRequest, VerifyVerificationCodeResponseDto>
 {
     private readonly IVerificationCodeRepository _verificationCodeRepository;
     private readonly IUserRepository _userRepository;
@@ -38,7 +39,7 @@ public class VerifyVerificationCodeHandler : IRequestHandler<VerifyVerificationC
         _configuration = options.Value;
     }
 
-    public async Task<AccessTokenDto> Handle(VerifyVerificationCodeRequest request, CancellationToken ct)
+    public async Task<VerifyVerificationCodeResponseDto> Handle(VerifyVerificationCodeRequest request, CancellationToken ct)
     {
         string cacheKey = CacheKeys.VerificationCodeModel(request.Dto.PhoneNumber);
         
@@ -48,35 +49,43 @@ public class VerifyVerificationCodeHandler : IRequestHandler<VerifyVerificationC
         
         if (DateTime.UtcNow - existingCode.CreatedAt > TimeSpan.FromSeconds(_configuration.LifespanSeconds))
             throw new BadRequestException("Provided verification code is expired");
+
+        bool userCreated = false;
+        UserModel? user = await _userRepository.GetUserByPhoneNumberAsync(existingCode.PhoneNumber, ct);
+        if (user is null)
+        {
+            user = await _userRepository.CreateUserAsync(CreateUserModel.FromPhoneNumber(existingCode.PhoneNumber) , ct);
+            userCreated = true;
+        }
         
-        UserModel existingUser = await _userRepository.GetUserByPhoneNumberAsync(existingCode.PhoneNumber, ct)
-            ?? await _userRepository.CreateUserAsync(CreateUserModel.FromPhoneNumber(existingCode.PhoneNumber) , ct);
-        
-        string accessToken = _jwtTokenService.GenerateAccessToken(existingUser);
+        string accessToken = _jwtTokenService.GenerateAccessToken(user);
         string refreshToken = _jwtTokenService.GenerateRefreshToken();
         
         await _cacheService.RemoveAsync(cacheKey, ct);
         
         await using (var scope = _unitOfWork.Start())
         {
-            await _refreshTokenRepository.DeleteAllUserRefreshTokensAsync(existingUser.UserId, ct);
+            await _refreshTokenRepository.DeleteAllUserRefreshTokensAsync(user.UserId, ct);
             await _verificationCodeRepository.DeleteAllUserVerificationCodesAsync(existingCode.PhoneNumber, ct);
         
             await _refreshTokenRepository.CreateRefreshTokenAsync(new CreateRefreshTokenModel
             {
-                UserId = existingUser.UserId,
+                UserId = user.UserId,
                 TokenHash = _jwtTokenService.HashToken(refreshToken),
                 ExpiresAt = DateTime.UtcNow.AddMinutes(_jwtTokenService.RefreshTokenLifespanMinutes)
             }, ct);
         }
 
-        
-        return new AccessTokenDto
+        return new VerifyVerificationCodeResponseDto()
         {
-            AccessToken = accessToken,
-            AccessTokenExpiresInMinutes = _jwtTokenService.AccessTokenLifespanMinutes,
-            RefreshToken = refreshToken,
-            RefreshTokenExpiresInMinutes = _jwtTokenService.RefreshTokenLifespanMinutes
+            Tokens = new AccessTokenDto()
+            {
+                AccessToken = accessToken,
+                AccessTokenExpiresInMinutes = _jwtTokenService.AccessTokenLifespanMinutes,
+                RefreshToken = refreshToken,
+                RefreshTokenExpiresInMinutes = _jwtTokenService.RefreshTokenLifespanMinutes
+            },
+            CreatedUser = userCreated ? user.MapToDto() : null
         };
     }
 }

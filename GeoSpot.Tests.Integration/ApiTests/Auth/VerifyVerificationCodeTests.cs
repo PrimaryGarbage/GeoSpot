@@ -7,10 +7,9 @@ using GeoSpot.Tests.Integration.Constants;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Auth;
 
-[Collection(CollectionConstants.ApiIntegrationCollectionName)]
 public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixture<ApiIntegrationFixture>
 {
-    public VerifyVerificationCodeTests(ApiIntegrationFixture fixture) : base(fixture.HttpClient, fixture.DbContext)
+    public VerifyVerificationCodeTests(ApiIntegrationFixture fixture) : base(fixture)
     {}
     
     [Fact]
@@ -21,9 +20,10 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
         const string invalidVerificationCode = "test_invalid_verification_code";
         VerifyVerificationCodeRequestDto requestDto = new(phoneNumber, invalidVerificationCode);
         CancellationToken ct = CancellationToken.None;
+        HttpClient client = CreateClient();
         
         // Act
-        HttpResponseMessage responseMessage = await Client.PostAsJsonAsync(GeoSpotUriConstants.AuthUri.VerifyVerificationCode, requestDto, ct);
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(UriConstants.Auth.VerifyVerificationCode, requestDto, ct);
         
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -36,6 +36,7 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
         const string phoneNumber = "+123456789";
         const string existingVerificationCode = "456789";
         CancellationToken ct = CancellationToken.None;
+        HttpClient client = CreateClient();
 
         VerificationCodeEntity existingCodeEntity = new()
         {
@@ -52,7 +53,7 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
 
         // Act
         HttpResponseMessage responseMessage =
-            await Client.PostAsJsonAsync(GeoSpotUriConstants.AuthUri.VerifyVerificationCode, requestDto, ct);
+            await client.PostAsJsonAsync(UriConstants.Auth.VerifyVerificationCode, requestDto, ct);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -66,6 +67,7 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
         const string invalidVerificationCode = "123456";
         const string existingVerificationCode = "456789";
         CancellationToken ct = CancellationToken.None;
+        HttpClient client = CreateClient();
         
         VerificationCodeEntity existingCodeEntity = new()
         {
@@ -80,19 +82,20 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
 
         // Act
         HttpResponseMessage responseMessage =
-            await Client.PostAsJsonAsync(GeoSpotUriConstants.AuthUri.VerifyVerificationCode, requestDto, ct);
+            await client.PostAsJsonAsync(UriConstants.Auth.VerifyVerificationCode, requestDto, ct);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
     [Fact]
-    public async Task VerifyVerificationCode_WhenCodeExistsAndUserDoesNotExist_ReturnsAccessAndRefreshTokens()
+    public async Task VerifyVerificationCode_WhenCodeExistsAndUserDoesNotExist_ReturnsNewUserAndTokens()
     {
         // Arrange
         const string phoneNumber = "+123456788";
         const string existingVerificationCode = "456788";
         CancellationToken ct = CancellationToken.None;
+        HttpClient client = CreateClient();
 
         VerificationCodeEntity existingCodeEntity = new()
         {
@@ -107,17 +110,20 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
 
         // Act
         HttpResponseMessage responseMessage =
-            await Client.PostAsJsonAsync(GeoSpotUriConstants.AuthUri.VerifyVerificationCode, requestDto, ct);
+            await client.PostAsJsonAsync(UriConstants.Auth.VerifyVerificationCode, requestDto, ct);
         responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-        AccessTokenDto? response = 
-            await responseMessage.Content.ReadFromJsonAsync<AccessTokenDto>(ct);
+        VerifyVerificationCodeResponseDto? response = 
+            await responseMessage.Content.ReadFromJsonAsync<VerifyVerificationCodeResponseDto>(ct);
 
         // Assert
         response.Should().NotBeNull();
-        response.AccessToken.Should().NotBeEmpty();
-        response.AccessTokenExpiresInMinutes.Should().BeGreaterThan(0);
-        response.RefreshToken.Should().NotBeEmpty();
-        response.RefreshTokenExpiresInMinutes.Should().BeGreaterThan(0);
+        response.Tokens.AccessToken.Should().NotBeEmpty();
+        response.Tokens.AccessTokenExpiresInMinutes.Should().BeGreaterThan(0);
+        response.Tokens.RefreshToken.Should().NotBeEmpty();
+        response.Tokens.RefreshTokenExpiresInMinutes.Should().BeGreaterThan(0);
+        
+        response.CreatedUser.Should().NotBeNull();
+        response.CreatedUser.PhoneNumber.Should().Be(phoneNumber);
     }
 
     [Fact]
@@ -128,6 +134,7 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
         const string displayName = "test_display_name";
         const string existingVerificationCode = "456789";
         CancellationToken ct = CancellationToken.None;
+        HttpClient client = CreateClient();
 
         VerificationCodeEntity existingCodeEntity = new()
         {
@@ -149,16 +156,18 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixtur
 
         // Act
         HttpResponseMessage responseMessage =
-            await Client.PostAsJsonAsync(GeoSpotUriConstants.AuthUri.VerifyVerificationCode, requestDto, ct);
-        AccessTokenDto? response =
-            await responseMessage.Content.ReadFromJsonAsync<AccessTokenDto>(ct);
+            await client.PostAsJsonAsync(UriConstants.Auth.VerifyVerificationCode, requestDto, ct);
+        VerifyVerificationCodeResponseDto? response =
+            await responseMessage.Content.ReadFromJsonAsync<VerifyVerificationCodeResponseDto>(ct);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         response.Should().NotBeNull();
-        response.AccessToken.Should().NotBeEmpty();
-        response.AccessTokenExpiresInMinutes.Should().BeGreaterThan(0);
-        response.RefreshToken.Should().NotBeEmpty();
-        response.RefreshTokenExpiresInMinutes.Should().BeGreaterThan(0);
+        response.Tokens.AccessToken.Should().NotBeEmpty();
+        response.Tokens.AccessTokenExpiresInMinutes.Should().BeGreaterThan(0);
+        response.Tokens.RefreshToken.Should().NotBeEmpty();
+        response.Tokens.RefreshTokenExpiresInMinutes.Should().BeGreaterThan(0);
+        
+        response.CreatedUser.Should().BeNull();
     }
 }

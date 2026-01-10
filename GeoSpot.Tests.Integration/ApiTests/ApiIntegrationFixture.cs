@@ -17,9 +17,13 @@ public class ApiIntegrationFixture : IAsyncLifetime
     
     private GeoSpotWebApplicationFactory _factory = null!;
     
-    public HttpClient HttpClient { get; private set; } = null!;
+    public HttpClient AuthorizedHttpClient { get; private set; } = null!;
     
     internal GeoSpotDbContext DbContext { get; private set; } = null!;
+    
+    public IServiceProvider Services { get; private set; } = null!;
+    
+    public HttpClient CreateHttpClient() => _factory.CreateClient();
     
     public async Task InitializeAsync()
     {
@@ -33,7 +37,7 @@ public class ApiIntegrationFixture : IAsyncLifetime
         await Container.StartAsync();
         
         _factory = new GeoSpotWebApplicationFactory(Container.GetConnectionString());
-        HttpClient = _factory.CreateClient();
+        Services = _factory.Services;
         
         var dbOptions = new DbContextOptionsBuilder<GeoSpotDbContext>()
             .UseNpgsql(Container.GetConnectionString(), o =>

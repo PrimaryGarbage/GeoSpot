@@ -46,7 +46,7 @@ public class VerifyVerificationCodeHandlerTests
     }
     
     [Fact]
-    public async Task Handle_WhenCodeIsValidAndUserDoesntExist_CreatesUserAndReturnsTokens()
+    public async Task Handle_WhenCodeIsValidAndUserDoesntExist_CreatesUserAndReturnsUserAndTokens()
     {
         // Arrange
         const int accessTokenLifespan = 10;
@@ -83,7 +83,7 @@ public class VerifyVerificationCodeHandlerTests
         _jwtTokenServiceMock.HashToken(refreshToken).Returns(hashedRefreshToken);
         
         // Act
-        AccessTokenDto result = await _handler.Handle(new VerifyVerificationCodeRequest(requestDto), ct);
+        VerifyVerificationCodeResponseDto result = await _handler.Handle(new VerifyVerificationCodeRequest(requestDto), ct);
         
         // Assert
         await _refreshTokenRepositoryMock.Received().DeleteAllUserRefreshTokensAsync(createdUserId, ct);
@@ -93,10 +93,13 @@ public class VerifyVerificationCodeHandlerTests
         
         await _verificationCodeRepositoryMock.Received().DeleteAllUserVerificationCodesAsync(phoneNumber, ct);
         
-        result.AccessToken.Should().Be(accessToken);
-        result.AccessTokenExpiresInMinutes.Should().Be(accessTokenLifespan);
-        result.RefreshToken.Should().Be(refreshToken);
-        result.RefreshTokenExpiresInMinutes.Should().Be(refreshTokenLifespan);
+        result.Tokens.AccessToken.Should().Be(accessToken);
+        result.Tokens.AccessTokenExpiresInMinutes.Should().Be(accessTokenLifespan);
+        result.Tokens.RefreshToken.Should().Be(refreshToken);
+        result.Tokens.RefreshTokenExpiresInMinutes.Should().Be(refreshTokenLifespan);
+        
+        result.CreatedUser.Should().NotBeNull();
+        result.CreatedUser.PhoneNumber.Should().Be(phoneNumber);
     }
     
     [Fact]
@@ -209,7 +212,7 @@ public class VerifyVerificationCodeHandlerTests
         _jwtTokenServiceMock.HashToken(refreshToken).Returns(hashedRefreshToken);
         
         // Act
-        AccessTokenDto result = await _handler.Handle(new VerifyVerificationCodeRequest(requestDto), ct);
+        VerifyVerificationCodeResponseDto result = await _handler.Handle(new VerifyVerificationCodeRequest(requestDto), ct);
         
         // Assert
         await _refreshTokenRepositoryMock.Received().DeleteAllUserRefreshTokensAsync(existingUserId, ct);
@@ -219,9 +222,11 @@ public class VerifyVerificationCodeHandlerTests
         
         await _verificationCodeRepositoryMock.Received().DeleteAllUserVerificationCodesAsync(phoneNumber, ct);
         
-        result.AccessToken.Should().Be(accessToken);
-        result.AccessTokenExpiresInMinutes.Should().Be(accessTokenLifespan);
-        result.RefreshToken.Should().Be(refreshToken);
-        result.RefreshTokenExpiresInMinutes.Should().Be(refreshTokenLifespan);
+        result.Tokens.AccessToken.Should().Be(accessToken);
+        result.Tokens.AccessTokenExpiresInMinutes.Should().Be(accessTokenLifespan);
+        result.Tokens.RefreshToken.Should().Be(refreshToken);
+        result.Tokens.RefreshTokenExpiresInMinutes.Should().Be(refreshTokenLifespan);
+        
+        result.CreatedUser.Should().BeNull();
     }
 }

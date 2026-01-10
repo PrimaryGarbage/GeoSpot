@@ -1,19 +1,54 @@
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using GeoSpot.Application.Services;
+using GeoSpot.Application.Services.Mappers.User;
+using GeoSpot.Common.Exceptions;
+using GeoSpot.Contracts.Auth;
 using GeoSpot.Persistence;
+using GeoSpot.Persistence.Repositories.Models.User;
+using GeoSpot.Tests.Integration.Constants;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 
 namespace GeoSpot.Tests.Integration.ApiTests;
 
 [ExcludeFromCodeCoverage]
+[Collection(CollectionConstants.ApiIntegrationCollectionName)]
 public abstract class ApiIntegrationTestsBase : IAsyncLifetime
 {
-    protected HttpClient Client { get; init; }
     
-    private protected GeoSpotDbContext DbContext { get; init; }
+    private protected GeoSpotDbContext DbContext => _fixture.DbContext;
     
-    private protected ApiIntegrationTestsBase(HttpClient httpClient, GeoSpotDbContext dbContext)
+    private readonly ApiIntegrationFixture _fixture;
+    
+    private protected ApiIntegrationTestsBase(ApiIntegrationFixture fixture)
     {
-        Client = httpClient;
-        DbContext = dbContext;
+        _fixture = fixture;
+    }
+
+    protected HttpClient CreateClient() => _fixture.CreateHttpClient();
+    
+    protected async Task<UserModel> AuthorizeClientAsync(HttpClient client)
+    {
+        const string phoneNumber = "+777777";
+        MockVerificationCodeGenerator codeGenerator = new();
+        
+        await client.PostAsJsonAsync(UriConstants.Auth.SendVerificationCode,
+            new SendVerificationCodeRequestDto(phoneNumber));
+        
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(UriConstants.Auth.VerifyVerificationCode, 
+            new VerifyVerificationCodeRequestDto(phoneNumber, codeGenerator.GenerateCode(6)));
+        
+        VerifyVerificationCodeResponseDto response = await responseMessage.Content.ReadFromJsonAsync<VerifyVerificationCodeResponseDto>()
+            ?? throw new InternalProblemException("Failed to authorize http client");
+        
+        if (response.CreatedUser is null)
+            throw new InternalProblemException("Failed to authorize http client: created user is null");
+        
+        client.DefaultRequestHeaders.Authorization = 
+            new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, response.Tokens.AccessToken);
+        
+        return response.CreatedUser.MapToModel();
     }
 
     public Task InitializeAsync()

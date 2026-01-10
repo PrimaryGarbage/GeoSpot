@@ -21,9 +21,11 @@ internal class UserRepository : BaseGeoSpotRepository, IUserRepository
         return entity.MapToModel();
     }
 
-    public Task<UserModel?> GetUserAsync(Guid userId, CancellationToken ct = default)
+    public async Task<UserModel?> GetUserAsync(Guid userId, CancellationToken ct = default)
     {
-        throw new NotImplementedException();
+        UserEntity? entity = await DbContext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.UserId == userId, ct);
+        
+        return entity.MapToModelOrNull();
     }
 
     public async Task<UserModel?> GetUserByPhoneNumberAsync(string phoneNumber, CancellationToken ct = default)
