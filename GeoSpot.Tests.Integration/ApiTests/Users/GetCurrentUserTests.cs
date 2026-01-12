@@ -28,7 +28,7 @@ public sealed class GetCurrentUserTests : ApiIntegrationTestsBase, IClassFixture
     
     
     [Fact]
-    public async Task GetCurrentUser_WhenDoesNotExist_ReturnsNotFound()
+    public async Task GetCurrentUser_WhenUserDoesNotExist_ReturnsNotFound()
     {
         // Arrange
         HttpClient client = CreateClient();
