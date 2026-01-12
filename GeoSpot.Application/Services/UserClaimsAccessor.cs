@@ -31,7 +31,7 @@ internal class UserClaimsAccessor : IUserClaimsAccessor
         if(!Enum.TryParse(userRoleStr, out UserRole userRole))
             throw new InternalProblemException("Failed to parse Role claim from the ClaimsPrincipal into the UserRole enum");
         
-        _currentUserClaims = new()
+        _currentUserClaims = new UserClaims
         {
             UserId = userId,
             PhoneNumber = phoneNumber,

@@ -13,7 +13,7 @@ internal class Dispatcher : IDispatcher
         _serviceProvider = serviceProvider;
     }
     
-    public Task<TResponse> Dispatch<TRequest, TResponse>(TRequest request, CancellationToken ct = default) where TRequest : IRequest<TResponse>
+    public Task<TResponse> DispatchAsync<TRequest, TResponse>(TRequest request, CancellationToken ct = default) where TRequest : IRequest<TResponse>
     {
         var handler = _serviceProvider.GetRequiredService<IRequestHandler<TRequest, TResponse>>();
         var behaviors = _serviceProvider.GetServices<IHandlerBehavior<TRequest, TResponse>>();

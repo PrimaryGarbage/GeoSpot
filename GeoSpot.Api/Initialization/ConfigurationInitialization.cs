@@ -3,7 +3,7 @@ using GeoSpot.Common.ConfigurationSections;
 namespace GeoSpot.Api.Initialization;
 
 [ExcludeFromDescription]
-public static class ConfigurationInitialization
+internal static class ConfigurationInitialization
 {
     public static void BindConfigurationSections(this IServiceCollection services, IConfiguration configuration)
     {

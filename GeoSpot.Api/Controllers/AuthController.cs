@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GeoSpot.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/auth")]
 [ExcludeFromCodeCoverage]
 public class AuthController : ControllerBase
 {
@@ -24,7 +24,7 @@ public class AuthController : ControllerBase
     [ProducesValidationErrorResponse]
     public async Task<IActionResult> SendVerificationCodeAsync([FromBody] SendVerificationCodeRequestDto requestDto, CancellationToken ct)
     {
-        await _dispatcher.Dispatch<SendVerificationCodeRequest, Empty>(new SendVerificationCodeRequest(requestDto), ct);
+        await _dispatcher.DispatchAsync<SendVerificationCodeRequest, Empty>(new SendVerificationCodeRequest(requestDto), ct);
         return Created();
     }
 
@@ -36,7 +36,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> VerifyVerificationCodeAsync([FromBody] VerifyVerificationCodeRequestDto requestDto, CancellationToken ct)
     {
         VerifyVerificationCodeResponseDto response = 
-            await _dispatcher.Dispatch<VerifyVerificationCodeRequest, VerifyVerificationCodeResponseDto>(new VerifyVerificationCodeRequest(requestDto), ct);
+            await _dispatcher.DispatchAsync<VerifyVerificationCodeRequest, VerifyVerificationCodeResponseDto>(new VerifyVerificationCodeRequest(requestDto), ct);
 
         return Ok(response);
     }
@@ -49,7 +49,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> RefreshAccessToken([FromBody] RefreshAccessTokenRequestDto requestDto, CancellationToken ct)
     {
         AccessTokenDto response = 
-            await _dispatcher.Dispatch<RefreshAccessTokenRequest, AccessTokenDto>(new RefreshAccessTokenRequest(requestDto.RefreshToken), ct);
+            await _dispatcher.DispatchAsync<RefreshAccessTokenRequest, AccessTokenDto>(new RefreshAccessTokenRequest(requestDto.RefreshToken), ct);
 
         return Ok(response);
     }
@@ -58,9 +58,10 @@ public class AuthController : ControllerBase
     [Authorize]
     [ProducesNoContentResponse]
     [ProducesNotFoundResponse]
+    [ProducesUnauthorizedResponse]
     public async Task<IActionResult> LogoutUser(CancellationToken ct)
     {
-        await _dispatcher.Dispatch<LogoutUserRequest, Empty>(new LogoutUserRequest(), ct);
+        await _dispatcher.DispatchAsync<LogoutUserRequest, Empty>(new LogoutUserRequest(), ct);
 
         return NoContent();
     }
