@@ -1,7 +1,8 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using GeoSpot.Api.Constants;
+using GeoSpot.Application.Mappers.User;
 using GeoSpot.Application.Services;
-using GeoSpot.Application.Services.Mappers.User;
 using GeoSpot.Common.Exceptions;
 using GeoSpot.Contracts.Auth;
 using GeoSpot.Persistence;
@@ -49,6 +50,13 @@ public abstract class ApiIntegrationTestsBase : IAsyncLifetime
             new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, response.Tokens.AccessToken);
         
         return response.CreatedUser.MapToModel();
+    }
+    
+    protected HttpClient SetApiVersion(HttpClient client, string version)
+    {
+        client.DefaultRequestHeaders.Add(HeaderConstants.VersioningHeaderName, version);
+        
+        return client;
     }
 
     public Task InitializeAsync()

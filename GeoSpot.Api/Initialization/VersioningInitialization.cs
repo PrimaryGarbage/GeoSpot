@@ -14,7 +14,7 @@ internal static class VersioningInitialization
             options.DefaultApiVersion = new ApiVersion(1.0);
             options.ReportApiVersions = true;
             options.ApiVersionReader = ApiVersionReader.Combine(
-                new HeaderApiVersionReader(VersioningConstants.VersioningHeaderName)
+                new HeaderApiVersionReader(HeaderConstants.VersioningHeaderName)
                 //new UrlSegmentApiVersionReader()
                 );
         })

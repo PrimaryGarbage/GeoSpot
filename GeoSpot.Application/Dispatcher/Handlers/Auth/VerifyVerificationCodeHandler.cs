@@ -1,5 +1,5 @@
+using GeoSpot.Application.Mappers.User;
 using GeoSpot.Application.Services.Interfaces;
-using GeoSpot.Application.Services.Mappers.User;
 using GeoSpot.Common;
 using GeoSpot.Common.ConfigurationSections;
 using GeoSpot.Common.Exceptions;
