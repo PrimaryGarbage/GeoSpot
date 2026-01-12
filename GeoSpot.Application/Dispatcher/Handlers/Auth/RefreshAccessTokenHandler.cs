@@ -1,11 +1,11 @@
 using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Common.Exceptions;
-using GeoSpot.Contracts.Auth.v1;
+using GeoSpot.Contracts.Auth;
 using GeoSpot.Persistence.Repositories.Interfaces;
 using GeoSpot.Persistence.Repositories.Models.RefreshToken;
 using GeoSpot.Persistence.Repositories.Models.User;
 
-namespace GeoSpot.Application.Dispatcher.Handlers.Auth.v1;
+namespace GeoSpot.Application.Dispatcher.Handlers.Auth;
 
 [ExcludeFromCodeCoverage]
 public record RefreshAccessTokenRequest(string RefreshToken) : IRequest<AccessTokenDto>;

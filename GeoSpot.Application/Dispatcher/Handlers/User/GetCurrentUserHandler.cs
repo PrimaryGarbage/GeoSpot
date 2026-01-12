@@ -1,11 +1,11 @@
 using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Application.Services.Mappers.User;
 using GeoSpot.Common.Exceptions;
-using GeoSpot.Contracts.User.v1;
+using GeoSpot.Contracts.User;
 using GeoSpot.Persistence.Repositories.Interfaces;
 using GeoSpot.Persistence.Repositories.Models.User;
 
-namespace GeoSpot.Application.Dispatcher.Handlers.User.v1;
+namespace GeoSpot.Application.Dispatcher.Handlers.User;
 
 [ExcludeFromCodeCoverage]
 public class GetCurrentUserRequest : IRequest<UserDto>;

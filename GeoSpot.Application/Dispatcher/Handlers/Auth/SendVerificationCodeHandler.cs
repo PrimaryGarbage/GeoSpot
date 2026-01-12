@@ -2,12 +2,12 @@ using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Common;
 using GeoSpot.Common.ConfigurationSections;
 using GeoSpot.Common.Exceptions;
-using GeoSpot.Contracts.Auth.v1;
+using GeoSpot.Contracts.Auth;
 using GeoSpot.Persistence.Repositories.Interfaces;
 using GeoSpot.Persistence.Repositories.Models.VerificationCode;
 using Microsoft.Extensions.Options;
 
-namespace GeoSpot.Application.Dispatcher.Handlers.Auth.v1;
+namespace GeoSpot.Application.Dispatcher.Handlers.Auth;
 
 public record SendVerificationCodeRequest(SendVerificationCodeRequestDto RequestDto) : IRequest<Empty>;
 

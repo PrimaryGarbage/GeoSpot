@@ -1,4 +1,4 @@
-namespace GeoSpot.Contracts.Error.v1;
+namespace GeoSpot.Contracts.Error;
 
 [ExcludeFromCodeCoverage]
 public class InternalProblemResponseDto

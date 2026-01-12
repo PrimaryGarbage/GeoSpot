@@ -1,3 +1,3 @@
-namespace GeoSpot.Contracts.Auth.v1;
+namespace GeoSpot.Contracts.Auth;
 
 public record SendVerificationCodeRequestDto(string PhoneNumber);

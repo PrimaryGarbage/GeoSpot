@@ -1,10 +1,10 @@
 using FluentAssertions;
-using GeoSpot.Application.Dispatcher.Handlers.Auth.v1;
+using GeoSpot.Application.Dispatcher.Handlers.Auth;
 using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Common;
 using GeoSpot.Common.ConfigurationSections;
 using GeoSpot.Common.Exceptions;
-using GeoSpot.Contracts.Auth.v1;
+using GeoSpot.Contracts.Auth;
 using GeoSpot.Persistence.Repositories.Interfaces;
 using GeoSpot.Persistence.Repositories.Models.VerificationCode;
 using Microsoft.Extensions.Options;
@@ -69,7 +69,7 @@ public class SendVerificationCodeHandlerTests
         SendVerificationCodeRequest request = new(new SendVerificationCodeRequestDto(validPhoneNumber));
         CancellationToken ct = CancellationToken.None;
 
-        _cacheServiceMock.GetAsync<VerificationCodeModel>(Arg.Any<string>())
+        _cacheServiceMock.GetAsync<VerificationCodeModel>(Arg.Any<string>(), ct)
             .Returns(Task.FromResult<VerificationCodeModel?>(
                 new() { CreatedAt = DateTime.UtcNow, PhoneNumber = validPhoneNumber, VerificationCode = verificationCode}));
         

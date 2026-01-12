@@ -10,4 +10,9 @@ internal static class UriConstants
         public const string RefreshAccessToken = "/api/auth/refresh";
         public const string LogoutUser = "/api/auth/logout";
     }
+
+    public static class Users
+    {
+        public const string GetCurrentUser = "/api/users/me";
+    }
 }

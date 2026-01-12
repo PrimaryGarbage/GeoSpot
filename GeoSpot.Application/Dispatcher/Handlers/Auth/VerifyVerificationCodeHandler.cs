@@ -3,14 +3,14 @@ using GeoSpot.Application.Services.Mappers.User;
 using GeoSpot.Common;
 using GeoSpot.Common.ConfigurationSections;
 using GeoSpot.Common.Exceptions;
-using GeoSpot.Contracts.Auth.v1;
+using GeoSpot.Contracts.Auth;
 using GeoSpot.Persistence.Repositories.Interfaces;
 using GeoSpot.Persistence.Repositories.Models.RefreshToken;
 using GeoSpot.Persistence.Repositories.Models.User;
 using GeoSpot.Persistence.Repositories.Models.VerificationCode;
 using Microsoft.Extensions.Options;
 
-namespace GeoSpot.Application.Dispatcher.Handlers.Auth.v1;
+namespace GeoSpot.Application.Dispatcher.Handlers.Auth;
 
 [ExcludeFromCodeCoverage]
 public record VerifyVerificationCodeRequest(VerifyVerificationCodeRequestDto Dto) : IRequest<VerifyVerificationCodeResponseDto>;

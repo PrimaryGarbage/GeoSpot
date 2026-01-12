@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using GeoSpot.Api.Constants;
 
 namespace GeoSpot.Api.Initialization;
 
@@ -9,12 +10,12 @@ internal static class VersioningInitialization
     {
         services.AddApiVersioning(options =>
         {
-            options.AssumeDefaultVersionWhenUnspecified = false;
+            options.AssumeDefaultVersionWhenUnspecified = true;
             options.DefaultApiVersion = new ApiVersion(1.0);
             options.ReportApiVersions = true;
             options.ApiVersionReader = ApiVersionReader.Combine(
-                //new HeaderApiVersionReader("X-Version"),
-                new UrlSegmentApiVersionReader()
+                new HeaderApiVersionReader(VersioningConstants.VersioningHeaderName)
+                //new UrlSegmentApiVersionReader()
                 );
         })
         .AddApiExplorer(options =>

@@ -1,4 +1,4 @@
-namespace GeoSpot.Contracts.Auth.v1;
+namespace GeoSpot.Contracts.Auth;
 
 [ExcludeFromCodeCoverage]
 public record RefreshAccessTokenRequestDto(string RefreshToken);

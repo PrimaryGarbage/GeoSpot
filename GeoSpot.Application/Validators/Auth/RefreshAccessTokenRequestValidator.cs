@@ -1,5 +1,5 @@
 using FluentValidation;
-using GeoSpot.Application.Dispatcher.Handlers.Auth.v1;
+using GeoSpot.Application.Dispatcher.Handlers.Auth;
 
 namespace GeoSpot.Application.Validators.Auth;
 

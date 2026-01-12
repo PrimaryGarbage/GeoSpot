@@ -1,6 +1,6 @@
-using GeoSpot.Contracts.User.v1;
+using GeoSpot.Contracts.User;
 
-namespace GeoSpot.Contracts.Auth.v1;
+namespace GeoSpot.Contracts.Auth;
 
 [ExcludeFromCodeCoverage]
 public class VerifyVerificationCodeResponseDto

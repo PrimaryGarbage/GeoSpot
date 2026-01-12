@@ -1,6 +1,6 @@
 using FluentValidation;
 using GeoSpot.Common.Exceptions;
-using GeoSpot.Contracts.Error.v1;
+using GeoSpot.Contracts.Error;
 
 namespace GeoSpot.Api.Middleware;
 

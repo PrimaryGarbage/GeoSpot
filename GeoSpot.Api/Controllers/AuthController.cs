@@ -1,15 +1,15 @@
 using Asp.Versioning;
 using GeoSpot.Application.Dispatcher;
-using GeoSpot.Application.Dispatcher.Handlers.Auth.v1;
-using GeoSpot.Contracts.Auth.v1;
+using GeoSpot.Application.Dispatcher.Handlers.Auth;
+using GeoSpot.Contracts.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static GeoSpot.Api.ApiVersionConstants;
 
-namespace GeoSpot.Api.Controllers.v1;
+namespace GeoSpot.Api.Controllers;
 
 [ApiController]
-[Route("api/v{version:apiVersion}/auth")]
+[Route("api/auth")]
 [ExcludeFromCodeCoverage]
 [ApiVersion(Version1_0)]
 public class AuthController : ControllerBase
