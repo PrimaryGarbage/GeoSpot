@@ -1,7 +1,7 @@
 using Asp.Versioning;
 using GeoSpot.Application.Dispatcher;
 using GeoSpot.Application.Dispatcher.Handlers.Auth.v1;
-using GeoSpot.Contracts.Auth;
+using GeoSpot.Contracts.Auth.v1;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static GeoSpot.Api.ApiVersionConstants;

@@ -1,6 +1,6 @@
 using GeoSpot.Common.Enums;
 
-namespace GeoSpot.Contracts.User;
+namespace GeoSpot.Contracts.User.v1;
 
 public class UserDto
 {

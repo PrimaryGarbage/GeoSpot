@@ -1,7 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
-using GeoSpot.Contracts.Auth;
+using GeoSpot.Contracts.Auth.v1;
 using GeoSpot.Tests.Integration.Constants;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Auth;

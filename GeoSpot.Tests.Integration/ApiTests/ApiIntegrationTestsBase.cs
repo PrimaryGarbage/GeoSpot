@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 using GeoSpot.Application.Services;
 using GeoSpot.Application.Services.Mappers.User;
 using GeoSpot.Common.Exceptions;
-using GeoSpot.Contracts.Auth;
+using GeoSpot.Contracts.Auth.v1;
 using GeoSpot.Persistence;
 using GeoSpot.Persistence.Repositories.Models.User;
 using GeoSpot.Tests.Integration.Constants;

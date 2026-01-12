@@ -1,6 +1,6 @@
 using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Common.Exceptions;
-using GeoSpot.Contracts.Auth;
+using GeoSpot.Contracts.Auth.v1;
 using GeoSpot.Persistence.Repositories.Interfaces;
 using GeoSpot.Persistence.Repositories.Models.RefreshToken;
 using GeoSpot.Persistence.Repositories.Models.User;

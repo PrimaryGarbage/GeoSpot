@@ -1,4 +1,4 @@
-namespace GeoSpot.Contracts.Auth;
+namespace GeoSpot.Contracts.Auth.v1;
 
 [ExcludeFromCodeCoverage]
 public class AccessTokenDto

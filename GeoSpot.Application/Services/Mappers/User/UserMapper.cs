@@ -1,4 +1,4 @@
-using GeoSpot.Contracts.User;
+using GeoSpot.Contracts.User.v1;
 using GeoSpot.Persistence.Repositories.Models.User;
 
 namespace GeoSpot.Application.Services.Mappers.User;

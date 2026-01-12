@@ -1,4 +1,4 @@
-namespace GeoSpot.Contracts.Error;
+namespace GeoSpot.Contracts.Error.v1;
 
 [ExcludeFromCodeCoverage]
 public class ValidationErrorResponseDto

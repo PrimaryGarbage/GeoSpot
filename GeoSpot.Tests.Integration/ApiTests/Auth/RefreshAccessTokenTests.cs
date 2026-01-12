@@ -2,7 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
 using GeoSpot.Application.Services.Interfaces;
-using GeoSpot.Contracts.Auth;
+using GeoSpot.Contracts.Auth.v1;
 using GeoSpot.Persistence.Entities;
 using GeoSpot.Persistence.Repositories.Mappers;
 using GeoSpot.Persistence.Repositories.Models.User;

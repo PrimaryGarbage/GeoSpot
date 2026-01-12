@@ -1,7 +1,7 @@
-namespace GeoSpot.Contracts.Error;
+namespace GeoSpot.Contracts.Error.v1;
 
 [ExcludeFromCodeCoverage]
-public class BadRequestResponseDto
+public class NotFoundResponseDto
 {
     public required string Details { get; init; }
 }

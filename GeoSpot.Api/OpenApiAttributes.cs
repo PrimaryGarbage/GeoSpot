@@ -1,5 +1,5 @@
 using System.Net.Mime;
-using GeoSpot.Contracts.Error;
+using GeoSpot.Contracts.Error.v1;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeoSpot.Api;
