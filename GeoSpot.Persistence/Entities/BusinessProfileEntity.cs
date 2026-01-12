@@ -1,7 +1,6 @@
 namespace GeoSpot.Persistence.Entities;
 
-[ExcludeFromCodeCoverage]
-internal class BusinessProfileEntity : IAuditEntity
+public class BusinessProfileEntity : IAuditEntity
 {
     public const string TableName = "business_profiles";
     

@@ -4,77 +4,74 @@ using GeoSpot.Common;
 using GeoSpot.Common.ConfigurationSections;
 using GeoSpot.Common.Exceptions;
 using GeoSpot.Contracts.Auth;
-using GeoSpot.Persistence.Repositories.Interfaces;
-using GeoSpot.Persistence.Repositories.Models.RefreshToken;
-using GeoSpot.Persistence.Repositories.Models.User;
-using GeoSpot.Persistence.Repositories.Models.VerificationCode;
+using GeoSpot.Persistence;
+using GeoSpot.Persistence.Entities;
+using GeoSpot.Persistence.Entities.Factories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace GeoSpot.Application.Dispatcher.Handlers.Auth;
 
-[ExcludeFromCodeCoverage]
 public record VerifyVerificationCodeRequest(VerifyVerificationCodeRequestDto Dto) : IRequest<VerifyVerificationCodeResponseDto>;
-
 
 public class VerifyVerificationCodeHandler : IRequestHandler<VerifyVerificationCodeRequest, VerifyVerificationCodeResponseDto>
 {
-    private readonly IVerificationCodeRepository _verificationCodeRepository;
-    private readonly IUserRepository _userRepository;
+    private readonly GeoSpotDbContext _dbContext;
     private readonly IJwtTokenService _jwtTokenService;
-    private readonly IRefreshTokenRepository _refreshTokenRepository;
     private readonly VerificationCodeConfigurationSection _configuration;
     private readonly ICacheService _cacheService;
-    private readonly IUnitOfWork _unitOfWork;
 
-    public VerifyVerificationCodeHandler(IVerificationCodeRepository verificationCodeRepository, IUserRepository userRepository, 
-        IJwtTokenService jwtTokenService, IRefreshTokenRepository refreshTokenRepository, IOptions<VerificationCodeConfigurationSection> options, 
-        ICacheService cacheService, IUnitOfWork unitOfWork)
+    public VerifyVerificationCodeHandler(GeoSpotDbContext dbContext, IJwtTokenService jwtTokenService, 
+        IOptions<VerificationCodeConfigurationSection> options, ICacheService cacheService)
     {
-        _verificationCodeRepository = verificationCodeRepository;
-        _userRepository = userRepository;
+        _dbContext = dbContext;
         _jwtTokenService = jwtTokenService;
-        _refreshTokenRepository = refreshTokenRepository;
         _cacheService = cacheService;
-        _unitOfWork = unitOfWork;
         _configuration = options.Value;
     }
 
     public async Task<VerifyVerificationCodeResponseDto> Handle(VerifyVerificationCodeRequest request, CancellationToken ct)
     {
-        string cacheKey = CacheKeys.VerificationCodeModel(request.Dto.PhoneNumber);
+        string cacheKey = CacheKeys.VerificationCodeEntity(request.Dto.PhoneNumber);
         
-        VerificationCodeModel existingCode = await _cacheService.GetAsync<VerificationCodeModel>(cacheKey, ct)
-            ?? await _verificationCodeRepository.GetVerificationCodeAsync(request.Dto.PhoneNumber, request.Dto.VerificationCode, ct)
+        VerificationCodeEntity existingCode = await _cacheService.GetAsync<VerificationCodeEntity>(cacheKey, ct)
+            ?? await _dbContext.VerificationCodes.AsNoTracking().FirstOrDefaultAsync(x => 
+                x.PhoneNumber == request.Dto.PhoneNumber && x.VerificationCode == request.Dto.VerificationCode, ct)
             ?? throw new NotFoundException("Failed to find given verification code");
         
         if (DateTime.UtcNow - existingCode.CreatedAt > TimeSpan.FromSeconds(_configuration.LifespanSeconds))
             throw new BadRequestException("Provided verification code is expired");
-
+        
+        UserEntity? user = await _dbContext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.PhoneNumber == existingCode.PhoneNumber, ct);
         bool userCreated = false;
-        UserModel? user = await _userRepository.GetUserByPhoneNumberAsync(existingCode.PhoneNumber, ct);
         if (user is null)
         {
-            user = await _userRepository.CreateUserAsync(CreateUserModel.FromPhoneNumber(existingCode.PhoneNumber) , ct);
+            user = UserEntityFactory.FromPhoneNumber(existingCode.PhoneNumber);
+            _dbContext.Users.Add(user);
             userCreated = true;
         }
+        else
+        {
+            await _dbContext.RefreshTokens.Where(x => x.UserId == user.UserId)
+                .ExecuteDeleteAsync(ct);
+        }
+
+        await _cacheService.RemoveAsync(cacheKey, ct);
+        
+        await _dbContext.VerificationCodes.Where(x => x.PhoneNumber == user.PhoneNumber)
+            .ExecuteDeleteAsync(ct);
         
         string accessToken = _jwtTokenService.GenerateAccessToken(user);
         string refreshToken = _jwtTokenService.GenerateRefreshToken();
         
-        await _cacheService.RemoveAsync(cacheKey, ct);
-        
-        await using (var _ = _unitOfWork.Start())
+        _dbContext.RefreshTokens.Add(new RefreshTokenEntity
         {
-            await _refreshTokenRepository.DeleteAllUserRefreshTokensAsync(user.UserId, ct);
-            await _verificationCodeRepository.DeleteAllUserVerificationCodesAsync(existingCode.PhoneNumber, ct);
+            UserId = user.UserId,
+            TokenHash = _jwtTokenService.HashToken(refreshToken),
+            ExpiresAt = DateTime.UtcNow.AddMinutes(_jwtTokenService.RefreshTokenLifespanMinutes)
+        });
         
-            await _refreshTokenRepository.CreateRefreshTokenAsync(new CreateRefreshTokenModel
-            {
-                UserId = user.UserId,
-                TokenHash = _jwtTokenService.HashToken(refreshToken),
-                ExpiresAt = DateTime.UtcNow.AddMinutes(_jwtTokenService.RefreshTokenLifespanMinutes)
-            }, ct);
-        }
+        await _dbContext.SaveChangesAsync(ct);
 
         return new VerifyVerificationCodeResponseDto()
         {

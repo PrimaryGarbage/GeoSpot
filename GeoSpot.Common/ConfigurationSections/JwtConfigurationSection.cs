@@ -1,6 +1,5 @@
 namespace GeoSpot.Common.ConfigurationSections;
 
-[ExcludeFromCodeCoverage]
 public class JwtConfigurationSection : IConfigurationSection
 {
     public static string SectionName => "Jwt";

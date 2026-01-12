@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace GeoSpot.Application.Dispatcher;
 
-[ExcludeFromCodeCoverage]
 internal class Dispatcher : IDispatcher
 {
     private readonly IServiceProvider _serviceProvider;

@@ -2,7 +2,6 @@ using GeoSpot.Common.Enums;
 
 namespace GeoSpot.Application.Services.Models;
 
-[ExcludeFromCodeCoverage]
 public class UserClaims
 {
     public Guid UserId { get; set; }

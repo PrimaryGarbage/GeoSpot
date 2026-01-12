@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GeoSpot.Persistence.Entities.EntityConfiguration;
 
-[ExcludeFromCodeCoverage]
 internal class RefreshTokenEntityConfiguration : IEntityTypeConfiguration<RefreshTokenEntity>
 {
     private const string TokenHashIndexName = "idx_refresh_token_token_hash";

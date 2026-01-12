@@ -10,7 +10,6 @@ namespace GeoSpot.Api.Controllers;
 
 [ApiController]
 [Route("api/auth")]
-[ExcludeFromCodeCoverage]
 [ApiVersion(Version1_0)]
 public class AuthController : ControllerBase
 {

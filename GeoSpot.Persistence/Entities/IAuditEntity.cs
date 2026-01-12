@@ -1,6 +1,6 @@
 namespace GeoSpot.Persistence.Entities;
 
-internal interface IAuditEntity
+public interface IAuditEntity
 {
     public DateTime CreatedAt { get; set; }
     

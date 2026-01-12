@@ -1,7 +1,6 @@
 namespace GeoSpot.Persistence.Entities;
 
-[ExcludeFromCodeCoverage]
-internal class SpotReactionEntity : IAuditEntity
+public class SpotReactionEntity : IAuditEntity
 {
     public const string TableName = "spot_reactions";
     

@@ -1,6 +1,5 @@
 namespace GeoSpot.Common.Exceptions;
 
-[ExcludeFromCodeCoverage]
 public class InitializationException : Exception
 {
     public InitializationException() :  base() { }

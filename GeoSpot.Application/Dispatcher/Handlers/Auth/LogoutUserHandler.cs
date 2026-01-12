@@ -1,8 +1,9 @@
 using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Application.Services.Models;
 using GeoSpot.Common.Exceptions;
-using GeoSpot.Persistence.Repositories.Interfaces;
-using GeoSpot.Persistence.Repositories.Models.User;
+using GeoSpot.Persistence;
+using GeoSpot.Persistence.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace GeoSpot.Application.Dispatcher.Handlers.Auth;
 
@@ -10,24 +11,23 @@ public record LogoutUserRequest() : IRequest<Empty>;
 
 public class LogoutUserHandler : IRequestHandler<LogoutUserRequest, Empty>
 {
-    private readonly IRefreshTokenRepository _refreshTokenRepository;
+    private readonly GeoSpotDbContext _dbContext;
     private readonly IUserClaimsAccessor _userClaimsAccessor;
-    private readonly IUserRepository _userRepository;
 
-    public LogoutUserHandler(IRefreshTokenRepository refreshTokenRepository, IUserClaimsAccessor userClaimsAccessor, IUserRepository userRepository)
+    public LogoutUserHandler(GeoSpotDbContext dbContext, IUserClaimsAccessor userClaimsAccessor)
     {
-        _refreshTokenRepository = refreshTokenRepository;
+        _dbContext = dbContext;
         _userClaimsAccessor = userClaimsAccessor;
-        _userRepository = userRepository;
     }
     
     public async Task<Empty> Handle(LogoutUserRequest request, CancellationToken ct = default)
     {
         UserClaims userClaims = _userClaimsAccessor.GetCurrentUserClaims();
-        UserModel existingUser = await _userRepository.GetUserAsync(userClaims.UserId, ct)
-            ?? throw new NotFoundException("Failed to find user with the given ID");
+        UserEntity _ = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == userClaims.UserId, ct)
+            ?? throw new NotFoundException($"Failed to find user with the given Id. UserId: {userClaims.UserId}");
 
-        await _refreshTokenRepository.DeleteAllUserRefreshTokensAsync(existingUser.UserId, ct);
+        await _dbContext.RefreshTokens.Where(x => x.UserId == userClaims.UserId)
+            .ExecuteDeleteAsync(ct);
         
         return Empty.Value;
     }

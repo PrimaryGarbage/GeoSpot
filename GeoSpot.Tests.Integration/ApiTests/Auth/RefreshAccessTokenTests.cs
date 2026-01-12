@@ -4,8 +4,7 @@ using FluentAssertions;
 using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Contracts.Auth;
 using GeoSpot.Persistence.Entities;
-using GeoSpot.Persistence.Repositories.Mappers;
-using GeoSpot.Persistence.Repositories.Models.User;
+using GeoSpot.Persistence.Entities.Factories;
 using GeoSpot.Tests.Integration.Constants;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -44,7 +43,7 @@ public class RefreshAccessTokenTests : ApiIntegrationTestsBase, IClassFixture<Ap
         RefreshAccessTokenRequestDto requestDto = new(refreshToken);
         HttpClient client = CreateClient();
  
-        UserEntity existingUser = DbContext.Users.Add(CreateUserModel.FromPhoneNumber(phoneNumber).MapToEntity()).Entity;
+        UserEntity existingUser = DbContext.Users.Add(UserEntityFactory.FromPhoneNumber(phoneNumber)).Entity;
         
         DbContext.RefreshTokens.Add(new RefreshTokenEntity
         {
@@ -74,7 +73,7 @@ public class RefreshAccessTokenTests : ApiIntegrationTestsBase, IClassFixture<Ap
         HttpClient client = CreateClient();
 
         UserEntity existingUser =
-            DbContext.Users.Add(CreateUserModel.FromPhoneNumber(phoneNumber).MapToEntity()).Entity;
+            DbContext.Users.Add(UserEntityFactory.FromPhoneNumber(phoneNumber)).Entity;
 
         DbContext.RefreshTokens.Add(new RefreshTokenEntity
         {
@@ -103,7 +102,7 @@ public class RefreshAccessTokenTests : ApiIntegrationTestsBase, IClassFixture<Ap
         HttpClient client = CreateClient();
 
         UserEntity existingUser =
-            DbContext.Users.Add(CreateUserModel.FromPhoneNumber(phoneNumber).MapToEntity()).Entity;
+            DbContext.Users.Add(UserEntityFactory.FromPhoneNumber(phoneNumber)).Entity;
 
         DbContext.RefreshTokens.Add(new RefreshTokenEntity
         {

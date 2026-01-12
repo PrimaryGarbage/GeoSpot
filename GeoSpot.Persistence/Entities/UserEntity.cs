@@ -2,8 +2,7 @@ using GeoSpot.Common.Enums;
 
 namespace GeoSpot.Persistence.Entities;
 
-[ExcludeFromCodeCoverage]
-internal class UserEntity : IAuditEntity
+public class UserEntity : IAuditEntity
 {
     public const string TableName = "users";
     

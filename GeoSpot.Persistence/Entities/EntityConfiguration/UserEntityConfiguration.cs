@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GeoSpot.Persistence.Entities.EntityConfiguration;
 
-[ExcludeFromCodeCoverage]
 internal class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
 {
     private const string PhoneNumberIndexName = "idx_user_phone_number";

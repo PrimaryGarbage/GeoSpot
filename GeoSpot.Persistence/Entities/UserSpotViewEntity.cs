@@ -1,7 +1,6 @@
 namespace GeoSpot.Persistence.Entities;
 
-[ExcludeFromCodeCoverage]
-internal class UserSpotViewEntity : IAuditEntity
+public class UserSpotViewEntity : IAuditEntity
 {
     public const string TableName = "user_spot_views";
     

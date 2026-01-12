@@ -3,7 +3,6 @@ using FluentValidation.Results;
 
 namespace GeoSpot.Application.Dispatcher.HandlerBehaviors;
 
-[ExcludeFromCodeCoverage]
 internal class ValidationHandlerBehavior<TRequest, TResponse> : IHandlerBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;

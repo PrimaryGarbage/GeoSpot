@@ -1,7 +1,6 @@
 namespace GeoSpot.Persistence.Entities;
 
-[ExcludeFromCodeCoverage]
-internal class ReactionTypeEntity
+public class ReactionTypeEntity
 {
     public const string TableName = "reaction_types";
     

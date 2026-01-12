@@ -1,7 +1,6 @@
 namespace GeoSpot.Persistence.Entities;
 
-[ExcludeFromCodeCoverage]
-internal class SpotCommentEntity : IAuditEntity
+public class SpotCommentEntity : IAuditEntity
 {
     public const string TableName = "spot_comments";
     

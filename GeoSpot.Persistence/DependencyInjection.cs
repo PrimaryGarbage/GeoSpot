@@ -3,14 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using GeoSpot.Common.Enums;
-using GeoSpot.Persistence.Repositories;
-using GeoSpot.Persistence.Repositories.Interfaces;
 using Microsoft.Extensions.Hosting;
 using static GeoSpot.Common.Constants.ConfigurationConstants;
 
 namespace GeoSpot.Persistence;
 
-[ExcludeFromCodeCoverage]
 public static class DependencyInjection
 {
     public static IServiceCollection AddGeoSpotPersistenceModule(this IServiceCollection services, IConfiguration configuration)
@@ -31,12 +28,6 @@ public static class DependencyInjection
             .UseSnakeCaseNamingConvention()
         );
         
-        services.AddScoped<IVerificationCodeRepository, VerificationCodeRepository>();
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
-        
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
-            
         return services;
     }
     

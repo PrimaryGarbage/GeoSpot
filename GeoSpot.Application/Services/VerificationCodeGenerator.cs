@@ -3,7 +3,6 @@ using GeoSpot.Application.Services.Interfaces;
 
 namespace GeoSpot.Application.Services;
 
-[ExcludeFromCodeCoverage]
 internal class VerificationCodeGenerator : IVerificationCodeGenerator
 {
     public string GenerateCode(int numberOfDigits)

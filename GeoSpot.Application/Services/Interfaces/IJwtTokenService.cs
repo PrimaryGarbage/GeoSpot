@@ -1,4 +1,4 @@
-using GeoSpot.Persistence.Repositories.Models.User;
+using GeoSpot.Persistence.Entities;
 
 namespace GeoSpot.Application.Services.Interfaces;
 
@@ -8,7 +8,7 @@ public interface IJwtTokenService
 
     public int RefreshTokenLifespanMinutes { get; }
     
-    string GenerateAccessToken(UserModel user);
+    string GenerateAccessToken(UserEntity user);
     
     string GenerateRefreshToken();
     

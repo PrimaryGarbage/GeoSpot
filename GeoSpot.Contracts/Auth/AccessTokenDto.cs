@@ -1,6 +1,6 @@
 namespace GeoSpot.Contracts.Auth;
 
-[ExcludeFromCodeCoverage]
+
 public class AccessTokenDto
 {
     public required string AccessToken { get; init; }

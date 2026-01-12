@@ -2,7 +2,6 @@ using GeoSpot.Application.Services.Interfaces;
 
 namespace GeoSpot.Api.Middleware;
 
-[ExcludeFromCodeCoverage]
 public class JwtClaimsExtractionMiddleware
 {
     private readonly RequestDelegate _next;

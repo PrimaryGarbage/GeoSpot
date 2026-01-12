@@ -1,6 +1,5 @@
 namespace GeoSpot.Common.Exceptions;
 
-[ExcludeFromCodeCoverage]
 public class NotFoundException : Exception
 {
     public NotFoundException() :  base() { }

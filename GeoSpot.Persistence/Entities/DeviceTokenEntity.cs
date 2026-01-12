@@ -2,9 +2,7 @@ using GeoSpot.Common.Enums;
 
 namespace GeoSpot.Persistence.Entities;
 
-
-[ExcludeFromCodeCoverage]
-internal class DeviceTokenEntity : IAuditEntity
+public class DeviceTokenEntity : IAuditEntity
 {
     public const string TableName = "device_tokens";
     

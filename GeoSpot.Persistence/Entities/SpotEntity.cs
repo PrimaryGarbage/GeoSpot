@@ -3,9 +3,7 @@ using NetTopologySuite.Geometries;
 
 namespace GeoSpot.Persistence.Entities;
 
-
-[ExcludeFromCodeCoverage]
-internal class SpotEntity : IAuditEntity, IPositionedEntity
+public class SpotEntity : IAuditEntity, IPositionedEntity
 {
     public const string TableName = "spots";
     

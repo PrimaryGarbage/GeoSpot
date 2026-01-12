@@ -2,7 +2,7 @@ using NetTopologySuite.Geometries;
 
 namespace GeoSpot.Persistence.Entities;
 
-internal interface IPositionedEntity
+public interface IPositionedEntity
 {
     double Longitude { get; set; }
     

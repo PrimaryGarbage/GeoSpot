@@ -31,4 +31,16 @@ public class UsersController : ControllerBase
         
         return Ok(user);
     }
+
+    [HttpPut("me")]
+    [Authorize]
+    [ProducesOkResponse<UserDto>]
+    [ProducesNotFoundResponse]
+    [ProducesUnauthorizedResponse]
+    public async Task<IActionResult> UpdateCurrentUser([FromBody] UpdateCurrentUserRequestDto dto, CancellationToken ct)
+    {
+        UserDto user = await _dispatcher.DispatchAsync<UpdateCurrentUserRequest, UserDto>(new UpdateCurrentUserRequest(dto), ct);
+
+        return Ok(user);
+    }
 }

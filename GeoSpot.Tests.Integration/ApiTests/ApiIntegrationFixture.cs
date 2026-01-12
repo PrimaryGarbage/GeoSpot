@@ -5,7 +5,7 @@ using Testcontainers.PostgreSql;
 
 namespace GeoSpot.Tests.Integration.ApiTests;
 
-[ExcludeFromCodeCoverage]
+
 public class ApiIntegrationFixture : IAsyncLifetime
 {
     private const string DbName = "testdb";

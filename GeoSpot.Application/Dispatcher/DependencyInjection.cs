@@ -1,11 +1,9 @@
-using System.Reflection;
 using GeoSpot.Application.Dispatcher.HandlerBehaviors;
 using GeoSpot.Common.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GeoSpot.Application.Dispatcher;
 
-[ExcludeFromCodeCoverage]
 public static class DependencyInjection
 {
     public static IServiceCollection RegisterHandlers(this IServiceCollection services)

@@ -1,7 +1,6 @@
 namespace GeoSpot.Persistence.Entities;
 
-[ExcludeFromCodeCoverage]
-internal class SpotCategoryEntity
+public class SpotCategoryEntity
 {
     public const string TableName = "spot_categories";
     

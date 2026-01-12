@@ -1,6 +1,5 @@
 namespace GeoSpot.Common.Constants;
 
-[ExcludeFromCodeCoverage]
 public static class ClaimsConstants
 {
     public const string UserId = "UserId";

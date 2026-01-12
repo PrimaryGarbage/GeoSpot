@@ -1,6 +1,5 @@
 namespace GeoSpot.Contracts.Error;
 
-[ExcludeFromCodeCoverage]
 public class ValidationErrorResponseDto
 {
     public required IEnumerable<ValidationError> Errors { get; init; }

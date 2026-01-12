@@ -3,7 +3,6 @@ using GeoSpot.Api.Constants;
 
 namespace GeoSpot.Api.Initialization;
 
-[ExcludeFromCodeCoverage]
 internal static class VersioningInitialization
 {
     public static IServiceCollection AddVersioning(this IServiceCollection services)

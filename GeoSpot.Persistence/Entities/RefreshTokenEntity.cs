@@ -1,7 +1,6 @@
 namespace GeoSpot.Persistence.Entities;
 
-[ExcludeFromCodeCoverage]
-internal class RefreshTokenEntity : IAuditEntity
+public class RefreshTokenEntity : IAuditEntity
 {
     public const string TableName = "refresh_tokens";
     

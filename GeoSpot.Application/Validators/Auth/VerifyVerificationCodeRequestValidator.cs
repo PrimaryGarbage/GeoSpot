@@ -5,7 +5,6 @@ using Microsoft.Extensions.Options;
 
 namespace GeoSpot.Application.Validators.Auth;
 
-[ExcludeFromCodeCoverage]
 public class VerifyVerificationCodeRequestValidator : AbstractValidator<VerifyVerificationCodeRequest>
 {
     public VerifyVerificationCodeRequestValidator(IOptions<VerificationCodeConfigurationSection> configuration)

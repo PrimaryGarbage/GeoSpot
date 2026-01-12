@@ -1,6 +1,6 @@
 using System.Net;
 using FluentAssertions;
-using GeoSpot.Persistence.Repositories.Models.User;
+using GeoSpot.Persistence.Entities;
 using GeoSpot.Tests.Integration.Constants;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,7 +29,7 @@ public class LogoutUserTests : ApiIntegrationTestsBase, IClassFixture<ApiIntegra
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserModel userActor = await AuthorizeClientAsync(client);
+        UserEntity userActor = await AuthorizeClientAsync(client);
         
         DbContext.Entry(DbContext.Users.First(x => x.UserId ==userActor.UserId)).State = EntityState.Deleted;
         await DbContext.SaveChangesAsync();
@@ -46,7 +46,7 @@ public class LogoutUserTests : ApiIntegrationTestsBase, IClassFixture<ApiIntegra
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserModel _ = await AuthorizeClientAsync(client);
+        UserEntity _ = await AuthorizeClientAsync(client);
 
         // Act
         HttpResponseMessage responseMessage = await client.PostAsync(UriConstants.Auth.LogoutUser, null);

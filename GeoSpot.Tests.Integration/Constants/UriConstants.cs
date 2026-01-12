@@ -1,6 +1,5 @@
 namespace GeoSpot.Tests.Integration.Constants;
 
-[ExcludeFromCodeCoverage]
 internal static class UriConstants
 {
     public static class Auth

@@ -4,8 +4,7 @@ using GeoSpot.Common.Enums;
 
 namespace GeoSpot.Persistence;
 
-[ExcludeFromCodeCoverage]
-internal class GeoSpotDbContext : DbContext
+public class GeoSpotDbContext : DbContext
 {
     public const string DefaultSchema = "geospot";
     

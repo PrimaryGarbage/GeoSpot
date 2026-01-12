@@ -7,7 +7,6 @@ using GeoSpot.Common.Exceptions;
 
 namespace GeoSpot.Application.Services;
 
-[ExcludeFromCodeCoverage]
 internal class UserClaimsAccessor : IUserClaimsAccessor
 {
     private UserClaims? _currentUserClaims;

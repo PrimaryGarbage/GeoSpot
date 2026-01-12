@@ -6,7 +6,6 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace GeoSpot.Api.Initialization;
 
-[ExcludeFromCodeCoverage]
 internal static class AuthenticationInitialization
 {
     public static void AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)

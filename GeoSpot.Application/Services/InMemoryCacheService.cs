@@ -3,7 +3,6 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace GeoSpot.Application.Services;
 
-[ExcludeFromCodeCoverage]
 internal sealed class InMemoryCacheService : ICacheService
 {
     private readonly IMemoryCache _memoryCache;

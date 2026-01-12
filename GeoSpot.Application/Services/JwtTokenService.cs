@@ -4,14 +4,13 @@ using System.Security.Cryptography;
 using System.Text;
 using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Common.ConfigurationSections;
-using GeoSpot.Persistence.Repositories.Models.User;
 using GeoSpot.Common.Constants;
+using GeoSpot.Persistence.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace GeoSpot.Application.Services;
 
-[ExcludeFromCodeCoverage]
 internal sealed class JwtTokenService : IJwtTokenService
 {
     private readonly JwtConfigurationSection _jwtConfiguration;
@@ -25,7 +24,7 @@ internal sealed class JwtTokenService : IJwtTokenService
     
     public int RefreshTokenLifespanMinutes => _jwtConfiguration.RefreshTokenLifespanMinutes;
     
-    public string GenerateAccessToken(UserModel userModel)
+    public string GenerateAccessToken(UserEntity userModel)
     {
         List<Claim> claims = [
             new Claim(ClaimsConstants.UserId, userModel.UserId.ToString()),

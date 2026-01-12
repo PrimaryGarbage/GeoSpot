@@ -3,7 +3,6 @@ using System.Net.Http.Json;
 using FluentAssertions;
 using GeoSpot.Contracts.User;
 using GeoSpot.Persistence.Entities;
-using GeoSpot.Persistence.Repositories.Models.User;
 using GeoSpot.Tests.Integration.Constants;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,7 +32,7 @@ public sealed class GetCurrentUserTests : ApiIntegrationTestsBase, IClassFixture
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserModel userActor = await AuthorizeClientAsync(client);
+        UserEntity userActor = await AuthorizeClientAsync(client);
         UserEntity userEntity = (await DbContext.Users.FindAsync(userActor.UserId))!;
         DbContext.Entry(userEntity).State = EntityState.Deleted;
         await DbContext.SaveChangesAsync();
@@ -50,7 +49,7 @@ public sealed class GetCurrentUserTests : ApiIntegrationTestsBase, IClassFixture
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserModel userActor = await AuthorizeClientAsync(client);
+        UserEntity userActor = await AuthorizeClientAsync(client);
 
         // Act
         HttpResponseMessage responseMessage = await client.GetAsync(UriConstants.Users.GetCurrentUser);

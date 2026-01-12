@@ -1,8 +1,7 @@
 namespace GeoSpot.Persistence.Entities;
 
 // TODO: Add additional table with category name translations for i18n
-[ExcludeFromCodeCoverage]
-internal class CategoryEntity
+public class CategoryEntity
 {
     public const string TableName = "categories";
     

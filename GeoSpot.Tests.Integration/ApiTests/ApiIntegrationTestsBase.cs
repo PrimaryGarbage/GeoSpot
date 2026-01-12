@@ -6,14 +6,14 @@ using GeoSpot.Application.Services;
 using GeoSpot.Common.Exceptions;
 using GeoSpot.Contracts.Auth;
 using GeoSpot.Persistence;
-using GeoSpot.Persistence.Repositories.Models.User;
+using GeoSpot.Persistence.Entities;
 using GeoSpot.Tests.Integration.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 
 namespace GeoSpot.Tests.Integration.ApiTests;
 
-[ExcludeFromCodeCoverage]
+
 [Collection(CollectionConstants.ApiIntegrationCollectionName)]
 public abstract class ApiIntegrationTestsBase : IAsyncLifetime
 {
@@ -29,7 +29,7 @@ public abstract class ApiIntegrationTestsBase : IAsyncLifetime
 
     protected HttpClient CreateClient() => _fixture.CreateHttpClient();
     
-    protected async Task<UserModel> AuthorizeClientAsync(HttpClient client)
+    protected async Task<UserEntity> AuthorizeClientAsync(HttpClient client)
     {
         const string phoneNumber = "+777777";
         MockVerificationCodeGenerator codeGenerator = new();
@@ -49,7 +49,7 @@ public abstract class ApiIntegrationTestsBase : IAsyncLifetime
         client.DefaultRequestHeaders.Authorization = 
             new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, response.Tokens.AccessToken);
         
-        return response.CreatedUser.MapToModel();
+        return response.CreatedUser.MapToEntity();
     }
     
     protected HttpClient SetApiVersion(HttpClient client, string version)

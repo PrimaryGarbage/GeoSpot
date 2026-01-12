@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace GeoSpot.Tests.Integration.ApiTests;
 
-[ExcludeFromCodeCoverage]
 internal class GeoSpotWebApplicationFactory : WebApplicationFactory<Program>
 {
     private readonly string _connectionString;
