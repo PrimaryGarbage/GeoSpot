@@ -1,5 +1,5 @@
 using FluentAssertions;
-using GeoSpot.Application.Dispatcher.Handlers.Auth;
+using GeoSpot.Application.Dispatcher.Handlers.Auth.v1;
 using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Common;
 using GeoSpot.Common.ConfigurationSections;

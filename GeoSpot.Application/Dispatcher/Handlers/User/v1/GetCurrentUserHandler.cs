@@ -5,7 +5,7 @@ using GeoSpot.Contracts.User;
 using GeoSpot.Persistence.Repositories.Interfaces;
 using GeoSpot.Persistence.Repositories.Models.User;
 
-namespace GeoSpot.Application.Dispatcher.Handlers.User;
+namespace GeoSpot.Application.Dispatcher.Handlers.User.v1;
 
 [ExcludeFromCodeCoverage]
 public class GetCurrentUserRequest : IRequest<UserDto>;

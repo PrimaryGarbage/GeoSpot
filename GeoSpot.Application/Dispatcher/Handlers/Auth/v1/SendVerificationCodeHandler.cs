@@ -7,7 +7,7 @@ using GeoSpot.Persistence.Repositories.Interfaces;
 using GeoSpot.Persistence.Repositories.Models.VerificationCode;
 using Microsoft.Extensions.Options;
 
-namespace GeoSpot.Application.Dispatcher.Handlers.Auth;
+namespace GeoSpot.Application.Dispatcher.Handlers.Auth.v1;
 
 public record SendVerificationCodeRequest(SendVerificationCodeRequestDto RequestDto) : IRequest<Empty>;
 

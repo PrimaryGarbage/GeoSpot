@@ -10,7 +10,7 @@ using GeoSpot.Persistence.Repositories.Models.User;
 using GeoSpot.Persistence.Repositories.Models.VerificationCode;
 using Microsoft.Extensions.Options;
 
-namespace GeoSpot.Application.Dispatcher.Handlers.Auth;
+namespace GeoSpot.Application.Dispatcher.Handlers.Auth.v1;
 
 [ExcludeFromCodeCoverage]
 public record VerifyVerificationCodeRequest(VerifyVerificationCodeRequestDto Dto) : IRequest<VerifyVerificationCodeResponseDto>;
@@ -63,7 +63,7 @@ public class VerifyVerificationCodeHandler : IRequestHandler<VerifyVerificationC
         
         await _cacheService.RemoveAsync(cacheKey, ct);
         
-        await using (var scope = _unitOfWork.Start())
+        await using (var _ = _unitOfWork.Start())
         {
             await _refreshTokenRepository.DeleteAllUserRefreshTokensAsync(user.UserId, ct);
             await _verificationCodeRepository.DeleteAllUserVerificationCodesAsync(existingCode.PhoneNumber, ct);

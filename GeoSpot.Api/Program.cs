@@ -17,12 +17,13 @@ builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
+builder.Services.AddVersioning();
+
 builder.Services.AddApplicationServices();
 
 builder.Services.AddValidatorsFromAssemblyContaining<SendVerificationCodeRequestValidator>();
 
 builder.Services.RegisterHandlers();
-
 
 builder.Services.AddMemoryCache();
 

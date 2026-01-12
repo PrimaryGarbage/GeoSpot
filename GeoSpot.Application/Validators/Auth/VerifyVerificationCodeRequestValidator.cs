@@ -1,5 +1,5 @@
 using FluentValidation;
-using GeoSpot.Application.Dispatcher.Handlers.Auth;
+using GeoSpot.Application.Dispatcher.Handlers.Auth.v1;
 using GeoSpot.Common.ConfigurationSections;
 using Microsoft.Extensions.Options;
 

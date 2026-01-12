@@ -4,7 +4,7 @@ using GeoSpot.Common.Exceptions;
 using GeoSpot.Persistence.Repositories.Interfaces;
 using GeoSpot.Persistence.Repositories.Models.User;
 
-namespace GeoSpot.Application.Dispatcher.Handlers.Auth;
+namespace GeoSpot.Application.Dispatcher.Handlers.Auth.v1;
 
 public record LogoutUserRequest() : IRequest<Empty>;
 

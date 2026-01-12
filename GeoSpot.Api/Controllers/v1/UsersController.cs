@@ -1,13 +1,16 @@
+using Asp.Versioning;
 using GeoSpot.Application.Dispatcher;
-using GeoSpot.Application.Dispatcher.Handlers.User;
+using GeoSpot.Application.Dispatcher.Handlers.User.v1;
 using GeoSpot.Contracts.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static GeoSpot.Api.ApiVersionConstants;
 
-namespace GeoSpot.Api.Controllers;
+namespace GeoSpot.Api.Controllers.v1;
 
 [ApiController]
-[Route("api/users")]
+[Route("api/v{version:apiVersion}/users")]
+[ApiVersion(Version1_0)]
 public class UsersController : ControllerBase
 {
     private readonly IDispatcher _dispatcher;
