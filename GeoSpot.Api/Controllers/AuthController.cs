@@ -19,6 +19,9 @@ public class AuthController : ControllerBase
     }
     
     [HttpPost("send-code")]
+    [ProducesCreatedResponse]
+    [ProducesBadRequestResponse]
+    [ProducesValidationErrorResponse]
     public async Task<IActionResult> SendVerificationCodeAsync([FromBody] SendVerificationCodeRequestDto requestDto, CancellationToken ct)
     {
         await _dispatcher.Dispatch<SendVerificationCodeRequest, Empty>(new SendVerificationCodeRequest(requestDto), ct);
@@ -26,6 +29,10 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("verify-code")]
+    [ProducesOkResponse<VerifyVerificationCodeResponseDto>]
+    [ProducesNotFoundResponse]
+    [ProducesBadRequestResponse]
+    [ProducesValidationErrorResponse]
     public async Task<IActionResult> VerifyVerificationCodeAsync([FromBody] VerifyVerificationCodeRequestDto requestDto, CancellationToken ct)
     {
         VerifyVerificationCodeResponseDto response = 
@@ -35,6 +42,10 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("refresh")]
+    [ProducesResponseType<AccessTokenDto>(StatusCodes.Status200OK)]
+    [ProducesNotFoundResponse]
+    [ProducesBadRequestResponse]
+    [ProducesValidationErrorResponse]
     public async Task<IActionResult> RefreshAccessToken([FromBody] RefreshAccessTokenRequestDto requestDto, CancellationToken ct)
     {
         AccessTokenDto response = 
@@ -45,10 +56,12 @@ public class AuthController : ControllerBase
 
     [HttpPost("logout")]
     [Authorize]
+    [ProducesNoContentResponse]
+    [ProducesNotFoundResponse]
     public async Task<IActionResult> LogoutUser(CancellationToken ct)
     {
         await _dispatcher.Dispatch<LogoutUserRequest, Empty>(new LogoutUserRequest(), ct);
 
-        return Ok();
+        return NoContent();
     }
 }
