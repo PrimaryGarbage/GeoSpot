@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Auth;
 
-public class RefreshAccessTokenTests : ApiIntegrationTestsBase, IClassFixture<ApiIntegrationFixture>
+public class RefreshAccessTokenTests : ApiIntegrationTestsBase
 {
     private readonly IJwtTokenService _jwtTokenService;
     

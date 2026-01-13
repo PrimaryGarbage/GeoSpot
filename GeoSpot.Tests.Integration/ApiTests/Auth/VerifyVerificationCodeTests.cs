@@ -7,7 +7,7 @@ using GeoSpot.Tests.Integration.Constants;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Auth;
 
-public class VerifyVerificationCodeTests : ApiIntegrationTestsBase, IClassFixture<ApiIntegrationFixture>
+public class VerifyVerificationCodeTests : ApiIntegrationTestsBase
 {
     public VerifyVerificationCodeTests(ApiIntegrationFixture fixture) : base(fixture)
     {}

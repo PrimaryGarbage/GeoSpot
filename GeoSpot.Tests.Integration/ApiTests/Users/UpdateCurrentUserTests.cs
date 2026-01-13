@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Users;
 
-public class UpdateCurrentUserTests : ApiIntegrationTestsBase, IClassFixture<ApiIntegrationFixture>
+public class UpdateCurrentUserTests : ApiIntegrationTestsBase
 {
     public UpdateCurrentUserTests(ApiIntegrationFixture fixture) : base(fixture)
     { }

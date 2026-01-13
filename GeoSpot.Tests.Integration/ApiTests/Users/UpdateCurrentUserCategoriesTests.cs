@@ -11,7 +11,7 @@ using NuGet.Packaging;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Users;
 
-public class UpdateCurrentUserCategoriesTests : ApiIntegrationTestsBase, IClassFixture<ApiIntegrationFixture>
+public class UpdateCurrentUserCategoriesTests : ApiIntegrationTestsBase
 {
     public UpdateCurrentUserCategoriesTests(ApiIntegrationFixture fixture) : base(fixture)
     { }

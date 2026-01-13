@@ -9,7 +9,7 @@ using NuGet.Packaging;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Users;
 
-public class GetCurrentUserCategoriesTests : ApiIntegrationTestsBase, IClassFixture<ApiIntegrationFixture>
+public class GetCurrentUserCategoriesTests : ApiIntegrationTestsBase
 {
     public GetCurrentUserCategoriesTests(ApiIntegrationFixture fixture) : base(fixture)
     { }

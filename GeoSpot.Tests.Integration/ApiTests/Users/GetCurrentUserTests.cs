@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Users;
 
-public sealed class GetCurrentUserTests : ApiIntegrationTestsBase, IClassFixture<ApiIntegrationFixture>
+public sealed class GetCurrentUserTests : ApiIntegrationTestsBase
 {
     public GetCurrentUserTests(ApiIntegrationFixture fixture) : base(fixture)
     { }

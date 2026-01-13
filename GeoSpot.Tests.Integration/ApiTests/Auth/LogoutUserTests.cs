@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Auth;
 
-public class LogoutUserTests : ApiIntegrationTestsBase, IClassFixture<ApiIntegrationFixture>
+public class LogoutUserTests : ApiIntegrationTestsBase
 {
 
     public LogoutUserTests(ApiIntegrationFixture fixture) : base(fixture) {}
