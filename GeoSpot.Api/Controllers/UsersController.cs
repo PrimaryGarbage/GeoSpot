@@ -43,4 +43,16 @@ public class UsersController : ControllerBase
 
         return Ok(user);
     }
+
+    [HttpPut("me/location")]
+    [Authorize]
+    [ProducesOkResponse]
+    [ProducesNotFoundResponse]
+    [ProducesUnauthorizedResponse]
+    public async Task<IActionResult> UpdateCurrentUserLocation([FromBody] UpdateCurrentUserLocationRequestDto dto, CancellationToken ct)
+    {
+        await _dispatcher.DispatchAsync<UpdateCurrentUserLocationRequest, Empty>(new UpdateCurrentUserLocationRequest(dto), ct);
+
+        return Ok();
+    }
 }

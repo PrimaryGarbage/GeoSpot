@@ -14,5 +14,6 @@ internal static class UriConstants
     {
         public const string GetCurrentUser = "/api/users/me";
         public const string UpdateCurrentUser = "/api/users/me";
+        public const string UpdateCurrentUserLocation = "/api/users/me/location";
     }
 }
