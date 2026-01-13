@@ -123,5 +123,4 @@ public class UpdateCurrentUserLocationTests : ApiIntegrationTestsBase, IClassFix
         updatedUser.LastLatitude.Should().Be(updatedLatitude);
         updatedUser.LastLongitude.Should().Be(updatedLongitude);
     }
-    
 }

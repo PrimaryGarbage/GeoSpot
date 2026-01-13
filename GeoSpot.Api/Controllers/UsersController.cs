@@ -68,4 +68,16 @@ public class UsersController : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpPut("me/categories")]
+    [Authorize]
+    [ProducesOkResponse]
+    [ProducesNotFoundResponse]
+    [ProducesUnauthorizedResponse]
+    public async Task<IActionResult> UpdateCurrentUserCategories(UpdateCurrentUserCategoriesRequestDto dto, CancellationToken ct)
+    {
+        await _dispatcher.DispatchAsync<UpdateCurrentUserCategoriesRequest, Empty>(new UpdateCurrentUserCategoriesRequest(dto), ct);
+
+        return Ok();
+    }
 }
