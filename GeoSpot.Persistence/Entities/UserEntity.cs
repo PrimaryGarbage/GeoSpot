@@ -42,11 +42,11 @@ public class UserEntity : IAuditEntity
     
     public DateTime UpdatedAt { get; set; }
     
-    public IEnumerable<CategoryEntity>? Categories { get; set; }
-    public IEnumerable<UserSpotViewEntity>? UserSpotViews { get; set; }
+    public ICollection<CategoryEntity>? Categories { get; set; }
+    public ICollection<UserSpotViewEntity>? UserSpotViews { get; set; }
     public IEnumerable<BusinessProfileEntity>? BusinessProfiles { get; set; }
     public IEnumerable<SpotEntity>? CreatedSpots { get; set; }
-    public IEnumerable<SpotCommentEntity>? Comments { get; set; }
-    public IEnumerable<SpotReactionEntity>? Reactions { get; set; }
-    public IEnumerable<DeviceTokenEntity>? DeviceTokens { get; set; }
+    public ICollection<SpotCommentEntity>? Comments { get; set; }
+    public ICollection<SpotReactionEntity>? Reactions { get; set; }
+    public ICollection<DeviceTokenEntity>? DeviceTokens { get; set; }
 }

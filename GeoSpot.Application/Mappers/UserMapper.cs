@@ -1,7 +1,7 @@
 using GeoSpot.Contracts.User;
 using GeoSpot.Persistence.Entities;
 
-namespace GeoSpot.Application.Mappers.User;
+namespace GeoSpot.Application.Mappers;
 
 internal static class UserMapper
 {

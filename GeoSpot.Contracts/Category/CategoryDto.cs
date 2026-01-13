@@ -1,10 +1,7 @@
-namespace GeoSpot.Persistence.Entities;
+namespace GeoSpot.Contracts.Category;
 
-// TODO: Add additional table with category name translations for i18n
-public class CategoryEntity
+public class CategoryDto
 {
-    public const string TableName = "categories";
-    
     public Guid CategoryId { get; set; }
     
     public required string Name { get; set; }

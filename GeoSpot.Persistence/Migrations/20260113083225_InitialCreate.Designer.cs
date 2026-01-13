@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GeoSpot.Persistence.Migrations
 {
     [DbContext(typeof(GeoSpotDbContext))]
-    [Migration("20260109181525_InitialCreate")]
+    [Migration("20260113083225_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

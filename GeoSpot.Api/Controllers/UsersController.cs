@@ -55,4 +55,17 @@ public class UsersController : ControllerBase
 
         return Ok();
     }
+
+    [HttpGet("me/categories")]
+    [Authorize]
+    [ProducesOkResponse<GetCurrentUserCategoriesResponseDto>]
+    [ProducesNotFoundResponse]
+    [ProducesUnauthorizedResponse]
+    public async Task<IActionResult> GetCurrentUserCategories(CancellationToken ct)
+    {
+        GetCurrentUserCategoriesResponseDto result = await _dispatcher.DispatchAsync<GetCurrentUserCategoriesRequest, GetCurrentUserCategoriesResponseDto>(
+            new GetCurrentUserCategoriesRequest(), ct);
+
+        return Ok(result);
+    }
 }

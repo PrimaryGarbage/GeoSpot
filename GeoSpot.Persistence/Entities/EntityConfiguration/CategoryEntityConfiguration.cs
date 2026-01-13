@@ -13,12 +13,6 @@ internal class CategoryEntityConfiguration : IEntityTypeConfiguration<CategoryEn
         builder.Property(x => x.IconData).HasColumnType("bytea");
         builder.Property(x => x.Color).HasMaxLength(7);
         
-        builder.HasMany(x => x.Users)
-            .WithMany()
-            .UsingEntity<UserCategoryEntity>()
-            .ToTable(UserCategoryEntity.TableName)
-            .HasKey(x => new { x.UserId, x.CategoryId });
-        
         builder.HasData(
         [
             new CategoryEntity { CategoryId = new Guid("2a58b9ee-7f22-4df8-b5de-e38f3c3b5a09"), Name = "Еда и рестораны", Color = "#FFFFFF", IconData = [0, 1, 2, 4, 5], SortOrder = 0 },

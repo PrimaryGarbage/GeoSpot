@@ -1,4 +1,4 @@
-using GeoSpot.Application.Mappers.User;
+using GeoSpot.Application.Mappers;
 using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Common;
 using GeoSpot.Common.ConfigurationSections;

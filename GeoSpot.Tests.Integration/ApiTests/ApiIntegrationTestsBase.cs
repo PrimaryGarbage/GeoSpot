@@ -1,7 +1,7 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using GeoSpot.Api.Constants;
-using GeoSpot.Application.Mappers.User;
+using GeoSpot.Application.Mappers;
 using GeoSpot.Application.Services;
 using GeoSpot.Common.Exceptions;
 using GeoSpot.Contracts.Auth;

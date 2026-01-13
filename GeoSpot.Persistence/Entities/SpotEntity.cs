@@ -43,7 +43,7 @@ public class SpotEntity : IAuditEntity, IPositionedEntity
     
     public UserEntity? Creator { get; set; }
     public BusinessProfileEntity? BusinessProfile { get; set; }
-    public IEnumerable<CategoryEntity>? Categories { get; set; }
-    public IEnumerable<SpotCommentEntity>? Comments { get; set; }
-    public IEnumerable<SpotReactionEntity>? Reactions { get; set; }
+    public ICollection<CategoryEntity>? Categories { get; set; }
+    public ICollection<SpotCommentEntity>? Comments { get; set; }
+    public ICollection<SpotReactionEntity>? Reactions { get; set; }
 }
