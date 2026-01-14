@@ -16,8 +16,6 @@ internal class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
         builder.Property(x => x.PasswordHash).HasMaxLength(256);
         builder.Property(x => x.PasswordSalt).HasMaxLength(32);
         builder.Property(x => x.DetectionRadius).HasDefaultValue(500);
-        builder.Property(x => x.LastLatitude).HasPrecision(10, 8);
-        builder.Property(x => x.LastLongitude).HasPrecision(11, 8);
         builder.Property(x => x.DisplayName).HasMaxLength(100);
         builder.Property(x => x.AvatarUrl).HasMaxLength(500);
         

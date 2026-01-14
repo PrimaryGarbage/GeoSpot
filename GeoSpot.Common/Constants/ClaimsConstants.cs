@@ -1,3 +1,5 @@
+using System.Security.Claims;
+
 namespace GeoSpot.Common.Constants;
 
 public static class ClaimsConstants
@@ -8,5 +10,5 @@ public static class ClaimsConstants
         
     public const string PhoneNumber = "PhoneNumber";
     
-    public const string Role = "Role";
+    public const string Role = ClaimTypes.Role;
 }

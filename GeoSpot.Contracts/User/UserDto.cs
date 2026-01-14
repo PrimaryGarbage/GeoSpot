@@ -20,12 +20,6 @@ public class UserDto
     
     public bool IsPremium { get; set; }
     
-    public double LastLatitude { get; set; }
-    
-    public double LastLongitude { get; set; }
-    
-    public DateTime LocationUpdatedAt { get; set; }
-    
     public required string DisplayName { get; set; }
     
     public string? AvatarUrl { get; set; }

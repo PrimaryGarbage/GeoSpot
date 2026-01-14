@@ -6,7 +6,7 @@ using GeoSpot.Persistence.Entities;
 using GeoSpot.Tests.Integration.Constants;
 using Microsoft.EntityFrameworkCore;
 
-namespace GeoSpot.Tests.Integration.ApiTests.Users;
+namespace GeoSpot.Tests.Integration.ApiTests.User;
 
 public sealed class GetCurrentUserTests : ApiIntegrationTestsBase
 {

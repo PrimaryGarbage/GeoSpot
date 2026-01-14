@@ -9,7 +9,7 @@ using GeoSpot.Tests.Integration.Constants;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
 
-namespace GeoSpot.Tests.Integration.ApiTests.Users;
+namespace GeoSpot.Tests.Integration.ApiTests.User;
 
 public class UpdateCurrentUserCategoriesTests : ApiIntegrationTestsBase
 {

@@ -9,5 +9,6 @@ internal static class ConfigurationInitialization
     {
         services.Configure<JwtConfigurationSection>(configuration.GetSection(JwtConfigurationSection.SectionName));
         services.Configure<VerificationCodeConfigurationSection>(configuration.GetSection(VerificationCodeConfigurationSection.SectionName));
+        services.Configure<GeolocationConfigurationSection>(configuration.GetSection(GeolocationConfigurationSection.SectionName));
     }
 }

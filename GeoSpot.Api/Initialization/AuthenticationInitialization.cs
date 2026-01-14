@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using GeoSpot.Common.Exceptions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

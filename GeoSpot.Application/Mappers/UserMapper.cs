@@ -20,9 +20,6 @@ internal static class UserMapper
             PhoneNumber = input.PhoneNumber,
             IsPremium = input.IsPremium,
             IsVerified = input.IsVerified,
-            LastLatitude = input.LastLatitude,
-            LastLongitude = input.LastLongitude,
-            LocationUpdatedAt = input.LocationUpdatedAt
         };
     }
 
@@ -42,9 +39,6 @@ internal static class UserMapper
             IsPremium = input.IsPremium,
             IsVerified = input.IsVerified,
             PasswordHash = input.PasswordHash,
-            LastLatitude = input.LastLatitude,
-            LastLongitude = input.LastLongitude,
-            LocationUpdatedAt = input.LocationUpdatedAt
         };
     }
 

@@ -7,7 +7,7 @@ using GeoSpot.Tests.Integration.Constants;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
 
-namespace GeoSpot.Tests.Integration.ApiTests.Users;
+namespace GeoSpot.Tests.Integration.ApiTests.User;
 
 public class GetCurrentUserCategoriesTests : ApiIntegrationTestsBase
 {
@@ -50,7 +50,7 @@ public class GetCurrentUserCategoriesTests : ApiIntegrationTestsBase
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
+        await AuthorizeClientAsync(client);
 
         // Act
         HttpResponseMessage responseMessage = await client.GetAsync(UriConstants.Users.GetCurrentUserCategories);

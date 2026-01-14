@@ -11,6 +11,7 @@ namespace GeoSpot.Api.Controllers;
 [ApiController]
 [Route("api/users")]
 [ApiVersion(Version1_0)]
+[Authorize]
 public class UsersController : ControllerBase
 {
     private readonly IDispatcher _dispatcher;
@@ -21,7 +22,6 @@ public class UsersController : ControllerBase
     }
     
     [HttpGet("me")]
-    [Authorize]
     [ProducesOkResponse<UserDto>]
     [ProducesNotFoundResponse]
     [ProducesUnauthorizedResponse]
@@ -33,7 +33,6 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("me")]
-    [Authorize]
     [ProducesOkResponse<UserDto>]
     [ProducesNotFoundResponse]
     [ProducesUnauthorizedResponse]
@@ -44,20 +43,7 @@ public class UsersController : ControllerBase
         return Ok(user);
     }
 
-    [HttpPut("me/location")]
-    [Authorize]
-    [ProducesOkResponse]
-    [ProducesNotFoundResponse]
-    [ProducesUnauthorizedResponse]
-    public async Task<IActionResult> UpdateCurrentUserLocation([FromBody] UpdateCurrentUserLocationRequestDto dto, CancellationToken ct)
-    {
-        await _dispatcher.DispatchAsync<UpdateCurrentUserLocationRequest, Empty>(new UpdateCurrentUserLocationRequest(dto), ct);
-
-        return Ok();
-    }
-
     [HttpGet("me/categories")]
-    [Authorize]
     [ProducesOkResponse<GetCurrentUserCategoriesResponseDto>]
     [ProducesNotFoundResponse]
     [ProducesUnauthorizedResponse]
@@ -70,7 +56,6 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("me/categories")]
-    [Authorize]
     [ProducesOkResponse]
     [ProducesNotFoundResponse]
     [ProducesUnauthorizedResponse]

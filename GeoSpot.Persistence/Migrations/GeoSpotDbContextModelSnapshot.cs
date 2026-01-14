@@ -474,7 +474,7 @@ namespace GeoSpot.Persistence.Migrations
 
                     b.Property<Point>("Position")
                         .IsRequired()
-                        .HasColumnType("geography(Point,4326)")
+                        .HasColumnType("geography")
                         .HasColumnName("position");
 
                     b.Property<int>("Radius")
@@ -625,20 +625,6 @@ namespace GeoSpot.Persistence.Migrations
                     b.Property<bool>("IsVerified")
                         .HasColumnType("boolean")
                         .HasColumnName("is_verified");
-
-                    b.Property<double>("LastLatitude")
-                        .HasPrecision(10, 8)
-                        .HasColumnType("double precision")
-                        .HasColumnName("last_latitude");
-
-                    b.Property<double>("LastLongitude")
-                        .HasPrecision(11, 8)
-                        .HasColumnType("double precision")
-                        .HasColumnName("last_longitude");
-
-                    b.Property<DateTime>("LocationUpdatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("location_updated_at");
 
                     b.Property<string>("PasswordHash")
                         .HasMaxLength(256)
