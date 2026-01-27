@@ -12,17 +12,17 @@ public record LogoutUserRequest() : IRequest<Empty>;
 public class LogoutUserHandler : IRequestHandler<LogoutUserRequest, Empty>
 {
     private readonly GeoSpotDbContext _dbContext;
-    private readonly IUserClaimsAccessor _userClaimsAccessor;
+    private readonly IUserClaimsAccessor _claimsAccessor;
 
-    public LogoutUserHandler(GeoSpotDbContext dbContext, IUserClaimsAccessor userClaimsAccessor)
+    public LogoutUserHandler(GeoSpotDbContext dbContext, IUserClaimsAccessor claimsAccessor)
     {
         _dbContext = dbContext;
-        _userClaimsAccessor = userClaimsAccessor;
+        _claimsAccessor = claimsAccessor;
     }
     
     public async Task<Empty> Handle(LogoutUserRequest request, CancellationToken ct = default)
     {
-        UserClaims userClaims = _userClaimsAccessor.GetCurrentUserClaims();
+        UserClaims userClaims = _claimsAccessor.GetCurrentUserClaims();
         UserEntity _ = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == userClaims.UserId, ct)
             ?? throw new NotFoundException($"Failed to find user with the given Id. UserId: {userClaims.UserId}");
 

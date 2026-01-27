@@ -14,12 +14,10 @@ public record SearchNearbySpotsRequest(SearchNearbySpotsRequestDto Dto) : IReque
 public class SearchNearbySpotsHandler : IRequestHandler<SearchNearbySpotsRequest, SearchNearbySpotsResponseDto>
 {
     private readonly GeoSpotDbContext _dbContext;
-    private readonly IUserClaimsAccessor _claimsAccessor;
 
-    public SearchNearbySpotsHandler(GeoSpotDbContext dbContext, IUserClaimsAccessor claimsAccessor)
+    public SearchNearbySpotsHandler(GeoSpotDbContext dbContext)
     {
         _dbContext = dbContext;
-        _claimsAccessor = claimsAccessor;
     }
 
     public async Task<SearchNearbySpotsResponseDto> Handle(SearchNearbySpotsRequest request, CancellationToken ct = default)

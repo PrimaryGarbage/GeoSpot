@@ -32,4 +32,17 @@ public class SpotsController : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpGet("{id:guid}")]
+    [ProducesOkResponse<SearchNearbySpotsResponseDto>]
+    [ProducesNotFoundResponse]
+    [ProducesUnauthorizedResponse]
+    public async Task<IActionResult> SearchNearbySpots([FromRoute] Guid id, CancellationToken ct)
+    {
+        SpotDto result =
+            await _dispatcher.DispatchAsync<GetSpotByIdRequest, SpotDto>(
+                new GetSpotByIdRequest(id), ct);
+
+        return Ok(result);
+    }
 }
