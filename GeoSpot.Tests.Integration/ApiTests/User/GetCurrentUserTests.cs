@@ -3,8 +3,8 @@ using System.Net.Http.Json;
 using FluentAssertions;
 using GeoSpot.Contracts.User;
 using GeoSpot.Persistence.Entities;
-using GeoSpot.Tests.Integration.Constants;
 using Microsoft.EntityFrameworkCore;
+using static GeoSpot.Tests.Integration.Constants.UriConstants;
 
 namespace GeoSpot.Tests.Integration.ApiTests.User;
 
@@ -20,7 +20,7 @@ public sealed class GetCurrentUserTests : ApiIntegrationTestsBase
         HttpClient client = CreateClient();
         
         // Act
-        HttpResponseMessage responseMessage = await client.GetAsync(UriConstants.Users.GetCurrentUser);
+        HttpResponseMessage responseMessage = await client.GetAsync(UsersUri.CurrentUser);
         
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -38,7 +38,7 @@ public sealed class GetCurrentUserTests : ApiIntegrationTestsBase
         await DbContext.SaveChangesAsync();
         
         // Act
-        HttpResponseMessage responseMessage = await client.GetAsync(UriConstants.Users.GetCurrentUser);
+        HttpResponseMessage responseMessage = await client.GetAsync(UsersUri.CurrentUser);
         
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -52,7 +52,7 @@ public sealed class GetCurrentUserTests : ApiIntegrationTestsBase
         UserEntity userActor = await AuthorizeClientAsync(client);
 
         // Act
-        HttpResponseMessage responseMessage = await client.GetAsync(UriConstants.Users.GetCurrentUser);
+        HttpResponseMessage responseMessage = await client.GetAsync(UsersUri.CurrentUser);
         UserDto? response = await responseMessage.Content.ReadFromJsonAsync<UserDto>();
 
         // Assert

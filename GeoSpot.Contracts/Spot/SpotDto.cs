@@ -6,6 +6,8 @@ public class SpotDto
 {
     public Guid SpotId { get; set; }
     
+    public Guid? BusinessProfileId { get; set; }
+    
     public required string Title { get; set; }
     
     public string? Description { get; set; }

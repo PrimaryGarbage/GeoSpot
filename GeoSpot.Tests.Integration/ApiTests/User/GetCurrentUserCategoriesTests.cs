@@ -3,9 +3,9 @@ using System.Net.Http.Json;
 using FluentAssertions;
 using GeoSpot.Contracts.User;
 using GeoSpot.Persistence.Entities;
-using GeoSpot.Tests.Integration.Constants;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
+using static GeoSpot.Tests.Integration.Constants.UriConstants;
 
 namespace GeoSpot.Tests.Integration.ApiTests.User;
 
@@ -21,7 +21,7 @@ public class GetCurrentUserCategoriesTests : ApiIntegrationTestsBase
         HttpClient client = CreateClient();
         
         // Act
-        HttpResponseMessage responseMessage = await client.GetAsync(UriConstants.Users.GetCurrentUserCategories);
+        HttpResponseMessage responseMessage = await client.GetAsync(UsersUri.CurrentUserCategories);
         
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -39,7 +39,7 @@ public class GetCurrentUserCategoriesTests : ApiIntegrationTestsBase
         await DbContext.SaveChangesAsync();
         
         // Act
-        HttpResponseMessage responseMessage = await client.GetAsync(UriConstants.Users.GetCurrentUserCategories);
+        HttpResponseMessage responseMessage = await client.GetAsync(UsersUri.CurrentUserCategories);
         
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -53,7 +53,7 @@ public class GetCurrentUserCategoriesTests : ApiIntegrationTestsBase
         await AuthorizeClientAsync(client);
 
         // Act
-        HttpResponseMessage responseMessage = await client.GetAsync(UriConstants.Users.GetCurrentUserCategories);
+        HttpResponseMessage responseMessage = await client.GetAsync(UsersUri.CurrentUserCategories);
         GetCurrentUserCategoriesResponseDto? response =
             await responseMessage.Content.ReadFromJsonAsync<GetCurrentUserCategoriesResponseDto>();
 
@@ -94,7 +94,7 @@ public class GetCurrentUserCategoriesTests : ApiIntegrationTestsBase
         await DbContext.SaveChangesAsync();
         
         // Act
-        HttpResponseMessage responseMessage = await client.GetAsync(UriConstants.Users.GetCurrentUserCategories);
+        HttpResponseMessage responseMessage = await client.GetAsync(UsersUri.CurrentUserCategories);
         GetCurrentUserCategoriesResponseDto? response = await responseMessage.Content.ReadFromJsonAsync<GetCurrentUserCategoriesResponseDto>();
 
         // Assert

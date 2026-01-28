@@ -2,7 +2,7 @@ namespace GeoSpot.Tests.Integration.Constants;
 
 internal static class UriConstants
 {
-    public static class Auth
+    public static class AuthUri
     {
         public const string SendVerificationCode = "/api/auth/send-code";
         public const string VerifyVerificationCode = "/api/auth/verify-code";
@@ -10,17 +10,16 @@ internal static class UriConstants
         public const string LogoutUser = "/api/auth/logout";
     }
 
-    public static class Users
+    public static class UsersUri
     {
-        public const string GetCurrentUser = "/api/users/me";
-        public const string UpdateCurrentUser = "/api/users/me";
-        public const string GetCurrentUserCategories = "/api/users/me/categories";
-        public const string UpdateCurrentUserCategories = "/api/users/me/categories";
+        public const string CurrentUser = "/api/users/me";
+        public const string CurrentUserCategories = "/api/users/me/categories";
     }
 
-    public static class Spots
+    public static class SpotsUri
     {
         public const string SearchNearbySpots = "/api/spots/nearby";
-        public static string SpotById(Guid id) => $"/api/spots/{id}";
+        public static string SpotByIdUri(Guid id) => $"/api/spots/{id}";
+        public const string Spots = "/api/spots";
     }
 }

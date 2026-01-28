@@ -34,14 +34,25 @@ public class SpotsController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
-    [ProducesOkResponse<SearchNearbySpotsResponseDto>]
+    [ProducesOkResponse<SpotDto>]
     [ProducesNotFoundResponse]
     [ProducesUnauthorizedResponse]
-    public async Task<IActionResult> SearchNearbySpots([FromRoute] Guid id, CancellationToken ct)
+    public async Task<IActionResult> GetSpotById([FromRoute] Guid id, CancellationToken ct)
     {
         SpotDto result =
-            await _dispatcher.DispatchAsync<GetSpotByIdRequest, SpotDto>(
-                new GetSpotByIdRequest(id), ct);
+            await _dispatcher.DispatchAsync<GetSpotByIdRequest, SpotDto>(new GetSpotByIdRequest(id), ct);
+
+        return Ok(result);
+    }
+
+    [HttpPost]
+    [ProducesOkResponse<SpotDto>]
+    [ProducesNotFoundResponse]
+    [ProducesUnauthorizedResponse]
+    public async Task<IActionResult> CreateSpot([FromBody] CreateSpotRequestDto dto, CancellationToken ct)
+    {
+        SpotDto result =
+            await _dispatcher.DispatchAsync<CreateSpotRequest, SpotDto>(new CreateSpotRequest(dto), ct);
 
         return Ok(result);
     }

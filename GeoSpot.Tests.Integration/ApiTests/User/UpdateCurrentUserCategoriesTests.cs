@@ -5,9 +5,9 @@ using GeoSpot.Application.Mappers;
 using GeoSpot.Contracts.Category;
 using GeoSpot.Contracts.User;
 using GeoSpot.Persistence.Entities;
-using GeoSpot.Tests.Integration.Constants;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
+using static GeoSpot.Tests.Integration.Constants.UriConstants;
 
 namespace GeoSpot.Tests.Integration.ApiTests.User;
 
@@ -23,7 +23,7 @@ public class UpdateCurrentUserCategoriesTests : ApiIntegrationTestsBase
         HttpClient client = CreateClient();
         
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsync(UriConstants.Users.UpdateCurrentUserCategories, null);
+        HttpResponseMessage responseMessage = await client.PutAsync(UsersUri.CurrentUserCategories, null);
         
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -43,7 +43,7 @@ public class UpdateCurrentUserCategoriesTests : ApiIntegrationTestsBase
         UpdateCurrentUserCategoriesRequestDto requestDto = new() { Categories = [] };
         
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(UriConstants.Users.UpdateCurrentUserCategories, requestDto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(UsersUri.CurrentUserCategories, requestDto);
         
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -92,8 +92,7 @@ public class UpdateCurrentUserCategoriesTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage =
-            await client.PutAsJsonAsync(UriConstants.Users.UpdateCurrentUserCategories, requestDto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(UsersUri.CurrentUserCategories, requestDto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -140,8 +139,7 @@ public class UpdateCurrentUserCategoriesTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage =
-            await client.PutAsJsonAsync(UriConstants.Users.UpdateCurrentUserCategories, requestDto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(UsersUri.CurrentUserCategories, requestDto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -165,8 +163,7 @@ public class UpdateCurrentUserCategoriesTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage =
-            await client.PutAsJsonAsync(UriConstants.Users.UpdateCurrentUserCategories, requestDto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(UsersUri.CurrentUserCategories, requestDto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -207,8 +204,7 @@ public class UpdateCurrentUserCategoriesTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage =
-            await client.PutAsJsonAsync(UriConstants.Users.UpdateCurrentUserCategories, requestDto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(UsersUri.CurrentUserCategories, requestDto);
 
         // Assert
         responseMessage.IsSuccessStatusCode.Should().BeTrue();
@@ -253,8 +249,7 @@ public class UpdateCurrentUserCategoriesTests : ApiIntegrationTestsBase
         UpdateCurrentUserCategoriesRequestDto requestDto = new() { Categories = [] };
 
         // Act
-        HttpResponseMessage responseMessage =
-            await client.PutAsJsonAsync(UriConstants.Users.UpdateCurrentUserCategories, requestDto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(UsersUri.CurrentUserCategories, requestDto);
 
         // Assert
         responseMessage.IsSuccessStatusCode.Should().BeTrue();

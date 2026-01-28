@@ -7,4 +7,6 @@ public class GeolocationConfigurationSection : IConfigurationSection
     public int MaxSearchDistance { get; init; }
     
     public int MaxSpotRadius { get; init; }
+    
+    public int MaxSpotLifetimeSeconds { get; init; }
 }

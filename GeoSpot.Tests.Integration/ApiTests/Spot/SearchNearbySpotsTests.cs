@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 using FluentAssertions;
 using GeoSpot.Contracts.Spot;
 using GeoSpot.Persistence.Entities;
-using GeoSpot.Tests.Integration.Constants;
+using static GeoSpot.Tests.Integration.Constants.UriConstants;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Spot;
 
@@ -19,7 +19,7 @@ public class SearchNearbySpotsTests : ApiIntegrationTestsBase
         HttpClient client = CreateClient();
         
         // Act
-        HttpResponseMessage responseMessage = await client.PostAsync(UriConstants.Spots.SearchNearbySpots, null);
+        HttpResponseMessage responseMessage = await client.PostAsync(SpotsUri.SearchNearbySpots, null);
         
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -40,7 +40,7 @@ public class SearchNearbySpotsTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(UriConstants.Spots.SearchNearbySpots, dto);
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(SpotsUri.SearchNearbySpots, dto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -61,7 +61,7 @@ public class SearchNearbySpotsTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(UriConstants.Spots.SearchNearbySpots, dto);
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(SpotsUri.SearchNearbySpots, dto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -82,7 +82,7 @@ public class SearchNearbySpotsTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(UriConstants.Spots.SearchNearbySpots, dto);
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(SpotsUri.SearchNearbySpots, dto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -103,7 +103,7 @@ public class SearchNearbySpotsTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(UriConstants.Spots.SearchNearbySpots, dto);
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(SpotsUri.SearchNearbySpots, dto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -124,7 +124,7 @@ public class SearchNearbySpotsTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(UriConstants.Spots.SearchNearbySpots, dto);
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(SpotsUri.SearchNearbySpots, dto);
         var test = await responseMessage.Content.ReadAsStringAsync();
         responseMessage.IsSuccessStatusCode.Should().BeTrue();
         SearchNearbySpotsResponseDto? response = await responseMessage.Content.ReadFromJsonAsync<SearchNearbySpotsResponseDto>();
@@ -178,7 +178,7 @@ public class SearchNearbySpotsTests : ApiIntegrationTestsBase
         await DbContext.SaveChangesAsync();
         
         // Act
-        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(UriConstants.Spots.SearchNearbySpots, dto);
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(SpotsUri.SearchNearbySpots, dto);
         responseMessage.IsSuccessStatusCode.Should().BeTrue();
         SearchNearbySpotsResponseDto? response = await responseMessage.Content.ReadFromJsonAsync<SearchNearbySpotsResponseDto>();
 

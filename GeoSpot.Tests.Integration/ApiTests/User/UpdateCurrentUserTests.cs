@@ -4,8 +4,8 @@ using FluentAssertions;
 using GeoSpot.Common.Enums;
 using GeoSpot.Contracts.User;
 using GeoSpot.Persistence.Entities;
-using GeoSpot.Tests.Integration.Constants;
 using Microsoft.EntityFrameworkCore;
+using static GeoSpot.Tests.Integration.Constants.UriConstants;
 
 namespace GeoSpot.Tests.Integration.ApiTests.User;
 
@@ -21,7 +21,7 @@ public class UpdateCurrentUserTests : ApiIntegrationTestsBase
         HttpClient client = CreateClient();
         
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsync(UriConstants.Users.UpdateCurrentUser, null);
+        HttpResponseMessage responseMessage = await client.PutAsync(UsersUri.CurrentUser, null);
         
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -51,7 +51,7 @@ public class UpdateCurrentUserTests : ApiIntegrationTestsBase
         };
         
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(UriConstants.Users.UpdateCurrentUser, requestDto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(UsersUri.CurrentUser, requestDto);
         
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -81,7 +81,7 @@ public class UpdateCurrentUserTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(UriConstants.Users.UpdateCurrentUser, requestDto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(UsersUri.CurrentUser, requestDto);
         responseMessage.IsSuccessStatusCode.Should().BeTrue();
         UserDto? result = await responseMessage.Content.ReadFromJsonAsync<UserDto>();
 

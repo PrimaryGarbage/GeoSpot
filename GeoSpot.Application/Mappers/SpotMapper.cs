@@ -10,6 +10,7 @@ internal static class SpotMapper
         return new SpotDto
         {
             SpotId = input.SpotId,
+            BusinessProfileId = input.BusinessProfileId,
             Title = input.Title,
             Description = input.Description,
             SpotType = input.SpotType,
@@ -21,6 +22,24 @@ internal static class SpotMapper
             StartsAt = input.StartsAt,
             EndsAt = input.EndsAt,
             ViewsCount = input.ViewsCount
+        };
+    }
+
+    public static SpotEntity MapToEntity(this CreateSpotRequestDto input)
+    {
+        return new SpotEntity
+        {
+            Title = input.Title,
+            Description = input.Description,
+            BusinessProfileId = input.BusinessProfileId,
+            SpotType = input.SpotType,
+            ImageUrl = input.ImageUrl,
+            Latitude = input.Latitude,
+            Longitude = input.Longitude,
+            Radius = input.Radius,
+            Address = input.Address,
+            StartsAt = input.StartsAt,
+            EndsAt = input.EndsAt
         };
     }
 }

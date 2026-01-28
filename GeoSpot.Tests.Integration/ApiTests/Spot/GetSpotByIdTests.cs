@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 using FluentAssertions;
 using GeoSpot.Contracts.Spot;
 using GeoSpot.Persistence.Entities;
-using GeoSpot.Tests.Integration.Constants;
+using static GeoSpot.Tests.Integration.Constants.UriConstants;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Spot;
 
@@ -20,7 +20,7 @@ public class GetSpotByIdTests : ApiIntegrationTestsBase
         HttpClient client = CreateClient();
 
         // Act
-        HttpResponseMessage responseMessage = await client.GetAsync(UriConstants.Spots.SpotById(spotId));
+        HttpResponseMessage responseMessage = await client.GetAsync(SpotsUri.SpotByIdUri(spotId));
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -35,7 +35,7 @@ public class GetSpotByIdTests : ApiIntegrationTestsBase
         await AuthorizeClientAsync(client);
 
         // Act
-        HttpResponseMessage responseMessage = await client.GetAsync(UriConstants.Spots.SpotById(spotId));
+        HttpResponseMessage responseMessage = await client.GetAsync(SpotsUri.SpotByIdUri(spotId));
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -50,7 +50,7 @@ public class GetSpotByIdTests : ApiIntegrationTestsBase
         await AuthorizeClientAsync(client);
 
         // Act
-        HttpResponseMessage responseMessage = await client.GetAsync(UriConstants.Spots.SpotById(spotId));
+        HttpResponseMessage responseMessage = await client.GetAsync(SpotsUri.SpotByIdUri(spotId));
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -73,7 +73,7 @@ public class GetSpotByIdTests : ApiIntegrationTestsBase
         await DbContext.SaveChangesAsync();
 
         // Act
-        HttpResponseMessage responseMessage = await client.GetAsync(UriConstants.Spots.SpotById(spotEntity.SpotId));
+        HttpResponseMessage responseMessage = await client.GetAsync(SpotsUri.SpotByIdUri(spotEntity.SpotId));
         responseMessage.IsSuccessStatusCode.Should().BeTrue();
         SpotDto? response = await responseMessage.Content.ReadFromJsonAsync<SpotDto>();
 

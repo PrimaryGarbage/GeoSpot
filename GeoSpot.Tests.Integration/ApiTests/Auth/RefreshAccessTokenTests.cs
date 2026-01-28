@@ -5,8 +5,8 @@ using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Contracts.Auth;
 using GeoSpot.Persistence.Entities;
 using GeoSpot.Persistence.Entities.Factories;
-using GeoSpot.Tests.Integration.Constants;
 using Microsoft.Extensions.DependencyInjection;
+using static GeoSpot.Tests.Integration.Constants.UriConstants;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Auth;
 
@@ -28,7 +28,7 @@ public class RefreshAccessTokenTests : ApiIntegrationTestsBase
         HttpClient client = CreateClient();
  
         // Act
-        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(UriConstants.Auth.RefreshAccessToken, requestDto);
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(AuthUri.RefreshAccessToken, requestDto);
         
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -56,8 +56,7 @@ public class RefreshAccessTokenTests : ApiIntegrationTestsBase
         await DbContext.SaveChangesAsync();
 
         // Act
-        HttpResponseMessage responseMessage =
-            await client.PostAsJsonAsync(UriConstants.Auth.RefreshAccessToken, requestDto);
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(AuthUri.RefreshAccessToken, requestDto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -85,8 +84,7 @@ public class RefreshAccessTokenTests : ApiIntegrationTestsBase
         await DbContext.SaveChangesAsync();
 
         // Act
-        HttpResponseMessage responseMessage =
-            await client.PostAsJsonAsync(UriConstants.Auth.RefreshAccessToken, requestDto);
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(AuthUri.RefreshAccessToken, requestDto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -114,8 +112,7 @@ public class RefreshAccessTokenTests : ApiIntegrationTestsBase
         await DbContext.SaveChangesAsync();
 
         // Act
-        HttpResponseMessage responseMessage =
-            await client.PostAsJsonAsync(UriConstants.Auth.RefreshAccessToken, requestDto);
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(AuthUri.RefreshAccessToken, requestDto);
         responseMessage.IsSuccessStatusCode.Should().BeTrue();
         
         AccessTokenDto? response = await responseMessage.Content.ReadFromJsonAsync<AccessTokenDto>();

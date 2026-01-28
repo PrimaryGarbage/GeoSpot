@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 using FluentAssertions;
 using GeoSpot.Contracts.Auth;
 using GeoSpot.Persistence.Entities;
-using GeoSpot.Tests.Integration.Constants;
+using static GeoSpot.Tests.Integration.Constants.UriConstants;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Auth;
 
@@ -23,7 +23,7 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase
         HttpClient client = CreateClient();
         
         // Act
-        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(UriConstants.Auth.VerifyVerificationCode, requestDto, ct);
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(AuthUri.VerifyVerificationCode, requestDto, ct);
         
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -52,8 +52,7 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase
         VerifyVerificationCodeRequestDto requestDto = new(phoneNumber, existingVerificationCode);
 
         // Act
-        HttpResponseMessage responseMessage =
-            await client.PostAsJsonAsync(UriConstants.Auth.VerifyVerificationCode, requestDto, ct);
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(AuthUri.VerifyVerificationCode, requestDto, ct);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -81,8 +80,7 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase
         VerifyVerificationCodeRequestDto requestDto = new(phoneNumber, invalidVerificationCode);
 
         // Act
-        HttpResponseMessage responseMessage =
-            await client.PostAsJsonAsync(UriConstants.Auth.VerifyVerificationCode, requestDto, ct);
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(AuthUri.VerifyVerificationCode, requestDto, ct);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -109,8 +107,7 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase
         VerifyVerificationCodeRequestDto requestDto = new(phoneNumber, existingVerificationCode);
 
         // Act
-        HttpResponseMessage responseMessage =
-            await client.PostAsJsonAsync(UriConstants.Auth.VerifyVerificationCode, requestDto, ct);
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(AuthUri.VerifyVerificationCode, requestDto, ct);
         responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         VerifyVerificationCodeResponseDto? response = 
             await responseMessage.Content.ReadFromJsonAsync<VerifyVerificationCodeResponseDto>(ct);
@@ -155,8 +152,7 @@ public class VerifyVerificationCodeTests : ApiIntegrationTestsBase
         VerifyVerificationCodeRequestDto requestDto = new(phoneNumber, existingVerificationCode);
 
         // Act
-        HttpResponseMessage responseMessage =
-            await client.PostAsJsonAsync(UriConstants.Auth.VerifyVerificationCode, requestDto, ct);
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(AuthUri.VerifyVerificationCode, requestDto, ct);
         VerifyVerificationCodeResponseDto? response =
             await responseMessage.Content.ReadFromJsonAsync<VerifyVerificationCodeResponseDto>(ct);
 

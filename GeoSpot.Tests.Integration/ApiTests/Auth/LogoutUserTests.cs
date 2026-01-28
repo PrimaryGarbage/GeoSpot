@@ -1,8 +1,8 @@
 using System.Net;
 using FluentAssertions;
 using GeoSpot.Persistence.Entities;
-using GeoSpot.Tests.Integration.Constants;
 using Microsoft.EntityFrameworkCore;
+using static GeoSpot.Tests.Integration.Constants.UriConstants;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Auth;
 
@@ -18,7 +18,7 @@ public class LogoutUserTests : ApiIntegrationTestsBase
         HttpClient client = CreateClient();
         
         // Act
-        HttpResponseMessage responseMessage = await client.PostAsync(UriConstants.Auth.LogoutUser, null);
+        HttpResponseMessage responseMessage = await client.PostAsync(AuthUri.LogoutUser, null);
         
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -31,11 +31,11 @@ public class LogoutUserTests : ApiIntegrationTestsBase
         HttpClient client = CreateClient();
         UserEntity userActor = await AuthorizeClientAsync(client);
         
-        DbContext.Entry(DbContext.Users.First(x => x.UserId ==userActor.UserId)).State = EntityState.Deleted;
+        DbContext.Entry(DbContext.Users.First(x => x.UserId == userActor.UserId)).State = EntityState.Deleted;
         await DbContext.SaveChangesAsync();
 
         // Act
-        HttpResponseMessage responseMessage = await client.PostAsync(UriConstants.Auth.LogoutUser, null);
+        HttpResponseMessage responseMessage = await client.PostAsync(AuthUri.LogoutUser, null);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -49,7 +49,7 @@ public class LogoutUserTests : ApiIntegrationTestsBase
         UserEntity _ = await AuthorizeClientAsync(client);
 
         // Act
-        HttpResponseMessage responseMessage = await client.PostAsync(UriConstants.Auth.LogoutUser, null);
+        HttpResponseMessage responseMessage = await client.PostAsync(AuthUri.LogoutUser, null);
 
         // Assert
         responseMessage.IsSuccessStatusCode.Should().BeTrue();

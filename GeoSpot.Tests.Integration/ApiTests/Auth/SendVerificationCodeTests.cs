@@ -2,7 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
 using GeoSpot.Contracts.Auth;
-using GeoSpot.Tests.Integration.Constants;
+using static GeoSpot.Tests.Integration.Constants.UriConstants;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Auth;
 
@@ -18,7 +18,7 @@ public class SendVerificationCodeTests : ApiIntegrationTestsBase
         SendVerificationCodeRequestDto dto = new(phoneNumber);
         HttpClient client = CreateClient();
         
-        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(UriConstants.Auth.SendVerificationCode, dto);
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(AuthUri.SendVerificationCode, dto);
         
         responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
     }
@@ -30,7 +30,7 @@ public class SendVerificationCodeTests : ApiIntegrationTestsBase
         SendVerificationCodeRequestDto dto = new(phoneNumber);
         HttpClient client = CreateClient();
 
-        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(UriConstants.Auth.SendVerificationCode, dto);
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(AuthUri.SendVerificationCode, dto);
 
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
