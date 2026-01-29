@@ -37,7 +37,7 @@ public class UserEntity : IAuditEntity
     public DateTime UpdatedAt { get; set; }
     
     public ICollection<CategoryEntity>? Categories { get; set; }
-    public ICollection<UserSpotViewEntity>? UserSpotViews { get; set; }
+    public ICollection<UserSpotViewEntity>? SpotViews { get; set; }
     public IEnumerable<BusinessProfileEntity>? BusinessProfiles { get; set; }
     public IEnumerable<SpotEntity>? CreatedSpots { get; set; }
     public ICollection<SpotCommentEntity>? Comments { get; set; }

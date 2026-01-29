@@ -1,6 +1,6 @@
-namespace GeoSpot.Tests.Integration.Constants;
+namespace GeoSpot.Tests.Integration;
 
-internal static class UriConstants
+internal static class ApiUriPaths
 {
     public static class AuthUri
     {
@@ -21,5 +21,6 @@ internal static class UriConstants
         public const string SearchNearbySpots = "/api/spots/nearby";
         public static string SpotById(Guid id) => $"/api/spots/{id}";
         public const string Spots = "/api/spots";
+        public static string SpotViewById(Guid id) => $"/api/spots/{id}/view";
     }
 }

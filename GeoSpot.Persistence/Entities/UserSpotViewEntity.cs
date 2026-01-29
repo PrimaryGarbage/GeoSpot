@@ -8,10 +8,6 @@ public class UserSpotViewEntity : IAuditEntity
     
     public Guid SpotId { get; set; }
     
-    public bool Viewed { get; set; }
-    
-    public DateTime ViewedAt { get; set; }
-    
     public DateTime CreatedAt { get; set; }
     
     public DateTime UpdatedAt { get; set; }

@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 using FluentAssertions;
 using GeoSpot.Contracts.Spot;
 using GeoSpot.Persistence.Entities;
-using static GeoSpot.Tests.Integration.Constants.UriConstants;
+using static GeoSpot.Tests.Integration.ApiUriPaths;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Spot;
 

@@ -34,10 +34,10 @@ public abstract class ApiIntegrationTestsBase : IAsyncLifetime
         const string phoneNumber = "+777777";
         MockVerificationCodeGenerator codeGenerator = new();
         
-        await client.PostAsJsonAsync(UriConstants.AuthUri.SendVerificationCode,
+        await client.PostAsJsonAsync(ApiUriPaths.AuthUri.SendVerificationCode,
             new SendVerificationCodeRequestDto(phoneNumber));
         
-        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(UriConstants.AuthUri.VerifyVerificationCode, 
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(ApiUriPaths.AuthUri.VerifyVerificationCode, 
             new VerifyVerificationCodeRequestDto(phoneNumber, codeGenerator.GenerateCode(6)));
         
         VerifyVerificationCodeResponseDto response = await responseMessage.Content.ReadFromJsonAsync<VerifyVerificationCodeResponseDto>()

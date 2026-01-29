@@ -24,7 +24,7 @@ internal class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
             .UsingEntity<UserCategoryEntity>()
             .ToTable(UserCategoryEntity.TableName)
             .HasKey(x => new { x.UserId, x.CategoryId });
-        builder.HasMany(x => x.UserSpotViews)
+        builder.HasMany(x => x.SpotViews)
             .WithOne(x => x.User);
         builder.HasMany(x => x.BusinessProfiles)
             .WithOne(x => x.Creator);

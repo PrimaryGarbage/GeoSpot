@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GeoSpot.Persistence.Migrations
 {
     [DbContext(typeof(GeoSpotDbContext))]
-    [Migration("20260114160703_InitialCreate")]
+    [Migration("20260129085308_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -677,14 +677,6 @@ namespace GeoSpot.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<bool>("Viewed")
-                        .HasColumnType("boolean")
-                        .HasColumnName("viewed");
-
-                    b.Property<DateTime>("ViewedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("viewed_at");
-
                     b.HasKey("UserId", "SpotId")
                         .HasName("pk_user_spot_views");
 
@@ -900,14 +892,14 @@ namespace GeoSpot.Persistence.Migrations
             modelBuilder.Entity("GeoSpot.Persistence.Entities.UserSpotViewEntity", b =>
                 {
                     b.HasOne("GeoSpot.Persistence.Entities.SpotEntity", "Spot")
-                        .WithMany()
+                        .WithMany("UserViews")
                         .HasForeignKey("SpotId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_spot_views_spots_spot_id");
 
                     b.HasOne("GeoSpot.Persistence.Entities.UserEntity", "User")
-                        .WithMany("UserSpotViews")
+                        .WithMany("SpotViews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -928,6 +920,8 @@ namespace GeoSpot.Persistence.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Reactions");
+
+                    b.Navigation("UserViews");
                 });
 
             modelBuilder.Entity("GeoSpot.Persistence.Entities.UserEntity", b =>
@@ -942,7 +936,7 @@ namespace GeoSpot.Persistence.Migrations
 
                     b.Navigation("Reactions");
 
-                    b.Navigation("UserSpotViews");
+                    b.Navigation("SpotViews");
                 });
 #pragma warning restore 612, 618
         }

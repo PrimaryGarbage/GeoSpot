@@ -4,7 +4,7 @@ using FluentAssertions;
 using GeoSpot.Contracts.User;
 using GeoSpot.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
-using static GeoSpot.Tests.Integration.Constants.UriConstants;
+using static GeoSpot.Tests.Integration.ApiUriPaths;
 
 namespace GeoSpot.Tests.Integration.ApiTests.User;
 

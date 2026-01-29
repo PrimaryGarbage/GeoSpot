@@ -31,6 +31,8 @@ internal class SpotEntityConfiguration : IEntityTypeConfiguration<SpotEntity>
             .UsingEntity<SpotCategoryEntity>()
             .ToTable(SpotCategoryEntity.TableName)
             .HasKey(x => new { x.SpotId, x.CategoryId });
+        builder.HasMany(x => x.UserViews)
+            .WithOne(x => x.Spot);
         builder.HasMany(x => x.Comments)
             .WithOne(x => x.Spot);
         builder.HasMany(x => x.Reactions)

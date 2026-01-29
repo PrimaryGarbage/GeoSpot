@@ -1,6 +1,7 @@
 using GeoSpot.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 using GeoSpot.Common.Enums;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace GeoSpot.Persistence;
 
@@ -15,6 +16,7 @@ public class GeoSpotDbContext : DbContext
     public DbSet<SpotEntity> Spots { get; set; }
     public DbSet<VerificationCodeEntity> VerificationCodes { get; set; }
     public DbSet<RefreshTokenEntity> RefreshTokens { get; set; }
+    public DbSet<UserSpotViewEntity> UserSpotViews { get; set; }
     
     public GeoSpotDbContext(DbContextOptions<GeoSpotDbContext> options): base(options) {}
 
@@ -33,7 +35,7 @@ public class GeoSpotDbContext : DbContext
 
     public override int SaveChanges()
     {
-        var entries = ChangeTracker.Entries().Where(e =>
+        IEnumerable<EntityEntry> entries = ChangeTracker.Entries().Where(e =>
             e is { Entity: IAuditEntity, State: EntityState.Added or EntityState.Modified });
             
         foreach (var entry in entries)
@@ -50,7 +52,7 @@ public class GeoSpotDbContext : DbContext
 
     public override Task<int> SaveChangesAsync(CancellationToken ct = default)
     {
-        var entries = ChangeTracker.Entries()
+        IEnumerable<EntityEntry> entries = ChangeTracker.Entries()
             .Where(e => e.State is EntityState.Added or EntityState.Modified);
         
         foreach (var entry in entries)

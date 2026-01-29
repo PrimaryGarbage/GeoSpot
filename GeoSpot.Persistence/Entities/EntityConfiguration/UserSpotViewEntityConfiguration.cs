@@ -11,10 +11,10 @@ internal class UserSpotViewEntityConfiguration : IEntityTypeConfiguration<UserSp
         builder.HasKey(x => new { x.UserId, x.SpotId });
         
         builder.HasOne(x => x.Spot)
-            .WithMany()
+            .WithMany(x => x.UserViews)
             .HasForeignKey(x => x.SpotId);
         builder.HasOne(x => x.User)
-            .WithMany(x => x.UserSpotViews)
+            .WithMany(x => x.SpotViews)
             .HasForeignKey(x => x.UserId);
     }
 }

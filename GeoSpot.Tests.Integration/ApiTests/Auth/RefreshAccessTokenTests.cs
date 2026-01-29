@@ -6,7 +6,7 @@ using GeoSpot.Contracts.Auth;
 using GeoSpot.Persistence.Entities;
 using GeoSpot.Persistence.Entities.Factories;
 using Microsoft.Extensions.DependencyInjection;
-using static GeoSpot.Tests.Integration.Constants.UriConstants;
+using static GeoSpot.Tests.Integration.ApiUriPaths;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Auth;
 

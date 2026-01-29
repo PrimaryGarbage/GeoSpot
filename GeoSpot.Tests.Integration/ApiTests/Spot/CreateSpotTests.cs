@@ -5,7 +5,7 @@ using GeoSpot.Common.Enums;
 using GeoSpot.Contracts.Spot;
 using GeoSpot.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
-using static GeoSpot.Tests.Integration.Constants.UriConstants;
+using static GeoSpot.Tests.Integration.ApiUriPaths;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Spot;
 

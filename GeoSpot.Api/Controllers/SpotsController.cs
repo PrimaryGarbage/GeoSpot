@@ -78,4 +78,16 @@ public class SpotsController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpPost("{id:guid}/view")]
+    [ProducesCreatedResponse]
+    [ProducesNoContentResponse]
+    [ProducesNotFoundResponse]
+    [ProducesUnauthorizedResponse]
+    public async Task<IActionResult> AddSpotView([FromRoute] Guid id, CancellationToken ct)
+    {
+        bool created = await _dispatcher.DispatchAsync<AddSpotViewRequest, bool>(new AddSpotViewRequest(id), ct);
+
+        return created? Created() : NoContent();
+    }
 }

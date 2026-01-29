@@ -1,11 +1,9 @@
 using System.Net;
-using System.Net.Http.Json;
 using FluentAssertions;
 using GeoSpot.Common.Enums;
-using GeoSpot.Contracts.Spot;
 using GeoSpot.Persistence.Entities;
-using GeoSpot.Tests.Integration.Constants;
 using Microsoft.EntityFrameworkCore;
+using static GeoSpot.Tests.Integration.ApiUriPaths;
 
 namespace GeoSpot.Tests.Integration.ApiTests.Spot;
 
@@ -22,7 +20,7 @@ public class DeleteSpotTests : ApiIntegrationTestsBase
         HttpClient client = CreateClient();
         
         // Act
-        HttpResponseMessage responseMessage = await client.DeleteAsync(UriConstants.SpotsUri.SpotById(spotId));
+        HttpResponseMessage responseMessage = await client.DeleteAsync(SpotsUri.SpotById(spotId));
         
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -40,7 +38,7 @@ public class DeleteSpotTests : ApiIntegrationTestsBase
         await DbContext.SaveChangesAsync();
 
         // Act
-        HttpResponseMessage responseMessage = await client.DeleteAsync(UriConstants.SpotsUri.SpotById(spotId));
+        HttpResponseMessage responseMessage = await client.DeleteAsync(SpotsUri.SpotById(spotId));
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -55,7 +53,7 @@ public class DeleteSpotTests : ApiIntegrationTestsBase
         await AuthorizeClientAsync(client);
 
         // Act
-        HttpResponseMessage responseMessage = await client.DeleteAsync(UriConstants.SpotsUri.SpotById(spotId));
+        HttpResponseMessage responseMessage = await client.DeleteAsync(SpotsUri.SpotById(spotId));
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -70,7 +68,7 @@ public class DeleteSpotTests : ApiIntegrationTestsBase
         await AuthorizeClientAsync(client);
 
         // Act
-        HttpResponseMessage responseMessage = await client.DeleteAsync(UriConstants.SpotsUri.SpotById(spotId));
+        HttpResponseMessage responseMessage = await client.DeleteAsync(SpotsUri.SpotById(spotId));
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -101,7 +99,7 @@ public class DeleteSpotTests : ApiIntegrationTestsBase
         DbContext.ChangeTracker.Clear();
 
         // Act
-        HttpResponseMessage responseMessage = await client.DeleteAsync(UriConstants.SpotsUri.SpotById(spot.SpotId));
+        HttpResponseMessage responseMessage = await client.DeleteAsync(SpotsUri.SpotById(spot.SpotId));
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
