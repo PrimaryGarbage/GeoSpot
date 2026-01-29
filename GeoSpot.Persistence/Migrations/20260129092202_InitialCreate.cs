@@ -235,7 +235,6 @@ namespace GeoSpot.Persistence.Migrations
                     address = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     starts_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ends_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    views_count = table.Column<int>(type: "integer", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },

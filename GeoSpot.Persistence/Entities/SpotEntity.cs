@@ -35,8 +35,6 @@ public class SpotEntity : IAuditEntity, IPositionedEntity
     
     public DateTime EndsAt { get; set; }
     
-    public int ViewsCount { get; set; }
-    
     public DateTime CreatedAt { get; set; }
     
     public DateTime UpdatedAt { get; set; }

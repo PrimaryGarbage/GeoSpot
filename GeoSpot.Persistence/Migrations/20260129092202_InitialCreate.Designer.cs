@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GeoSpot.Persistence.Migrations
 {
     [DbContext(typeof(GeoSpotDbContext))]
-    [Migration("20260129085308_InitialCreate")]
+    [Migration("20260129092202_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -501,10 +501,6 @@ namespace GeoSpot.Persistence.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
-
-                    b.Property<int>("ViewsCount")
-                        .HasColumnType("integer")
-                        .HasColumnName("views_count");
 
                     b.HasKey("SpotId")
                         .HasName("pk_spots");

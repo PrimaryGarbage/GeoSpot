@@ -21,9 +21,12 @@ internal class GetSpotByIdHandler : IRequestHandler<GetSpotByIdRequest, SpotDto>
 
     public async Task<SpotDto> Handle(GetSpotByIdRequest request, CancellationToken ct = default)
     {
-        SpotEntity entity = await _dbContext.Spots.AsNoTracking().FirstOrDefaultAsync(x => x.SpotId == request.SpotId, ct)
-            ?? throw new NotFoundException(ErrorMessages.FailedToFindById<SpotEntity>(request.SpotId));
+        var entity = await _dbContext.Spots
+                                .AsNoTracking()
+                                .Select(x => new { Spot = x, ViewsCount = x.UserViews!.Count() })
+                                .FirstOrDefaultAsync(x => x.Spot.SpotId == request.SpotId, ct)
+                                ?? throw new NotFoundException(ErrorMessages.FailedToFindById<SpotEntity>(request.SpotId));
         
-        return entity.MapToDto();
+        return entity.Spot.MapToDto(entity.ViewsCount);
     }
 }

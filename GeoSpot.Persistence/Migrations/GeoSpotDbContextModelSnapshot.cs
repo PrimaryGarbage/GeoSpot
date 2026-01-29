@@ -499,10 +499,6 @@ namespace GeoSpot.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<int>("ViewsCount")
-                        .HasColumnType("integer")
-                        .HasColumnName("views_count");
-
                     b.HasKey("SpotId")
                         .HasName("pk_spots");
 
