@@ -1,5 +1,6 @@
 using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Application.Services.Models;
+using GeoSpot.Common;
 using GeoSpot.Common.Exceptions;
 using GeoSpot.Persistence;
 using GeoSpot.Persistence.Entities;
@@ -26,10 +27,10 @@ internal class DeleteSpotHandler : IRequestHandler<DeleteSpotRequest, Empty>
         UserEntity user = await _dbContext.Users
                               .Include(x => x.CreatedSpots)
                               .FirstOrDefaultAsync(x => x.UserId == userClaims.UserId, ct)
-            ?? throw new NotFoundException($"Failed to find user with the given ID. UserId: {userClaims.UserId}");
+            ?? throw new NotFoundException(ErrorMessages.FailedToFindById<UserEntity>(userClaims.UserId));
             
         SpotEntity spot = user.CreatedSpots?.FirstOrDefault(x => x.SpotId == request.SpotId)
-            ?? throw new NotFoundException($"Failed to find spot with the given ID. UserId: {request.SpotId}");
+            ?? throw new NotFoundException(ErrorMessages.FailedToFindById<SpotEntity>(request.SpotId));
         
         _dbContext.Entry(spot).State = EntityState.Deleted;
         

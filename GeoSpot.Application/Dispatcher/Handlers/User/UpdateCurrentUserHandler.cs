@@ -1,6 +1,7 @@
 using GeoSpot.Application.Mappers;
 using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Application.Services.Models;
+using GeoSpot.Common;
 using GeoSpot.Common.Exceptions;
 using GeoSpot.Contracts.User;
 using GeoSpot.Persistence;
@@ -26,7 +27,7 @@ internal class UpdateCurrentUserHandler : IRequestHandler<UpdateCurrentUserReque
     {
         UserClaims userClaims = _claimsAccessor.GetCurrentUserClaims();
         UserEntity userEntity = await _dbContext.Users.FindAsync([userClaims.UserId], ct)
-            ?? throw new NotFoundException($"Failed to find user with the given Id: {userClaims.UserId}");
+            ?? throw new NotFoundException(ErrorMessages.FailedToFindById<UserEntity>(userClaims.UserId));
         
         request.Dto.MapOntoEntity(userEntity);
         

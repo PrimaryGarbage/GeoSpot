@@ -1,6 +1,7 @@
 using GeoSpot.Application.Mappers;
 using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Application.Services.Models;
+using GeoSpot.Common;
 using GeoSpot.Common.Exceptions;
 using GeoSpot.Contracts.User;
 using GeoSpot.Persistence;
@@ -29,7 +30,7 @@ internal class GetCurrentUserCategoriesHandler : IRequestHandler<GetCurrentUserC
             .AsNoTracking()
             .Include(x => x.Categories)
             .FirstOrDefaultAsync(x => x.UserId == userClaims.UserId, ct)
-            ?? throw new NotFoundException($"Failed to find user with the given Id. UserId: {userClaims.UserId}");
+            ?? throw new NotFoundException(ErrorMessages.FailedToFindById<UserEntity>(userClaims.UserId));
         
         return new GetCurrentUserCategoriesResponseDto { Categories = user.Categories?.Select(x => x.MapToDto()) ?? [] };
     }

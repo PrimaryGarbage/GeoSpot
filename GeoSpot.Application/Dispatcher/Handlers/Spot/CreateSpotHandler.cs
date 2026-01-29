@@ -1,6 +1,7 @@
 using GeoSpot.Application.Mappers;
 using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Application.Services.Models;
+using GeoSpot.Common;
 using GeoSpot.Common.Exceptions;
 using GeoSpot.Contracts.Spot;
 using GeoSpot.Persistence;
@@ -29,12 +30,12 @@ internal class CreateSpotHandler : IRequestHandler<CreateSpotRequest, SpotDto>
                               .AsNoTracking()
                               .Include(x => x.BusinessProfiles)
                               .FirstOrDefaultAsync(x => x.UserId == userClaims.UserId, ct)
-            ?? throw new NotFoundException($"Failed to find user with the given ID. UserId: {userClaims.UserId}");
+            ?? throw new NotFoundException(ErrorMessages.FailedToFindById<UserEntity>(userClaims.UserId));
         
         if (request.Dto.BusinessProfileId is not null)
         {
             if ((user.BusinessProfiles ?? []).All(x => x.BusinessProfileId != request.Dto.BusinessProfileId))
-                throw new NotFoundException($"Failed to find BusinessProfile with the given Id. BusinessProfileId: {request.Dto.BusinessProfileId}");
+                throw new NotFoundException(ErrorMessages.FailedToFindById<BusinessProfileEntity>(request.Dto.BusinessProfileId));
         }
         
         SpotEntity spotEntity = _dbContext.Spots.Add(request.Dto.MapToEntity()).Entity;

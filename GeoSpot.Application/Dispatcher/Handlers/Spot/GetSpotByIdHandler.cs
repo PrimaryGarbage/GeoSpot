@@ -1,4 +1,5 @@
 using GeoSpot.Application.Mappers;
+using GeoSpot.Common;
 using GeoSpot.Common.Exceptions;
 using GeoSpot.Contracts.Spot;
 using GeoSpot.Persistence;
@@ -21,7 +22,7 @@ internal class GetSpotByIdHandler : IRequestHandler<GetSpotByIdRequest, SpotDto>
     public async Task<SpotDto> Handle(GetSpotByIdRequest request, CancellationToken ct = default)
     {
         SpotEntity entity = await _dbContext.Spots.AsNoTracking().FirstOrDefaultAsync(x => x.SpotId == request.SpotId, ct)
-            ?? throw new NotFoundException($"Failed to find spot with the given ID. SpotId: {request.SpotId}");
+            ?? throw new NotFoundException(ErrorMessages.FailedToFindById<SpotEntity>(request.SpotId));
         
         return entity.MapToDto();
     }

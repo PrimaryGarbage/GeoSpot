@@ -1,5 +1,6 @@
 using GeoSpot.Application.Services.Interfaces;
 using GeoSpot.Application.Services.Models;
+using GeoSpot.Common;
 using GeoSpot.Common.Exceptions;
 using GeoSpot.Persistence;
 using GeoSpot.Persistence.Entities;
@@ -24,7 +25,7 @@ internal class LogoutUserHandler : IRequestHandler<LogoutUserRequest, Empty>
     {
         UserClaims userClaims = _claimsAccessor.GetCurrentUserClaims();
         UserEntity _ = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == userClaims.UserId, ct)
-            ?? throw new NotFoundException($"Failed to find user with the given Id. UserId: {userClaims.UserId}");
+            ?? throw new NotFoundException(ErrorMessages.FailedToFindById<UserEntity>(userClaims.UserId));
 
         await _dbContext.RefreshTokens.Where(x => x.UserId == userClaims.UserId)
             .ExecuteDeleteAsync(ct);
