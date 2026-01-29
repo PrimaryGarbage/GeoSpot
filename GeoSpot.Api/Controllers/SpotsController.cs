@@ -67,4 +67,15 @@ public class SpotsController : ControllerBase
 
         return Ok();
     }
+
+    [HttpDelete("{id:guid}")]
+    [ProducesNoContentResponse]
+    [ProducesNotFoundResponse]
+    [ProducesUnauthorizedResponse]
+    public async Task<IActionResult> DeleteSpot([FromRoute] Guid id, CancellationToken ct)
+    {
+        await _dispatcher.DispatchAsync<DeleteSpotRequest, Empty>(new DeleteSpotRequest(id), ct);
+
+        return NoContent();
+    }
 }

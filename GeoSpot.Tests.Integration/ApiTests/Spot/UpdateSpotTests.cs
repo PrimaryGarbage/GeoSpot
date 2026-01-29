@@ -164,7 +164,7 @@ public class UpdateSpotTests : ApiIntegrationTestsBase
     }
 
     [Fact]
-    public async Task CreateSpot_WhenCurrentUserDoesNotExist_ReturnsNotFound()
+    public async Task UpdateSpot_WhenCurrentUserDoesNotExist_ReturnsNotFound()
     {
         // Arrange
         Guid spotId = Guid.NewGuid();
@@ -194,7 +194,7 @@ public class UpdateSpotTests : ApiIntegrationTestsBase
     }
 
     [Fact]
-    public async Task CreateSpot_WhenSpotIdIsEmpty_ReturnsBadRequest()
+    public async Task UpdateSpot_WhenSpotIdIsEmpty_ReturnsBadRequest()
     {
         // Arrange
         Guid spotId = Guid.Empty;
@@ -221,7 +221,7 @@ public class UpdateSpotTests : ApiIntegrationTestsBase
     }
 
     [Fact]
-    public async Task CreateSpot_WhenSpotDoesNotExist_ReturnsNotFound()
+    public async Task UpdateSpot_WhenSpotDoesNotExist_ReturnsNotFound()
     {
         // Arrange
         Guid spotId = Guid.NewGuid();
@@ -248,7 +248,7 @@ public class UpdateSpotTests : ApiIntegrationTestsBase
     }
 
     [Fact]
-    public async Task CreateSpot_WhenRequestIsValid_ReturnsOk()
+    public async Task UpdateSpot_WhenRequestIsValid_ReturnsOk()
     {
         // Arrange
         HttpClient client = CreateClient();
@@ -285,9 +285,9 @@ public class UpdateSpotTests : ApiIntegrationTestsBase
 
         // Act
         HttpResponseMessage responseMessage = await client.PutAsJsonAsync(UriConstants.SpotsUri.SpotById(spot.SpotId), dto);
-        responseMessage.IsSuccessStatusCode.Should().BeTrue();
 
         // Assert
+        responseMessage.IsSuccessStatusCode.Should().BeTrue();
         SpotEntity? updatedSpot = await DbContext.Spots.AsNoTracking().FirstOrDefaultAsync(x => x.SpotId == spot.SpotId);
         updatedSpot.Should().NotBeNull();
         updatedSpot.Title.Should().Be(dto.Title);

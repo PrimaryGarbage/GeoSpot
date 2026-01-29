@@ -82,9 +82,9 @@ public class UpdateCurrentUserTests : ApiIntegrationTestsBase
 
         // Act
         HttpResponseMessage responseMessage = await client.PutAsJsonAsync(UsersUri.CurrentUser, requestDto);
-        responseMessage.IsSuccessStatusCode.Should().BeTrue();
 
         // Assert
+        responseMessage.IsSuccessStatusCode.Should().BeTrue();
         UserEntity? updatedUser = await DbContext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.UserId == currentUser.UserId);
         updatedUser.Should().NotBeNull();
         updatedUser.UserId.Should().NotBeEmpty();
