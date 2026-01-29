@@ -33,8 +33,8 @@ public class GetCurrentUserCategoriesTests : ApiIntegrationTestsBase
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
-        UserEntity userEntity = (await DbContext.Users.FindAsync(userActor.UserId))!;
+        UserEntity currentUser = await AuthorizeClientAsync(client);
+        UserEntity userEntity = (await DbContext.Users.FindAsync(currentUser.UserId))!;
         DbContext.Entry(userEntity).State = EntityState.Deleted;
         await DbContext.SaveChangesAsync();
         
@@ -68,7 +68,7 @@ public class GetCurrentUserCategoriesTests : ApiIntegrationTestsBase
         // Arrange
         const int categoryCount = 3;
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
+        UserEntity currentUser = await AuthorizeClientAsync(client);
         
         List<CategoryEntity> categories = [
             new CategoryEntity
@@ -88,9 +88,9 @@ public class GetCurrentUserCategoriesTests : ApiIntegrationTestsBase
             },
         ];
         
-        await DbContext.Attach(userActor).Collection(x => x.Categories!).LoadAsync();
+        await DbContext.Attach(currentUser).Collection(x => x.Categories!).LoadAsync();
         
-        userActor.Categories.AddRange(categories);
+        currentUser.Categories.AddRange(categories);
         await DbContext.SaveChangesAsync();
         
         // Act

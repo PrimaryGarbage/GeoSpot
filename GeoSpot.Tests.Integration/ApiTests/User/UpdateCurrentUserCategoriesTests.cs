@@ -34,9 +34,9 @@ public class UpdateCurrentUserCategoriesTests : ApiIntegrationTestsBase
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
+        UserEntity currentUser = await AuthorizeClientAsync(client);
         
-        UserEntity userEntity = (await DbContext.Users.FindAsync(userActor.UserId))!;
+        UserEntity userEntity = (await DbContext.Users.FindAsync(currentUser.UserId))!;
         DbContext.Entry(userEntity).State = EntityState.Deleted;
         await DbContext.SaveChangesAsync();
         
@@ -174,7 +174,7 @@ public class UpdateCurrentUserCategoriesTests : ApiIntegrationTestsBase
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
+        UserEntity currentUser = await AuthorizeClientAsync(client);
 
         List<CategoryEntity> existingCategories =
         [
@@ -211,7 +211,7 @@ public class UpdateCurrentUserCategoriesTests : ApiIntegrationTestsBase
         UserEntity existingUser = await DbContext.Users
             .Include(x => x.Categories)
             .AsNoTracking()
-            .FirstAsync(x => x.UserId == userActor.UserId);
+            .FirstAsync(x => x.UserId == currentUser.UserId);
         existingUser.Categories.Should().HaveCount(existingCategories.Count);
         existingUser.Categories.Select(x => x.CategoryId).Should().BeEquivalentTo(existingCategories.Select(x => x.CategoryId));
     }
@@ -221,7 +221,7 @@ public class UpdateCurrentUserCategoriesTests : ApiIntegrationTestsBase
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
+        UserEntity currentUser = await AuthorizeClientAsync(client);
 
         List<CategoryEntity> existingCategories =
         [
@@ -242,8 +242,8 @@ public class UpdateCurrentUserCategoriesTests : ApiIntegrationTestsBase
             },
         ];
 
-        await DbContext.Attach(userActor).Collection(x => x.Categories!).LoadAsync();
-        userActor.Categories.AddRange(existingCategories);
+        await DbContext.Attach(currentUser).Collection(x => x.Categories!).LoadAsync();
+        currentUser.Categories.AddRange(existingCategories);
         await DbContext.SaveChangesAsync();
 
         UpdateCurrentUserCategoriesRequestDto requestDto = new() { Categories = [] };
@@ -256,7 +256,7 @@ public class UpdateCurrentUserCategoriesTests : ApiIntegrationTestsBase
         UserEntity existingUser = await DbContext.Users
             .Include(x => x.Categories)
             .AsNoTracking()
-            .FirstAsync(x => x.UserId == userActor.UserId);
+            .FirstAsync(x => x.UserId == currentUser.UserId);
         existingUser.Categories.Should().BeEmpty();
     }
 }

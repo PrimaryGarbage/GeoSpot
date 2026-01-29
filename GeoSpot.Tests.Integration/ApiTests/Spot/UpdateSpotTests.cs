@@ -169,8 +169,8 @@ public class UpdateSpotTests : ApiIntegrationTestsBase
         // Arrange
         Guid spotId = Guid.NewGuid();
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
-        UserEntity userEntity = (await DbContext.Users.FindAsync(userActor.UserId))!;
+        UserEntity currentUser = await AuthorizeClientAsync(client);
+        UserEntity userEntity = (await DbContext.Users.FindAsync(currentUser.UserId))!;
         DbContext.Entry(userEntity).State = EntityState.Deleted;
         await DbContext.SaveChangesAsync();
 
@@ -252,13 +252,13 @@ public class UpdateSpotTests : ApiIntegrationTestsBase
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
+        UserEntity currentUser = await AuthorizeClientAsync(client);
         
         SpotEntity spot = new()
         {
             Title = "Spot Title",
             Description = "Spot Description",
-            CreatorId = userActor.UserId,
+            CreatorId = currentUser.UserId,
             SpotType = SpotType.Event,
             Latitude = 10.0,
             Longitude = 100.0,

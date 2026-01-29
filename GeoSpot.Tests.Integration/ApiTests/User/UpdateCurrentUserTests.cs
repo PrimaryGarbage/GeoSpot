@@ -36,9 +36,9 @@ public class UpdateCurrentUserTests : ApiIntegrationTestsBase
         const string updatedEmail = "updatedemail@mail.com";
         const int updatedBirthYear = 1990;
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
+        UserEntity currentUser = await AuthorizeClientAsync(client);
         
-        UserEntity userEntity = (await DbContext.Users.FindAsync(userActor.UserId))!;
+        UserEntity userEntity = (await DbContext.Users.FindAsync(currentUser.UserId))!;
         DbContext.Entry(userEntity).State = EntityState.Deleted;
         await DbContext.SaveChangesAsync();
         
@@ -68,7 +68,7 @@ public class UpdateCurrentUserTests : ApiIntegrationTestsBase
         const int updatedDetectionRadius = 50;
         const Gender updatedGender = Gender.Other;
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
+        UserEntity currentUser = await AuthorizeClientAsync(client);
         
         UpdateCurrentUserRequestDto requestDto = new()
         {
@@ -85,7 +85,7 @@ public class UpdateCurrentUserTests : ApiIntegrationTestsBase
         responseMessage.IsSuccessStatusCode.Should().BeTrue();
 
         // Assert
-        UserEntity? updatedUser = await DbContext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.UserId == userActor.UserId);
+        UserEntity? updatedUser = await DbContext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.UserId == currentUser.UserId);
         updatedUser.Should().NotBeNull();
         updatedUser.UserId.Should().NotBeEmpty();
         updatedUser.DisplayName.Should().Be(updatedDisplayName);

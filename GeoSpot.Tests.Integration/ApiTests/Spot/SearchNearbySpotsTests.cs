@@ -30,7 +30,7 @@ public class SearchNearbySpotsTests : ApiIntegrationTestsBase
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
+        UserEntity currentUser = await AuthorizeClientAsync(client);
         
         SearchNearbySpotsRequestDto dto = new()
         {
@@ -51,7 +51,7 @@ public class SearchNearbySpotsTests : ApiIntegrationTestsBase
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
+        UserEntity currentUser = await AuthorizeClientAsync(client);
 
         SearchNearbySpotsRequestDto dto = new()
         {
@@ -72,7 +72,7 @@ public class SearchNearbySpotsTests : ApiIntegrationTestsBase
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
+        UserEntity currentUser = await AuthorizeClientAsync(client);
 
         SearchNearbySpotsRequestDto dto = new()
         {
@@ -93,7 +93,7 @@ public class SearchNearbySpotsTests : ApiIntegrationTestsBase
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
+        UserEntity currentUser = await AuthorizeClientAsync(client);
 
         SearchNearbySpotsRequestDto dto = new()
         {
@@ -114,7 +114,7 @@ public class SearchNearbySpotsTests : ApiIntegrationTestsBase
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
+        UserEntity currentUser = await AuthorizeClientAsync(client);
         
         SearchNearbySpotsRequestDto dto = new()
         {
@@ -125,7 +125,6 @@ public class SearchNearbySpotsTests : ApiIntegrationTestsBase
 
         // Act
         HttpResponseMessage responseMessage = await client.PostAsJsonAsync(SpotsUri.SearchNearbySpots, dto);
-        var test = await responseMessage.Content.ReadAsStringAsync();
         responseMessage.IsSuccessStatusCode.Should().BeTrue();
         SearchNearbySpotsResponseDto? response = await responseMessage.Content.ReadFromJsonAsync<SearchNearbySpotsResponseDto>();
 
@@ -143,7 +142,7 @@ public class SearchNearbySpotsTests : ApiIntegrationTestsBase
         const double userLongitude = 1.0;
         const int userToSpotDistance = 500;
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
+        UserEntity currentUser = await AuthorizeClientAsync(client);
         
         List<SpotEntity> spots = [
             new SpotEntity
@@ -151,19 +150,19 @@ public class SearchNearbySpotsTests : ApiIntegrationTestsBase
                 Title = "Spot 1",
                 Latitude = userLatitude + MetersToLatitudeDelta(userToSpotDistance - 1),
                 Longitude = userLongitude,
-                CreatorId = userActor.UserId
+                CreatorId = currentUser.UserId
             },
             new SpotEntity
             {
                 Title = "Spot 2",
                 Latitude = userLatitude,
                 Longitude = userLongitude + MetersToLongitudeDelta(userToSpotDistance -1, userLatitude),
-                CreatorId = userActor.UserId
+                CreatorId = currentUser.UserId
             },
             new SpotEntity
             {
                 Title = "Spot 3",
-                CreatorId = userActor.UserId
+                CreatorId = currentUser.UserId
             }
         ];
         

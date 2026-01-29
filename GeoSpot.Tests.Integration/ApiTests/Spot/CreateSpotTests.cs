@@ -251,8 +251,8 @@ public class CreateSpotTests : ApiIntegrationTestsBase
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
-        UserEntity userEntity = (await DbContext.Users.FindAsync(userActor.UserId))!;
+        UserEntity currentUser = await AuthorizeClientAsync(client);
+        UserEntity userEntity = (await DbContext.Users.FindAsync(currentUser.UserId))!;
         DbContext.Entry(userEntity).State = EntityState.Deleted;
         await DbContext.SaveChangesAsync();
 
@@ -279,7 +279,7 @@ public class CreateSpotTests : ApiIntegrationTestsBase
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
+        UserEntity currentUser = await AuthorizeClientAsync(client);
         
         CategoryEntity categoryEntity = new()
         {
@@ -291,7 +291,7 @@ public class CreateSpotTests : ApiIntegrationTestsBase
         BusinessProfileEntity businessProfileEntity = new()
         {
             Name = "Test Business Profile Name",
-            UserId = userActor.UserId,
+            UserId = currentUser.UserId,
             CategoryId = categoryEntity.CategoryId
         };
         DbContext.BusinessProfiles.Add(businessProfileEntity);

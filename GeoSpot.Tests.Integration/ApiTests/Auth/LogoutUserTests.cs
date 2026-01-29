@@ -29,9 +29,9 @@ public class LogoutUserTests : ApiIntegrationTestsBase
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
+        UserEntity currentUser = await AuthorizeClientAsync(client);
         
-        DbContext.Entry(DbContext.Users.First(x => x.UserId == userActor.UserId)).State = EntityState.Deleted;
+        DbContext.Entry(DbContext.Users.First(x => x.UserId == currentUser.UserId)).State = EntityState.Deleted;
         await DbContext.SaveChangesAsync();
 
         // Act

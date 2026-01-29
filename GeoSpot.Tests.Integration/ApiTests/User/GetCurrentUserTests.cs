@@ -32,8 +32,8 @@ public sealed class GetCurrentUserTests : ApiIntegrationTestsBase
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
-        UserEntity userEntity = (await DbContext.Users.FindAsync(userActor.UserId))!;
+        UserEntity currentUser = await AuthorizeClientAsync(client);
+        UserEntity userEntity = (await DbContext.Users.FindAsync(currentUser.UserId))!;
         DbContext.Entry(userEntity).State = EntityState.Deleted;
         await DbContext.SaveChangesAsync();
         
@@ -49,7 +49,7 @@ public sealed class GetCurrentUserTests : ApiIntegrationTestsBase
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
+        UserEntity currentUser = await AuthorizeClientAsync(client);
 
         // Act
         HttpResponseMessage responseMessage = await client.GetAsync(UsersUri.CurrentUser);
@@ -57,6 +57,6 @@ public sealed class GetCurrentUserTests : ApiIntegrationTestsBase
 
         // Assert
         response.Should().NotBeNull();
-        response.UserId.Should().Be(userActor.UserId);
+        response.UserId.Should().Be(currentUser.UserId);
     }
 }

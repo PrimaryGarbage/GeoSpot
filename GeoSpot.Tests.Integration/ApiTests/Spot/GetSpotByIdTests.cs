@@ -61,12 +61,12 @@ public class GetSpotByIdTests : ApiIntegrationTestsBase
     {
         // Arrange
         HttpClient client = CreateClient();
-        UserEntity userActor = await AuthorizeClientAsync(client);
+        UserEntity currentUser = await AuthorizeClientAsync(client);
         
         SpotEntity spotEntity = new()
         {
             Title = "Test Spot Title",
-            CreatorId = userActor.UserId
+            CreatorId = currentUser.UserId
         };
         
         DbContext.Spots.Add(spotEntity);
