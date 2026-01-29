@@ -9,7 +9,7 @@ namespace GeoSpot.Application.Dispatcher.Handlers.Auth;
 
 public record RefreshAccessTokenRequest(string RefreshToken) : IRequest<AccessTokenDto>;
 
-public class RefreshAccessTokenHandler : IRequestHandler<RefreshAccessTokenRequest, AccessTokenDto>
+internal class RefreshAccessTokenHandler : IRequestHandler<RefreshAccessTokenRequest, AccessTokenDto>
 {
     private readonly GeoSpotDbContext _dbContext;
     private readonly IJwtTokenService _jwtTokenService;

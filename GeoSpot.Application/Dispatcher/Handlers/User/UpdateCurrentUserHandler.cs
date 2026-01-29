@@ -11,7 +11,7 @@ namespace GeoSpot.Application.Dispatcher.Handlers.User;
 
 public record UpdateCurrentUserRequest(UpdateCurrentUserRequestDto Dto) : IRequest<Empty>;
 
-public class UpdateCurrentUserHandler : IRequestHandler<UpdateCurrentUserRequest, Empty>
+internal class UpdateCurrentUserHandler : IRequestHandler<UpdateCurrentUserRequest, Empty>
 {
     private readonly GeoSpotDbContext _dbContext;
     private readonly IUserClaimsAccessor _claimsAccessor;

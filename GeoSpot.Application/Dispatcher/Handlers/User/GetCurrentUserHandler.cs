@@ -10,7 +10,7 @@ namespace GeoSpot.Application.Dispatcher.Handlers.User;
 
 public class GetCurrentUserRequest : IRequest<UserDto>;
 
-public class GetCurrentUserHandler : IRequestHandler<GetCurrentUserRequest, UserDto>
+internal class GetCurrentUserHandler : IRequestHandler<GetCurrentUserRequest, UserDto>
 {
     private readonly GeoSpotDbContext _dbContext;
     private readonly IUserClaimsAccessor _claimsAccessor;

@@ -9,7 +9,7 @@ namespace GeoSpot.Application.Dispatcher.Handlers.Auth;
 
 public record LogoutUserRequest() : IRequest<Empty>;
 
-public class LogoutUserHandler : IRequestHandler<LogoutUserRequest, Empty>
+internal class LogoutUserHandler : IRequestHandler<LogoutUserRequest, Empty>
 {
     private readonly GeoSpotDbContext _dbContext;
     private readonly IUserClaimsAccessor _claimsAccessor;

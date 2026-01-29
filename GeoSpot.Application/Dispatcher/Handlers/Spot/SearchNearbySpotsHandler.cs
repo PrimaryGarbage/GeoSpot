@@ -11,7 +11,7 @@ namespace GeoSpot.Application.Dispatcher.Handlers.Spot;
 
 public record SearchNearbySpotsRequest(SearchNearbySpotsRequestDto Dto) : IRequest<SearchNearbySpotsResponseDto>;
 
-public class SearchNearbySpotsHandler : IRequestHandler<SearchNearbySpotsRequest, SearchNearbySpotsResponseDto>
+internal class SearchNearbySpotsHandler : IRequestHandler<SearchNearbySpotsRequest, SearchNearbySpotsResponseDto>
 {
     private readonly GeoSpotDbContext _dbContext;
 

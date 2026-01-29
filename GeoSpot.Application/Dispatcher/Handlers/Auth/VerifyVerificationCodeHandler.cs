@@ -14,7 +14,7 @@ namespace GeoSpot.Application.Dispatcher.Handlers.Auth;
 
 public record VerifyVerificationCodeRequest(VerifyVerificationCodeRequestDto Dto) : IRequest<VerifyVerificationCodeResponseDto>;
 
-public class VerifyVerificationCodeHandler : IRequestHandler<VerifyVerificationCodeRequest, VerifyVerificationCodeResponseDto>
+internal class VerifyVerificationCodeHandler : IRequestHandler<VerifyVerificationCodeRequest, VerifyVerificationCodeResponseDto>
 {
     private readonly GeoSpotDbContext _dbContext;
     private readonly IJwtTokenService _jwtTokenService;

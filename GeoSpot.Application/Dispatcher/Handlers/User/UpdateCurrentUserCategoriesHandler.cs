@@ -10,7 +10,7 @@ namespace GeoSpot.Application.Dispatcher.Handlers.User;
 
 public record UpdateCurrentUserCategoriesRequest(UpdateCurrentUserCategoriesRequestDto Dto) : IRequest<Empty>;
 
-public class UpdateCurrentUserCategoriesHandler : IRequestHandler<UpdateCurrentUserCategoriesRequest, Empty>
+internal class UpdateCurrentUserCategoriesHandler : IRequestHandler<UpdateCurrentUserCategoriesRequest, Empty>
 {
     private readonly GeoSpotDbContext _dbContext;
     private readonly IUserClaimsAccessor _claimsAccessor;

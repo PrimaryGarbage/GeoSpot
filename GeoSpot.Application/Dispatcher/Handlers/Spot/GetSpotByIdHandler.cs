@@ -9,7 +9,7 @@ namespace GeoSpot.Application.Dispatcher.Handlers.Spot;
 
 public record GetSpotByIdRequest(Guid SpotId) : IRequest<SpotDto>;
 
-public class GetSpotByIdHandler : IRequestHandler<GetSpotByIdRequest, SpotDto>
+internal class GetSpotByIdHandler : IRequestHandler<GetSpotByIdRequest, SpotDto>
 {
     private readonly GeoSpotDbContext _dbContext;
     

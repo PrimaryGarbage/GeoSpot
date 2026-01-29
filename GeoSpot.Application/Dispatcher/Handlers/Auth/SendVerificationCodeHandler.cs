@@ -11,7 +11,7 @@ namespace GeoSpot.Application.Dispatcher.Handlers.Auth;
 
 public record SendVerificationCodeRequest(SendVerificationCodeRequestDto RequestDto) : IRequest<Empty>;
 
-public class SendVerificationCodeHandler : IRequestHandler<SendVerificationCodeRequest, Empty>
+internal class SendVerificationCodeHandler : IRequestHandler<SendVerificationCodeRequest, Empty>
 {
     private readonly GeoSpotDbContext _dbContext;
     private readonly ISmsService _smsService;

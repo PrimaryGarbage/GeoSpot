@@ -11,7 +11,7 @@ namespace GeoSpot.Application.Dispatcher.Handlers.Spot;
 
 public record CreateSpotRequest(CreateSpotRequestDto Dto) : IRequest<SpotDto>;
 
-public class CreateSpotHandler : IRequestHandler<CreateSpotRequest, SpotDto>
+internal class CreateSpotHandler : IRequestHandler<CreateSpotRequest, SpotDto>
 {
     private readonly GeoSpotDbContext _dbContext;
     private readonly IUserClaimsAccessor _claimsAccessor;
