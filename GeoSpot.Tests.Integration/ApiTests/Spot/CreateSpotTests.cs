@@ -69,7 +69,7 @@ public class CreateSpotTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(SpotsUri.SearchNearbySpots, dto);
+        HttpResponseMessage responseMessage = await client.PostAsJsonAsync(SpotsUri.Spots, dto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);

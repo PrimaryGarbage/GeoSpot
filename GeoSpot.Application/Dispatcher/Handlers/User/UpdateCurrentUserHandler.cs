@@ -9,9 +9,9 @@ using GeoSpot.Persistence.Entities;
 namespace GeoSpot.Application.Dispatcher.Handlers.User;
 
 
-public record UpdateCurrentUserRequest(UpdateCurrentUserRequestDto Dto) : IRequest<UserDto>;
+public record UpdateCurrentUserRequest(UpdateCurrentUserRequestDto Dto) : IRequest<Empty>;
 
-public class UpdateCurrentUserHandler : IRequestHandler<UpdateCurrentUserRequest, UserDto>
+public class UpdateCurrentUserHandler : IRequestHandler<UpdateCurrentUserRequest, Empty>
 {
     private readonly GeoSpotDbContext _dbContext;
     private readonly IUserClaimsAccessor _claimsAccessor;
@@ -22,7 +22,7 @@ public class UpdateCurrentUserHandler : IRequestHandler<UpdateCurrentUserRequest
         _claimsAccessor = claimsAccessor;
     }
 
-    public async Task<UserDto> Handle(UpdateCurrentUserRequest request, CancellationToken ct = default)
+    public async Task<Empty> Handle(UpdateCurrentUserRequest request, CancellationToken ct = default)
     {
         UserClaims userClaims = _claimsAccessor.GetCurrentUserClaims();
         UserEntity userEntity = await _dbContext.Users.FindAsync([userClaims.UserId], ct)
@@ -32,6 +32,6 @@ public class UpdateCurrentUserHandler : IRequestHandler<UpdateCurrentUserRequest
         
         await _dbContext.SaveChangesAsync(ct);
         
-        return userEntity.MapToDto();
+        return Empty.Value;
     }
 }

@@ -42,4 +42,16 @@ internal static class SpotMapper
             EndsAt = input.EndsAt
         };
     }
+
+    public static void MapOntoEntity(this UpdateSpotRequestDto input, SpotEntity entity)
+    {
+        entity.Title = input.Title;
+        entity.Description = input.Description;
+        entity.SpotType = input.SpotType;
+        entity.ImageUrl = input.ImageUrl;
+        entity.Latitude = input.Latitude;
+        entity.Longitude = input.Longitude;
+        entity.Radius = input.Radius;
+        entity.Address = input.Address;
+    }
 }

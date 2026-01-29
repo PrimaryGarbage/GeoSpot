@@ -58,7 +58,7 @@ public class UpdateCurrentUserTests : ApiIntegrationTestsBase
     }
 
     [Fact]
-    public async Task UpdateCurrentUser_WhenUserExists_ReturnsUpdatedUser()
+    public async Task UpdateCurrentUser_WhenUserExists_ReturnsOk()
     {
         // Arrange
         const string updatedDisplayName = "updated_display_name";
@@ -68,7 +68,7 @@ public class UpdateCurrentUserTests : ApiIntegrationTestsBase
         const int updatedDetectionRadius = 50;
         const Gender updatedGender = Gender.Other;
         HttpClient client = CreateClient();
-        await AuthorizeClientAsync(client);
+        UserEntity userActor = await AuthorizeClientAsync(client);
         
         UpdateCurrentUserRequestDto requestDto = new()
         {
@@ -83,16 +83,16 @@ public class UpdateCurrentUserTests : ApiIntegrationTestsBase
         // Act
         HttpResponseMessage responseMessage = await client.PutAsJsonAsync(UsersUri.CurrentUser, requestDto);
         responseMessage.IsSuccessStatusCode.Should().BeTrue();
-        UserDto? result = await responseMessage.Content.ReadFromJsonAsync<UserDto>();
 
         // Assert
-        result.Should().NotBeNull();
-        result.UserId.Should().NotBeEmpty();
-        result.DisplayName.Should().Be(updatedDisplayName);
-        result.AvatarUrl.Should().Be(updatedAvatarUrl);
-        result.BirthYear.Should().Be(updatedBirthYear);
-        result.Email.Should().Be(updatedEmail);
-        result.DetectionRadius.Should().Be(updatedDetectionRadius);
-        result.Gender.Should().Be(updatedGender);
+        UserEntity? updatedUser = await DbContext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.UserId == userActor.UserId);
+        updatedUser.Should().NotBeNull();
+        updatedUser.UserId.Should().NotBeEmpty();
+        updatedUser.DisplayName.Should().Be(updatedDisplayName);
+        updatedUser.AvatarUrl.Should().Be(updatedAvatarUrl);
+        updatedUser.BirthYear.Should().Be(updatedBirthYear);
+        updatedUser.Email.Should().Be(updatedEmail);
+        updatedUser.DetectionRadius.Should().Be(updatedDetectionRadius);
+        updatedUser.Gender.Should().Be(updatedGender);
     }
 }

@@ -19,7 +19,7 @@ internal static class UriConstants
     public static class SpotsUri
     {
         public const string SearchNearbySpots = "/api/spots/nearby";
-        public static string SpotByIdUri(Guid id) => $"/api/spots/{id}";
+        public static string SpotById(Guid id) => $"/api/spots/{id}";
         public const string Spots = "/api/spots";
     }
 }

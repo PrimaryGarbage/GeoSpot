@@ -56,4 +56,15 @@ public class SpotsController : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpPut("{id:guid}")]
+    [ProducesOkResponse]
+    [ProducesNotFoundResponse]
+    [ProducesUnauthorizedResponse]
+    public async Task<IActionResult> UpdateSpot([FromRoute] Guid id, [FromBody] UpdateSpotRequestDto dto, CancellationToken ct)
+    {
+        await _dispatcher.DispatchAsync<UpdateSpotRequest, Empty>(new UpdateSpotRequest(id, dto), ct);
+
+        return Ok();
+    }
 }

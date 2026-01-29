@@ -20,7 +20,7 @@ public class GetSpotByIdTests : ApiIntegrationTestsBase
         HttpClient client = CreateClient();
 
         // Act
-        HttpResponseMessage responseMessage = await client.GetAsync(SpotsUri.SpotByIdUri(spotId));
+        HttpResponseMessage responseMessage = await client.GetAsync(SpotsUri.SpotById(spotId));
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -35,7 +35,7 @@ public class GetSpotByIdTests : ApiIntegrationTestsBase
         await AuthorizeClientAsync(client);
 
         // Act
-        HttpResponseMessage responseMessage = await client.GetAsync(SpotsUri.SpotByIdUri(spotId));
+        HttpResponseMessage responseMessage = await client.GetAsync(SpotsUri.SpotById(spotId));
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -50,7 +50,7 @@ public class GetSpotByIdTests : ApiIntegrationTestsBase
         await AuthorizeClientAsync(client);
 
         // Act
-        HttpResponseMessage responseMessage = await client.GetAsync(SpotsUri.SpotByIdUri(spotId));
+        HttpResponseMessage responseMessage = await client.GetAsync(SpotsUri.SpotById(spotId));
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -73,7 +73,7 @@ public class GetSpotByIdTests : ApiIntegrationTestsBase
         await DbContext.SaveChangesAsync();
 
         // Act
-        HttpResponseMessage responseMessage = await client.GetAsync(SpotsUri.SpotByIdUri(spotEntity.SpotId));
+        HttpResponseMessage responseMessage = await client.GetAsync(SpotsUri.SpotById(spotEntity.SpotId));
         responseMessage.IsSuccessStatusCode.Should().BeTrue();
         SpotDto? response = await responseMessage.Content.ReadFromJsonAsync<SpotDto>();
 

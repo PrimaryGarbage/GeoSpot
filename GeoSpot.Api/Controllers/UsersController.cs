@@ -33,14 +33,14 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut("me")]
-    [ProducesOkResponse<UserDto>]
+    [ProducesOkResponse]
     [ProducesNotFoundResponse]
     [ProducesUnauthorizedResponse]
     public async Task<IActionResult> UpdateCurrentUser([FromBody] UpdateCurrentUserRequestDto dto, CancellationToken ct)
     {
-        UserDto user = await _dispatcher.DispatchAsync<UpdateCurrentUserRequest, UserDto>(new UpdateCurrentUserRequest(dto), ct);
+        await _dispatcher.DispatchAsync<UpdateCurrentUserRequest, Empty>(new UpdateCurrentUserRequest(dto), ct);
 
-        return Ok(user);
+        return Ok();
     }
 
     [HttpGet("me/categories")]
