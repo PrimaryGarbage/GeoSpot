@@ -22,5 +22,6 @@ internal static class ApiUriPaths
         public static string SpotById(Guid id) => $"/api/spots/{id}";
         public const string Spots = "/api/spots";
         public static string SpotViewById(Guid id) => $"/api/spots/{id}/view";
+        public static string SpotReactionById(Guid id) => $"/api/spots/{id}/reaction";
     }
 }

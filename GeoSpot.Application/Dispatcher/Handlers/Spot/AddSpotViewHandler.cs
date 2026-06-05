@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GeoSpot.Application.Dispatcher.Handlers.Spot;
 
-public record AddSpotViewRequest(Guid SpotId) : IRequest<bool>;
+public record AddSpotViewRequest(Guid SpotId) : IRequest<Empty>;
 
-public class AddSpotViewHandler : IRequestHandler<AddSpotViewRequest, bool>
+public class AddSpotViewHandler : IRequestHandler<AddSpotViewRequest, Empty>
 {
     private readonly GeoSpotDbContext _dbContext;
     private readonly IUserClaimsAccessor _claimsAccessor;
@@ -21,12 +21,12 @@ public class AddSpotViewHandler : IRequestHandler<AddSpotViewRequest, bool>
         _claimsAccessor = claimsAccessor;
     }
 
-    public async Task<bool> Handle(AddSpotViewRequest request, CancellationToken ct = default)
+    public async Task<Empty> Handle(AddSpotViewRequest request, CancellationToken ct = default)
     {
         UserClaims userClaims = _claimsAccessor.GetCurrentUserClaims();
         
         if (await _dbContext.UserSpotViews.AnyAsync(x => x.UserId == userClaims.UserId && x.SpotId == request.SpotId, ct))
-            return false;
+            return Empty.Value;
         
         UserEntity user = await _dbContext.Users
                               .AsNoTracking()
@@ -46,6 +46,6 @@ public class AddSpotViewHandler : IRequestHandler<AddSpotViewRequest, bool>
         
         await _dbContext.SaveChangesAsync(ct);
         
-        return true;
+        return Empty.Value;
     }
 }

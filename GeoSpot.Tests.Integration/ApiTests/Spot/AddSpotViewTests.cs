@@ -20,7 +20,7 @@ public class AddSpotViewTests : ApiIntegrationTestsBase
         HttpClient client = CreateClient();
         
         // Act
-        HttpResponseMessage responseMessage = await client.PostAsync(SpotsUri.SpotViewById(spotId), null);
+        HttpResponseMessage responseMessage = await client.PutAsync(SpotsUri.SpotViewById(spotId), null);
         
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -38,7 +38,7 @@ public class AddSpotViewTests : ApiIntegrationTestsBase
         await DbContext.SaveChangesAsync();
 
         // Act
-        HttpResponseMessage responseMessage = await client.PostAsync(SpotsUri.SpotViewById(spotId), null);
+        HttpResponseMessage responseMessage = await client.PutAsync(SpotsUri.SpotViewById(spotId), null);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -53,7 +53,7 @@ public class AddSpotViewTests : ApiIntegrationTestsBase
         await AuthorizeClientAsync(client);
 
         // Act
-        HttpResponseMessage responseMessage = await client.PostAsync(SpotsUri.SpotViewById(spotId), null);
+        HttpResponseMessage responseMessage = await client.PutAsync(SpotsUri.SpotViewById(spotId), null);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -68,7 +68,7 @@ public class AddSpotViewTests : ApiIntegrationTestsBase
         await AuthorizeClientAsync(client);
 
         // Act
-        HttpResponseMessage responseMessage = await client.PostAsync(SpotsUri.SpotViewById(spotId), null);
+        HttpResponseMessage responseMessage = await client.PutAsync(SpotsUri.SpotViewById(spotId), null);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -105,14 +105,14 @@ public class AddSpotViewTests : ApiIntegrationTestsBase
         await DbContext.SaveChangesAsync();
 
         // Act
-        HttpResponseMessage responseMessage = await client.PostAsync(SpotsUri.SpotViewById(spot.SpotId), null);
+        HttpResponseMessage responseMessage = await client.PutAsync(SpotsUri.SpotViewById(spot.SpotId), null);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
 
     [Fact]
-    public async Task AddSpotView_WhenRequestIsValid_ReturnsCreated()
+    public async Task AddSpotView_WhenRequestIsValid_ReturnsNoContent()
     {
         // Arrange
         HttpClient client = CreateClient();
@@ -135,10 +135,10 @@ public class AddSpotViewTests : ApiIntegrationTestsBase
         await DbContext.SaveChangesAsync();
 
         // Act
-        HttpResponseMessage responseMessage = await client.PostAsync(SpotsUri.SpotViewById(spot.SpotId), null);
+        HttpResponseMessage responseMessage = await client.PutAsync(SpotsUri.SpotViewById(spot.SpotId), null);
 
         // Assert
-        responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+        responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         UserSpotViewEntity? view = await DbContext.UserSpotViews
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.UserId == currentUser.UserId && x.SpotId == spot.SpotId);

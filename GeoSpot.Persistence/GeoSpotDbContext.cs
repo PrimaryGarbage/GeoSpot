@@ -17,6 +17,8 @@ public class GeoSpotDbContext : DbContext
     public DbSet<VerificationCodeEntity> VerificationCodes { get; set; }
     public DbSet<RefreshTokenEntity> RefreshTokens { get; set; }
     public DbSet<UserSpotViewEntity> UserSpotViews { get; set; }
+    public DbSet<SpotReactionEntity> SpotReactions { get; set; }
+    public DbSet<ReactionTypeEntity> ReactionTypes { get; set; }
     
     public GeoSpotDbContext(DbContextOptions<GeoSpotDbContext> options): base(options) {}
 

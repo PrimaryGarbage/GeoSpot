@@ -8,7 +8,7 @@ internal class SpotReactionEntityConfiguration : IEntityTypeConfiguration<SpotRe
     public void Configure(EntityTypeBuilder<SpotReactionEntity> builder)
     {
         builder.ToTable(SpotReactionEntity.TableName);
-        builder.HasKey(x => new { x.SpotId, UserId = x.CreatorId });
+        builder.HasKey(x => new { x.SpotId, x.CreatorId });
         
         builder.HasOne(x => x.Spot)
             .WithMany(x => x.Reactions)
