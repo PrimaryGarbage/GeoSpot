@@ -11,10 +11,10 @@ namespace GeoSpot.Application.Dispatcher.Handlers.Spot;
 
 public record AddSpotReactionRequest(Guid SpotId, AddSpotReactionRequestDto Dto) : IRequest<Empty>;
 
-public class AddSpotReactionHandler : IRequestHandler<AddSpotReactionRequest, Empty>
+internal class AddSpotReactionHandler : IRequestHandler<AddSpotReactionRequest, Empty>
 {
-    private GeoSpotDbContext _dbContext;
-    private IUserClaimsAccessor _claimsAccessor;
+    private readonly GeoSpotDbContext _dbContext;
+    private readonly IUserClaimsAccessor _claimsAccessor;
 
     public AddSpotReactionHandler(GeoSpotDbContext dbContext, IUserClaimsAccessor claimsAccessor)
     {

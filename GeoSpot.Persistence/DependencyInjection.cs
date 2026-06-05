@@ -24,6 +24,8 @@ public static class DependencyInjection
                 o.MapEnum<Gender>(schemaName: GeoSpotDbContext.DefaultSchema);
                 o.MapEnum<SpotType>(schemaName: GeoSpotDbContext.DefaultSchema);
                 o.MapEnum<Platform>(schemaName: GeoSpotDbContext.DefaultSchema);
+                // Experimental. May be removed later if query results are inconsistent because of the parallel updates
+                o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
             })
             .UseSnakeCaseNamingConvention()
         );

@@ -100,4 +100,15 @@ public class SpotsController : ControllerBase
         
         return NoContent();
     }
+    
+    [HttpDelete("{id:guid}/reaction")]
+    [ProducesNoContentResponse]
+    [ProducesNotFoundResponse]
+    [ProducesUnauthorizedResponse]
+    public async Task<IActionResult> RemoveSpotReaction([FromRoute] Guid id, CancellationToken ct)
+    {
+        await _dispatcher.DispatchAsync<RemoveSpotReactionRequest, Empty>(new RemoveSpotReactionRequest(id), ct);
+
+        return NoContent();
+    }
 }

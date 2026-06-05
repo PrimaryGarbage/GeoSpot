@@ -25,17 +25,17 @@ public static class DependencyInjection
         var requestGenericInterfaceType = typeof(IRequest<>);
         var handlerGenericInterfaceType = typeof(IRequestHandler<,>);
         
-        var requestTypes = assembly.GetTypes()
+        IEnumerable<Type> requestTypes = assembly.GetTypes()
             .Where(t => t is { IsClass: true, IsAbstract: false })
             .Where(t => t.GetInterfaces()
                 .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == requestGenericInterfaceType));
         
-        foreach (var requestType in requestTypes)
+        foreach (Type requestType in requestTypes)
         {
-            var responseType = requestType.GetInterfaces().First(i => i.IsGenericType && i.GetGenericTypeDefinition() == requestGenericInterfaceType)
+            Type responseType = requestType.GetInterfaces().First(i => i.IsGenericType && i.GetGenericTypeDefinition() == requestGenericInterfaceType)
                 .GenericTypeArguments[0];
-            var handlerInterfaceType = handlerGenericInterfaceType.MakeGenericType(requestType, responseType);
-            var handlerTypes = assembly.GetTypes().Where(t => 
+            Type handlerInterfaceType = handlerGenericInterfaceType.MakeGenericType(requestType, responseType);
+            List<Type> handlerTypes = assembly.GetTypes().Where(t => 
                 handlerInterfaceType.IsAssignableFrom(t) && t is { IsClass: true, IsAbstract: false }).ToList();
             
             if (handlerTypes.Count > 1)
