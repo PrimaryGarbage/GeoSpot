@@ -24,4 +24,9 @@ internal static class ApiUriPaths
         public static string SpotViewById(Guid id) => $"/api/spots/{id}/view";
         public static string SpotReactionById(Guid id) => $"/api/spots/{id}/reaction";
     }
+    
+    public static class ReactionTypesUri
+    {
+        public const string ReactionTypes = "/api/reaction-types";
+    }
 }
