@@ -414,6 +414,17 @@ namespace GeoSpot.Persistence.Migrations
                     { new Guid("e74b5890-12db-4d0b-8db2-dbeeb8dd7f6b"), "#FFFFFF", new byte[] { 0, 1, 2, 4, 5 }, "Искусство", 7 }
                 });
 
+            migrationBuilder.InsertData(
+                schema: "geospot",
+                table: "reaction_types",
+                columns: new[] { "reaction_type_id", "emoji", "name" },
+                values: new object[,]
+                {
+                    { new Guid("6b9bf263-75f1-439e-8051-d1420e6062a5"), "❤️", "Like" },
+                    { new Guid("8f14bd13-2dda-47db-8df4-0ed445ccb222"), "🔥", "Fire" },
+                    { new Guid("e08c874e-8ae4-4c59-99c8-344c1dd04b18"), "😂", "Lol" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "ix_business_profiles_category_id",
                 schema: "geospot",

@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GeoSpot.Persistence.Migrations
 {
     [DbContext(typeof(GeoSpotDbContext))]
-    [Migration("20260606104527_InitialCreate")]
+    [Migration("20260606192645_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -306,6 +306,26 @@ namespace GeoSpot.Persistence.Migrations
                         .HasName("pk_reaction_types");
 
                     b.ToTable("reaction_types", "geospot");
+
+                    b.HasData(
+                        new
+                        {
+                            ReactionTypeId = new Guid("6b9bf263-75f1-439e-8051-d1420e6062a5"),
+                            Emoji = "❤️",
+                            Name = "Like"
+                        },
+                        new
+                        {
+                            ReactionTypeId = new Guid("8f14bd13-2dda-47db-8df4-0ed445ccb222"),
+                            Emoji = "🔥",
+                            Name = "Fire"
+                        },
+                        new
+                        {
+                            ReactionTypeId = new Guid("e08c874e-8ae4-4c59-99c8-344c1dd04b18"),
+                            Emoji = "😂",
+                            Name = "Lol"
+                        });
                 });
 
             modelBuilder.Entity("GeoSpot.Persistence.Entities.RefreshTokenEntity", b =>
