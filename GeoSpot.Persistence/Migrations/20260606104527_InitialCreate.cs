@@ -21,7 +21,7 @@ namespace GeoSpot.Persistence.Migrations
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:Enum:geospot.account_type", "user,business")
                 .Annotation("Npgsql:Enum:geospot.gender", "not_specified,male,female,other")
-                .Annotation("Npgsql:Enum:geospot.platform", "android,ios")
+                .Annotation("Npgsql:Enum:geospot.platform", "ios,android")
                 .Annotation("Npgsql:Enum:geospot.spot_type", "promo,event,news,meetup")
                 .Annotation("Npgsql:PostgresExtension:postgis", ",,");
 

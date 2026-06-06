@@ -29,4 +29,10 @@ internal static class ApiUriPaths
     {
         public const string ReactionTypes = "/api/reaction-types";
     }
+    
+    public static class DevicesUri
+    {
+        public const string Register = "/api/devices/register";
+        public static string Unregister(Guid deviceTokenId) => $"/api/devices/{deviceTokenId}";
+    }
 }

@@ -31,6 +31,7 @@ public class GeoSpotDbContext : DbContext
         modelBuilder.HasPostgresEnum<AccountType>(DefaultSchema);
         modelBuilder.HasPostgresEnum<Gender>(DefaultSchema);
         modelBuilder.HasPostgresEnum<SpotType>(DefaultSchema);
+        modelBuilder.HasPostgresEnum<Platform>(DefaultSchema);
         
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(GeoSpotDbContext).Assembly);
     }

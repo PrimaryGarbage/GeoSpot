@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GeoSpot.Persistence.Migrations
 {
     [DbContext(typeof(GeoSpotDbContext))]
-    [Migration("20260605103238_InitialCreate")]
+    [Migration("20260606104527_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -28,7 +28,7 @@ namespace GeoSpot.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "geospot", "account_type", new[] { "user", "business" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "geospot", "gender", new[] { "not_specified", "male", "female", "other" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "geospot", "platform", new[] { "android", "ios" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "geospot", "platform", new[] { "ios", "android" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "geospot", "spot_type", new[] { "promo", "event", "news", "meetup" });
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "postgis");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
