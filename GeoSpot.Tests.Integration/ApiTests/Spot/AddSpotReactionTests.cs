@@ -23,7 +23,7 @@ public class AddSpotReactionTests : ApiIntegrationTestsBase
         AddSpotReactionRequestDto requestDto = new() { ReactionTypeId = Guid.NewGuid() };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotReactionById(spotId), requestDto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotReaction(spotId), requestDto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -42,7 +42,7 @@ public class AddSpotReactionTests : ApiIntegrationTestsBase
         AddSpotReactionRequestDto requestDto = new() { ReactionTypeId = Guid.NewGuid() };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotReactionById(spotId), requestDto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotReaction(spotId), requestDto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -58,7 +58,7 @@ public class AddSpotReactionTests : ApiIntegrationTestsBase
         AddSpotReactionRequestDto requestDto = new() { ReactionTypeId = Guid.NewGuid() };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotReactionById(spotId), requestDto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotReaction(spotId), requestDto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -74,7 +74,7 @@ public class AddSpotReactionTests : ApiIntegrationTestsBase
         AddSpotReactionRequestDto requestDto = new() { ReactionTypeId = Guid.Empty };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotReactionById(spotId), requestDto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotReaction(spotId), requestDto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -90,7 +90,7 @@ public class AddSpotReactionTests : ApiIntegrationTestsBase
         AddSpotReactionRequestDto requestDto = new() { ReactionTypeId = Guid.NewGuid() };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotReactionById(spotId), requestDto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotReaction(spotId), requestDto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -143,7 +143,7 @@ public class AddSpotReactionTests : ApiIntegrationTestsBase
         AddSpotReactionRequestDto requestDto = new() { ReactionTypeId = newReactionType.ReactionTypeId };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotReactionById(spot.SpotId), requestDto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotReaction(spot.SpotId), requestDto);
 
         // Assert
         SpotReactionEntity? updatedSpotReaction = await DbContext.SpotReactions.AsNoTracking().FirstOrDefaultAsync(x => x.CreatorId == currentUser.UserId);
@@ -172,7 +172,7 @@ public class AddSpotReactionTests : ApiIntegrationTestsBase
         AddSpotReactionRequestDto requestDto = new() { ReactionTypeId = reactionType.ReactionTypeId };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotReactionById(invalidSpotId), requestDto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotReaction(invalidSpotId), requestDto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -211,7 +211,7 @@ public class AddSpotReactionTests : ApiIntegrationTestsBase
         AddSpotReactionRequestDto requestDto = new() { ReactionTypeId = reactionType.ReactionTypeId };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotReactionById(spot.SpotId), requestDto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotReaction(spot.SpotId), requestDto);
 
         // Assert
         SpotReactionEntity? createdSpotReaction = await DbContext.SpotReactions.AsNoTracking().FirstOrDefaultAsync(x => x.CreatorId == currentUser.UserId);

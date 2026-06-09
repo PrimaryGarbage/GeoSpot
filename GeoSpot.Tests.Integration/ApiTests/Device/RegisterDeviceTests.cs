@@ -104,11 +104,12 @@ public class RegisterDeviceTests : ApiIntegrationTestsBase
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-        Guid deviceTokenId = await responseMessage.Content.ReadFromJsonAsync<Guid>();
+        RegisterDeviceResponseDto? response = await responseMessage.Content.ReadFromJsonAsync<RegisterDeviceResponseDto>();
+        response.Should().NotBeNull();
         DeviceTokenEntity? deviceTokenEntity = await DbContext.DeviceTokens.AsNoTracking().FirstOrDefaultAsync(x => 
             x.UserId == currentUser.UserId && x.Token == deviceToken);
         deviceTokenEntity.Should().NotBeNull();
         deviceTokenEntity.IsActive.Should().BeTrue();
-        deviceTokenId.Should().Be(deviceTokenEntity.DeviceTokenId);
+        response.DeviceTokenId.Should().Be(deviceTokenEntity.DeviceTokenId);
     }
 }

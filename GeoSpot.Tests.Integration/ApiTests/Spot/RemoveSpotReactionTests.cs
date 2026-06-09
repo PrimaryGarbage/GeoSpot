@@ -20,7 +20,7 @@ public class RemoveSpotReactionTests : ApiIntegrationTestsBase
         HttpClient client = CreateClient();
 
         // Act
-        HttpResponseMessage responseMessage = await client.DeleteAsync(ApiUriPaths.SpotsUri.SpotReactionById(spotId));
+        HttpResponseMessage responseMessage = await client.DeleteAsync(ApiUriPaths.SpotsUri.SpotReaction(spotId));
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -35,7 +35,7 @@ public class RemoveSpotReactionTests : ApiIntegrationTestsBase
         await AuthorizeClientAsync(client);
 
         // Act
-        HttpResponseMessage responseMessage = await client.DeleteAsync(ApiUriPaths.SpotsUri.SpotReactionById(spotId));
+        HttpResponseMessage responseMessage = await client.DeleteAsync(ApiUriPaths.SpotsUri.SpotReaction(spotId));
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -72,7 +72,7 @@ public class RemoveSpotReactionTests : ApiIntegrationTestsBase
         await DbContext.SaveChangesAsync();
 
         // Act
-        HttpResponseMessage responseMessage = await client.DeleteAsync(ApiUriPaths.SpotsUri.SpotReactionById(spot.SpotId));
+        HttpResponseMessage responseMessage = await client.DeleteAsync(ApiUriPaths.SpotsUri.SpotReaction(spot.SpotId));
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -117,7 +117,7 @@ public class RemoveSpotReactionTests : ApiIntegrationTestsBase
         await DbContext.SaveChangesAsync();
         
         // Act
-        HttpResponseMessage responseMessage = await client.DeleteAsync(ApiUriPaths.SpotsUri.SpotReactionById(spot.SpotId));
+        HttpResponseMessage responseMessage = await client.DeleteAsync(ApiUriPaths.SpotsUri.SpotReaction(spot.SpotId));
 
         // Assert
         SpotReactionEntity? resultReaction = await DbContext.SpotReactions.AsNoTracking().FirstOrDefaultAsync(

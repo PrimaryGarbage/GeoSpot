@@ -5,6 +5,15 @@ namespace GeoSpot.Application.Mappers;
 
 internal static class SpotMapper
 {
+    public static SpotCommentDto MapToDto(this SpotCommentEntity input)
+    {
+        return new SpotCommentDto
+        {
+            CommentId = input.SpotCommentId,
+            Text = input.Text,
+        };
+    }
+
     public static SpotDto MapToDto(this SpotEntity input)
     {
         return new SpotDto

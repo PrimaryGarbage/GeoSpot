@@ -111,4 +111,37 @@ public class SpotsController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpPost("{id:guid}/comments")]
+    [ProducesOkResponse<AddSpotCommentResponseDto>]
+    [ProducesNotFoundResponse]
+    [ProducesUnauthorizedResponse]
+    public async Task<IActionResult> AddSpotComment([FromRoute] Guid id, [FromBody] AddSpotCommentRequestDto dto, CancellationToken ct)
+    {
+        var result = await _dispatcher.DispatchAsync<AddSpotCommentRequest, AddSpotCommentResponseDto>(new AddSpotCommentRequest(id, dto), ct);
+
+        return Ok(result);
+    }
+
+    [HttpDelete("comments/{id:guid}")]
+    [ProducesNoContentResponse]
+    [ProducesNotFoundResponse]
+    [ProducesUnauthorizedResponse]
+    public async Task<IActionResult> RemoveSpotComment([FromRoute] Guid id, CancellationToken ct)
+    {
+        await _dispatcher.DispatchAsync<RemoveSpotCommentRequest, Empty>(new RemoveSpotCommentRequest(id), ct);
+
+        return NoContent();
+    }
+
+    [HttpGet("{id:guid}/comments")]
+    [ProducesOkResponse<GetSpotCommentsResponseDto>]
+    [ProducesNotFoundResponse]
+    [ProducesUnauthorizedResponse]
+    public async Task<IActionResult> GetSpotComments([FromRoute] Guid id, CancellationToken ct)
+    {
+        var result = await _dispatcher.DispatchAsync<GetSpotCommentsRequest, GetSpotCommentsResponseDto>(new GetSpotCommentsRequest(id), ct);
+
+        return Ok(result);
+    }
 }

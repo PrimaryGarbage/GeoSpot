@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GeoSpot.Application.Dispatcher.Handlers.Device;
 
-public record RegisterDeviceRequest(RegisterDeviceRequestDto Dto) : IRequest<Guid>;
+public record RegisterDeviceRequest(RegisterDeviceRequestDto Dto) : IRequest<RegisterDeviceResponseDto>;
 
-internal class RegisterDeviceHandler : IRequestHandler<RegisterDeviceRequest, Guid>
+internal class RegisterDeviceHandler : IRequestHandler<RegisterDeviceRequest, RegisterDeviceResponseDto>
 {
     private readonly GeoSpotDbContext _dbContext;
     private readonly IUserClaimsAccessor _claimsAccessor;
@@ -22,7 +22,7 @@ internal class RegisterDeviceHandler : IRequestHandler<RegisterDeviceRequest, Gu
         _claimsAccessor = claimsAccessor;
     }
 
-    public async Task<Guid> Handle(RegisterDeviceRequest request, CancellationToken ct = default)
+    public async Task<RegisterDeviceResponseDto> Handle(RegisterDeviceRequest request, CancellationToken ct = default)
     {
         UserClaims userClaims = _claimsAccessor.GetCurrentUserClaims();
         
@@ -45,6 +45,6 @@ internal class RegisterDeviceHandler : IRequestHandler<RegisterDeviceRequest, Gu
         _dbContext.DeviceTokens.Add(deviceToken);
         await _dbContext.SaveChangesAsync(ct);
         
-        return deviceToken.DeviceTokenId;
+        return new RegisterDeviceResponseDto(deviceToken.DeviceTokenId);
     }
 }

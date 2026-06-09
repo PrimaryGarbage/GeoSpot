@@ -4,7 +4,7 @@ namespace GeoSpot.Contracts.Device;
 
 public class RegisterDeviceRequestDto
 {
-    public required string Token { get; set; }
+    public required string Token { get; init; }
     
-    public Platform Platform { get; set; }
+    public Platform Platform { get; init; }
 }

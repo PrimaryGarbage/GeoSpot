@@ -20,7 +20,7 @@ public class DeleteSpotTests : ApiIntegrationTestsBase
         HttpClient client = CreateClient();
         
         // Act
-        HttpResponseMessage responseMessage = await client.DeleteAsync(SpotsUri.SpotById(spotId));
+        HttpResponseMessage responseMessage = await client.DeleteAsync(SpotsUri.Spot(spotId));
         
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -38,7 +38,7 @@ public class DeleteSpotTests : ApiIntegrationTestsBase
         await DbContext.SaveChangesAsync();
 
         // Act
-        HttpResponseMessage responseMessage = await client.DeleteAsync(SpotsUri.SpotById(spotId));
+        HttpResponseMessage responseMessage = await client.DeleteAsync(SpotsUri.Spot(spotId));
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -53,7 +53,7 @@ public class DeleteSpotTests : ApiIntegrationTestsBase
         await AuthorizeClientAsync(client);
 
         // Act
-        HttpResponseMessage responseMessage = await client.DeleteAsync(SpotsUri.SpotById(spotId));
+        HttpResponseMessage responseMessage = await client.DeleteAsync(SpotsUri.Spot(spotId));
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -68,7 +68,7 @@ public class DeleteSpotTests : ApiIntegrationTestsBase
         await AuthorizeClientAsync(client);
 
         // Act
-        HttpResponseMessage responseMessage = await client.DeleteAsync(SpotsUri.SpotById(spotId));
+        HttpResponseMessage responseMessage = await client.DeleteAsync(SpotsUri.Spot(spotId));
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -99,7 +99,7 @@ public class DeleteSpotTests : ApiIntegrationTestsBase
         DbContext.ChangeTracker.Clear();
 
         // Act
-        HttpResponseMessage responseMessage = await client.DeleteAsync(SpotsUri.SpotById(spot.SpotId));
+        HttpResponseMessage responseMessage = await client.DeleteAsync(SpotsUri.Spot(spot.SpotId));
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);

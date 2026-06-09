@@ -19,10 +19,12 @@ internal static class ApiUriPaths
     public static class SpotsUri
     {
         public const string SearchNearbySpots = "/api/spots/nearby";
-        public static string SpotById(Guid id) => $"/api/spots/{id}";
+        public static string Spot(Guid spotId) => $"/api/spots/{spotId}";
         public const string Spots = "/api/spots";
-        public static string SpotViewById(Guid id) => $"/api/spots/{id}/view";
-        public static string SpotReactionById(Guid id) => $"/api/spots/{id}/reaction";
+        public static string SpotView(Guid spotId) => $"/api/spots/{spotId}/view";
+        public static string SpotReaction(Guid spotId) => $"/api/spots/{spotId}/reaction";
+        public static string SpotComments(Guid spotId) => $"/api/spots/{spotId}/comments";
+        public static string SpotComment(Guid commentId) => $"/api/spots/comments/{commentId}";
     }
     
     public static class ReactionTypesUri

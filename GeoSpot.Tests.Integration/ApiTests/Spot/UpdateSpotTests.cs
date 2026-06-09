@@ -22,7 +22,7 @@ public class UpdateSpotTests : ApiIntegrationTestsBase
         HttpClient client = CreateClient();
         
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsync(SpotsUri.SpotById(spotId), null);
+        HttpResponseMessage responseMessage = await client.PutAsync(SpotsUri.Spot(spotId), null);
         
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -49,7 +49,7 @@ public class UpdateSpotTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotById(spotId), dto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.Spot(spotId), dto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -76,7 +76,7 @@ public class UpdateSpotTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotById(spotId), dto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.Spot(spotId), dto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -103,7 +103,7 @@ public class UpdateSpotTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotById(spotId), dto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.Spot(spotId), dto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -130,7 +130,7 @@ public class UpdateSpotTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotById(spotId), dto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.Spot(spotId), dto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -157,7 +157,7 @@ public class UpdateSpotTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotById(spotId), dto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.Spot(spotId), dto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -187,7 +187,7 @@ public class UpdateSpotTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotById(spotId), dto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.Spot(spotId), dto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -214,7 +214,7 @@ public class UpdateSpotTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotById(spotId), dto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.Spot(spotId), dto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -241,7 +241,7 @@ public class UpdateSpotTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotById(spotId), dto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.Spot(spotId), dto);
 
         // Assert
         responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -284,7 +284,7 @@ public class UpdateSpotTests : ApiIntegrationTestsBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.SpotById(spot.SpotId), dto);
+        HttpResponseMessage responseMessage = await client.PutAsJsonAsync(SpotsUri.Spot(spot.SpotId), dto);
 
         // Assert
         responseMessage.IsSuccessStatusCode.Should().BeTrue();

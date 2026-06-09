@@ -21,14 +21,14 @@ public class DevicesController : ControllerBase
     }
     
     [HttpPost("register")]
-    [ProducesOkResponse<Guid>]
+    [ProducesOkResponse<RegisterDeviceResponseDto>]
     [ProducesNotFoundResponse]
     [ProducesBadRequestResponse]
     public async Task<IActionResult> RegisterDevice([FromBody] RegisterDeviceRequestDto dto, CancellationToken ct)
     {
-        Guid tokenId = await _dispatcher.DispatchAsync<RegisterDeviceRequest, Guid>(new RegisterDeviceRequest(dto), ct);
+        var result = await _dispatcher.DispatchAsync<RegisterDeviceRequest, RegisterDeviceResponseDto>(new RegisterDeviceRequest(dto), ct);
         
-        return Ok(tokenId);
+        return Ok(result);
     }
     
     [HttpDelete("{deviceTokenId:guid}")]
