@@ -262,33 +262,17 @@ namespace GeoSpot.Persistence.Migrations
                 columns: table => new
                 {
                     spot_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    category_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    categories_category_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    spot_entity_spot_id = table.Column<Guid>(type: "uuid", nullable: false)
+                    category_id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_spot_categories", x => new { x.spot_id, x.category_id });
-                    table.ForeignKey(
-                        name: "fk_spot_categories_categories_categories_category_id",
-                        column: x => x.categories_category_id,
-                        principalSchema: "geospot",
-                        principalTable: "categories",
-                        principalColumn: "category_id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_spot_categories_categories_category_id",
                         column: x => x.category_id,
                         principalSchema: "geospot",
                         principalTable: "categories",
                         principalColumn: "category_id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "fk_spot_categories_spots_spot_entity_spot_id",
-                        column: x => x.spot_entity_spot_id,
-                        principalSchema: "geospot",
-                        principalTable: "spots",
-                        principalColumn: "spot_id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_spot_categories_spots_spot_id",
@@ -456,22 +440,10 @@ namespace GeoSpot.Persistence.Migrations
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_spot_categories_categories_category_id",
-                schema: "geospot",
-                table: "spot_categories",
-                column: "categories_category_id");
-
-            migrationBuilder.CreateIndex(
                 name: "ix_spot_categories_category_id",
                 schema: "geospot",
                 table: "spot_categories",
                 column: "category_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_spot_categories_spot_entity_spot_id",
-                schema: "geospot",
-                table: "spot_categories",
-                column: "spot_entity_spot_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_spot_comments_creator_id",

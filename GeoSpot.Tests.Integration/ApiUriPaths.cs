@@ -25,6 +25,7 @@ internal static class ApiUriPaths
         public static string SpotReaction(Guid spotId) => $"/api/spots/{spotId}/reaction";
         public static string SpotComments(Guid spotId) => $"/api/spots/{spotId}/comments";
         public static string SpotComment(Guid commentId) => $"/api/spots/comments/{commentId}";
+        public static string SpotCategories(Guid spotId) => $"/api/spots/{spotId}/categories";
     }
     
     public static class ReactionTypesUri

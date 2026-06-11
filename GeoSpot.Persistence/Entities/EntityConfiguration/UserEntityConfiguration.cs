@@ -21,7 +21,10 @@ internal class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
         
         builder.HasMany(x => x.Categories)
             .WithMany()
-            .UsingEntity<UserCategoryEntity>()
+            .UsingEntity<UserCategoryEntity>(
+                j => j.HasOne(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId),
+                j => j.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId)
+            )
             .ToTable(UserCategoryEntity.TableName)
             .HasKey(x => new { x.UserId, x.CategoryId });
         builder.HasMany(x => x.SpotViews)

@@ -380,25 +380,11 @@ namespace GeoSpot.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("category_id");
 
-                    b.Property<Guid>("CategoriesCategoryId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("categories_category_id");
-
-                    b.Property<Guid>("SpotEntitySpotId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("spot_entity_spot_id");
-
                     b.HasKey("SpotId", "CategoryId")
                         .HasName("pk_spot_categories");
 
-                    b.HasIndex("CategoriesCategoryId")
-                        .HasDatabaseName("ix_spot_categories_categories_category_id");
-
                     b.HasIndex("CategoryId")
                         .HasDatabaseName("ix_spot_categories_category_id");
-
-                    b.HasIndex("SpotEntitySpotId")
-                        .HasDatabaseName("ix_spot_categories_spot_entity_spot_id");
 
                     b.ToTable("spot_categories", "geospot");
                 });
@@ -782,26 +768,12 @@ namespace GeoSpot.Persistence.Migrations
 
             modelBuilder.Entity("GeoSpot.Persistence.Entities.SpotCategoryEntity", b =>
                 {
-                    b.HasOne("GeoSpot.Persistence.Entities.CategoryEntity", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_spot_categories_categories_categories_category_id");
-
                     b.HasOne("GeoSpot.Persistence.Entities.CategoryEntity", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_spot_categories_categories_category_id");
-
-                    b.HasOne("GeoSpot.Persistence.Entities.SpotEntity", null)
-                        .WithMany()
-                        .HasForeignKey("SpotEntitySpotId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_spot_categories_spots_spot_entity_spot_id");
 
                     b.HasOne("GeoSpot.Persistence.Entities.SpotEntity", "Spot")
                         .WithMany()
@@ -887,19 +859,23 @@ namespace GeoSpot.Persistence.Migrations
 
             modelBuilder.Entity("GeoSpot.Persistence.Entities.UserCategoryEntity", b =>
                 {
-                    b.HasOne("GeoSpot.Persistence.Entities.CategoryEntity", null)
+                    b.HasOne("GeoSpot.Persistence.Entities.CategoryEntity", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_categories_categories_category_id");
 
-                    b.HasOne("GeoSpot.Persistence.Entities.UserEntity", null)
+                    b.HasOne("GeoSpot.Persistence.Entities.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_categories_users_user_id");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("GeoSpot.Persistence.Entities.UserSpotViewEntity", b =>

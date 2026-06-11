@@ -144,4 +144,26 @@ public class SpotsController : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpGet("{id:guid}/categories")]
+    [ProducesOkResponse<GetSpotCategoriesResponseDto>]
+    [ProducesNotFoundResponse]
+    [ProducesUnauthorizedResponse]
+    public async Task<IActionResult> GetSpotCategories(Guid id, CancellationToken ct)
+    {
+        var result = await _dispatcher.DispatchAsync<GetSpotCategoriesRequest, GetSpotCategoriesResponseDto>(new GetSpotCategoriesRequest(id), ct);
+
+        return Ok(result);
+    }
+
+    [HttpPut("{id:guid}/categories")]
+    [ProducesOkResponse]
+    [ProducesNotFoundResponse]
+    [ProducesUnauthorizedResponse]
+    public async Task<IActionResult> UpdateSpotCategories(Guid id, UpdateSpotCategoriesRequestDto dto, CancellationToken ct)
+    {
+        await _dispatcher.DispatchAsync<UpdateSpotCategoriesRequest, Empty>(new UpdateSpotCategoriesRequest(id, dto), ct);
+
+        return Ok();
+    }
 }

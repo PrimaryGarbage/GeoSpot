@@ -28,7 +28,10 @@ internal class SpotEntityConfiguration : IEntityTypeConfiguration<SpotEntity>
             .IsRequired(false);
         builder.HasMany(x => x.Categories)
             .WithMany()
-            .UsingEntity<SpotCategoryEntity>()
+            .UsingEntity<SpotCategoryEntity>(
+                j => j.HasOne(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId),
+                j => j.HasOne(x => x.Spot).WithMany().HasForeignKey(x => x.SpotId)
+            )
             .ToTable(SpotCategoryEntity.TableName)
             .HasKey(x => new { x.SpotId, x.CategoryId });
         builder.HasMany(x => x.UserViews)
