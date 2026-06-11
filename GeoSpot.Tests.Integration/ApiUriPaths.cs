@@ -37,4 +37,9 @@ internal static class ApiUriPaths
         public const string Register = "/api/devices/register";
         public static string Unregister(Guid deviceTokenId) => $"/api/devices/{deviceTokenId}";
     }
+    
+    public static class CategoriesUri
+    {
+        public const string Categories = "/api/categories";
+    }
 }

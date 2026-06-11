@@ -24,6 +24,7 @@ public class DevicesController : ControllerBase
     [ProducesOkResponse<RegisterDeviceResponseDto>]
     [ProducesNotFoundResponse]
     [ProducesBadRequestResponse]
+    [ProducesUnauthorizedResponse]
     public async Task<IActionResult> RegisterDevice([FromBody] RegisterDeviceRequestDto dto, CancellationToken ct)
     {
         var result = await _dispatcher.DispatchAsync<RegisterDeviceRequest, RegisterDeviceResponseDto>(new RegisterDeviceRequest(dto), ct);
@@ -34,6 +35,7 @@ public class DevicesController : ControllerBase
     [HttpDelete("{deviceTokenId:guid}")]
     [ProducesNoContentResponse]
     [ProducesNotFoundResponse]
+    [ProducesUnauthorizedResponse]
     public async Task<IActionResult> UnregisterDevice([FromRoute] Guid deviceTokenId, CancellationToken ct)
     {
         await _dispatcher.DispatchAsync<UnregisterDeviceRequest, Empty>(new UnregisterDeviceRequest(deviceTokenId), ct);
